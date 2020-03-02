@@ -22,11 +22,10 @@ function Questionnaire1Screen() {
       <Text style={{width: '80%', color: 'white', marginLeft: '10%', marginRight: '10%', marginBottom: '5%'}}>
       Ac ne quis a nobis hoc ita dici forte miretur, quod alia quaedam in hoc facultas sit ingeni, neque haec dicendi ratio aut disciplina, ne nos quidem huic uni studio penitus umquam dediti fuimus. Etenim omnes artes, quae ad humanitatem pertinent, habent quoddam commune vinculum, et quasi cognatione quadam inter se continentur.
       </Text>
-
-      <Input
-        placeholder='Réponse'
-        containerStyle={{width: '60%', backgroundColor: 'white'}}
-      />
+      
+      <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
+        inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
+        placeholder='Réponse'/>
 
       <Button
         title="Suivant"
