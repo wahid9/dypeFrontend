@@ -22,7 +22,7 @@ function Connection({navigation}) {
           onPress={() => { navigation.navigate('Apercu')}}
       />
       <Text style={{color:"white",marginTop:50}}>Mot de passe oublié?</Text>
-      <Text style={{color:"white",marginTop:50}}>Déja Pas de cpmte? S'inscrire</Text>
+      <Text style={{color:"white",marginTop:50}}>Pas de compte? S'inscrire</Text>
     </ImageBackground>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 
-function Questionnaire1Screen() {
+function Questionnaire1Screen({navigation}) {
   return (
     <View style={styles.container}>
 
@@ -22,7 +22,7 @@ function Questionnaire1Screen() {
       <Text style={{width: '80%', color: 'white', marginLeft: '10%', marginRight: '10%', marginBottom: '5%'}}>
       Ac ne quis a nobis hoc ita dici forte miretur, quod alia quaedam in hoc facultas sit ingeni, neque haec dicendi ratio aut disciplina, ne nos quidem huic uni studio penitus umquam dediti fuimus. Etenim omnes artes, quae ad humanitatem pertinent, habent quoddam commune vinculum, et quasi cognatione quadam inter se continentur.
       </Text>
-      
+
       <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
         inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
         placeholder='Réponse'/>
@@ -32,6 +32,7 @@ function Questionnaire1Screen() {
         buttonStyle={{backgroundColor: '#fce229', width: 100}}
         containerStyle={{flex: 0.2, alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginBottom:'5%'}}
         titleStyle={{color: '#282828'}}
+        onPress = {()=> navigation.navigate('Match') }
       />
 
     </View>
