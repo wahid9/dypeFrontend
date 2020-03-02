@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 
-export default function App() {
+function Questionnaire1Screen() {
   return (
     <View style={styles.container}>
 
@@ -48,3 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default Questionnaire1Screen;

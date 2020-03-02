@@ -6,13 +6,14 @@ import Connection from './screens/Connection/SignInScreen';
 import HomePage from './screens/Connection/HomeScreen';
 import ApercuScreen from './screens/Annonces/ApercuScreen';
 import MesMatchScreens from './screens/Annonces/MesMatchsScreen';
-
+import Questionnaire1Screen from './screens/Questionnaire et dossier/Questionnaire1Screen';
 
 var StackNavigator = createStackNavigator({
   home: HomePage,
   SingUp: Connection,
   SingIn : Inscription ,
   Apercu : ApercuScreen,
+  Questionnair : Questionnaire1Screen
 
   },
   {
