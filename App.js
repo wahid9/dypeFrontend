@@ -1,19 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {createAppContainer } from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import Inscription from './screens/Connection/SignUpScreen';
+import Connection from './screens/Connection/SignInScreen';
+import HomePage from './screens/Connection/HomeScreen'
 
+var StackNavigator = createStackNavigator({
+  home: HomePage,
+  SingUp: Connection,
+  SingIn : Inscription ,
+  },
+  {
+    headerMode: "none",
+  },
+);
+
+const Navigation = createAppContainer(StackNavigator);
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>APP SCREEN</Text>
-    </View>
+    <Navigation/>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
