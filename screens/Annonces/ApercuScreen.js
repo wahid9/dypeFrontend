@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, View,Image } from 'react-native';
 import {Card, Badge, Text,Button} from 'react-native-elements';
-export default function App() {
+
+ function ApercuScreen() {
   return (
     <View style={styles.container}>
       <Image source={require('./assets/Dypebleu.png')}  style={{height:116, width:222,marginTop:-150, marginBottom:50}}/>
@@ -32,3 +33,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default ApercuScreen;

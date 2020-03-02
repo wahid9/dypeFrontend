@@ -1,11 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text,ImageBackground,Image} from 'react-native';
+import {Button, Input} from 'react-native-elements';
 
-export default function App() {
+function Connection({navigation}) {
   return (
-    <View style={styles.container}>
-      <Text>SIGN IN</Text>
-    </View>
+    <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
+     <Image
+        source= {require("../../assets/dype.png")}
+        style={{height:115, width:222, marginTop:60,marginBottom: 210}}
+    />
+    <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
+    inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
+    placeholder='Mot de passe'/>
+    <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
+    inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
+    placeholder='Confirmation mot de passe'/>
+     <Button
+          buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
+          title="Se Connecter"
+          string = "#79d279" 
+          onPress={() => { navigation.navigate('Apercu')}}
+      />
+      <Text style={{color:"white",marginTop:50}}>Mot de passe oublié?</Text>
+      <Text style={{color:"white",marginTop:50}}>Déja Pas de cpmte? S'inscrire</Text>
+    </ImageBackground>
   );
 }
 
@@ -17,3 +35,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default Connection;

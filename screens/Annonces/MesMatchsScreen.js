@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default MesMatchScreens();
+export default MesMatchScreens;
