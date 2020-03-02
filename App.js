@@ -7,6 +7,7 @@ import HomePage from './screens/Connection/HomeScreen';
 import ApercuScreen from './screens/Annonces/ApercuScreen';
 import MesMatchScreens from './screens/Annonces/MesMatchsScreen';
 import Questionnaire1Screen from './screens/Questionnaire et dossier/Questionnaire1Screen';
+import FavorisScreen from './screens/Mon profil/FavorisScreen'
 
 var StackNavigator = createStackNavigator({
   home: HomePage,
@@ -15,6 +16,7 @@ var StackNavigator = createStackNavigator({
   Apercu : ApercuScreen,
   Questionnair : Questionnaire1Screen,
   Match : MesMatchScreens,
+  Favoris : FavorisScreen,
 
   },
   {
