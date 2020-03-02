@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet,ImageBackground,Image,Text} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 
-function Inscription(navigation) {
+function Inscription({navigation}) {
   return (
     <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
     <Image
@@ -27,7 +27,8 @@ function Inscription(navigation) {
      <Button
           buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
           title="S'inscrire"
-          string = "#79d279" 
+          string = "#79d279"
+          onPress={() => { navigation.navigate("Apercu") } }
         />
     <Text style={{color:"white",marginTop:50}}>Déja membre? Se connecter</Text>
     </ImageBackground>
