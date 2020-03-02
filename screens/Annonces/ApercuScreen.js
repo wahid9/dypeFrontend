@@ -5,9 +5,9 @@ import {Card, Badge, Text,Button} from 'react-native-elements';
  function ApercuScreen() {
   return (
     <View style={styles.container}>
-      <Image source={require('./assets/Dypebleu.png')}  style={{height:116, width:222,marginTop:-150, marginBottom:50}}/>
+      <Image source={require('../../assets/Dypebleu.png')}  style={{height:116, width:222,marginTop:-150, marginBottom:50}}/>
       <Text h4 style={{textAlign: 'center'}}>Aperçu des biens disponible</Text>
-      <Card image={require('./assets/Dypebleu.png')}>
+      <Card image={require('../../assets/Dypebleu.png')}>
             <Badge status="success" value="homme"/>
             <Badge status="success" value="70 ans"/>
             <Badge status="success" value="barbe"/>
