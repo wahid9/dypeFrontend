@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View,Image,ScrollView } from 'react-native';
-import {Card, Badge, Text,Button} from 'react-native-elements';
+import {Card, Text,Icon} from 'react-native-elements';
  function MesMatchScreens() {
   return (
     

@@ -13,7 +13,8 @@ var StackNavigator = createStackNavigator({
   SingUp: Connection,
   SingIn : Inscription ,
   Apercu : ApercuScreen,
-  Questionnair : Questionnaire1Screen
+  Questionnair : Questionnaire1Screen,
+  Match : MesMatchScreens,
 
   },
   {
