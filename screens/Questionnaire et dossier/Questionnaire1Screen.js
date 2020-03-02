@@ -7,7 +7,7 @@ function Questionnaire1Screen() {
     <View style={styles.container}>
 
       <Image
-        source={require('./assets/DYPE_noir_blanc.png')}
+        source={require('../../assets/DYPE_noir_blanc.png')}
         style={{width: 125, height: 65, marginTop: '15%', marginBottom: '10%'}}
       />
 
