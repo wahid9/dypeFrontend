@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View,Image } from 'react-native';
 import {Card, Badge, Text,Button} from 'react-native-elements';
 
- function ApercuScreen() {
+ function ApercuScreen({navigation}) {
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/Dypebleu.png')}  style={{height:116, width:222,marginTop:-150, marginBottom:50}}/>
@@ -18,6 +18,7 @@ import {Card, Badge, Text,Button} from 'react-native-elements';
            title="Créer mon dossier"
            type="solid"
            buttonStyle={{backgroundColor: "#125CE0",paddingLeft:50,paddingRight:50, marginTop:50}}
+           onPress={() => { navigation.navigate('Questionnair')}}
           
        />
 
