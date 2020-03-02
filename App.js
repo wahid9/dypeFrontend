@@ -3,8 +3,9 @@ import {createAppContainer } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import Inscription from './screens/Connection/SignUpScreen';
 import Connection from './screens/Connection/SignInScreen';
-import HomePage from './screens/Connection/HomeScreen'
-import ApercuScreen from './screens/Annonces/ApercuScreen'
+import HomePage from './screens/Connection/HomeScreen';
+import ApercuScreen from './screens/Annonces/ApercuScreen';
+import MesMatchScreens from './screens/Annonces/MesMatchsScreen';
 
 var StackNavigator = createStackNavigator({
   home: HomePage,
