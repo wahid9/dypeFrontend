@@ -6,11 +6,13 @@ import Connection from './screens/Connection/SignInScreen';
 import HomePage from './screens/Connection/HomeScreen'
 import ApercuScreen from './screens/Annonces/ApercuScreen'
 
+
 var StackNavigator = createStackNavigator({
   home: HomePage,
   SingUp: Connection,
   SingIn : Inscription ,
   Apercu : ApercuScreen,
+
   },
   {
     headerMode: "none",
