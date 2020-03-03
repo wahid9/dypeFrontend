@@ -1,8 +1,22 @@
-import React from 'react';
-import { StyleSheet,ImageBackground,Image,Text} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet,ImageBackground,Image,Text, TextInput} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 
 function Inscription({navigation}) {
+  const [nom,setNom]= useState("");
+  const [prenom,setPrenom]= useState("");
+  const [email, setEmail]= useState("");
+  const [mdp, setMdp]= useState("");
+  const [mdpConfirm,setMdpConfirm]= useState("");
+
+  var Register = async ()=> {
+  await fetch('http://10.2.5.232:3000/SingUp', {
+  method: 'POST',
+  headers: {'Content-Type':'application/x-www-form-urlencoded'},
+  body: `nom=${nom}&prenom=${prenom}&email=${email}&mdp=${mdp}&mdpConfirm=${mdpConfirm}`
+});
+}
+
   return (
     <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
     <Image
@@ -11,24 +25,40 @@ function Inscription({navigation}) {
     />    
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{marginTop:80 ,backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-            placeholder='Nom'/>
+            placeholder='Nom'
+            onChangeText = {(value)=>setNom(value)}
+            value = {nom}
+            inputContainerStyle = "password"
+            />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-            placeholder='Prénom'/>
+            placeholder='Prénom'
+            onChangeText = {(value)=>setPrenom(value)}
+            value = {prenom}
+            />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-            placeholder='Email'/>
+            placeholder='Email'
+            onChangeText = {(value)=>setEmail(value)}
+            value = {email}
+            />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-            placeholder='Mot de passe'/>
+            placeholder='Mot de passe'
+            onChangeText = {(value)=>setMdp(value) }
+            value = {mdp}
+            />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-            placeholder='Confirmation mot de passe'/>
+            placeholder='Confirmation mot de passe'
+            onChangeText = {(value)=>setMdpConfirm(value)}
+            value = {mdpConfirm}
+            />
      <Button
           buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
           title="S'inscrire"
           string = "#79d279"
-          onPress={() => { navigation.navigate("Apercu") } }
+          onPress={() => { {Register() , navigation.navigate("Apercu")} }}
         />
     <Text style={{color:"white",marginTop:50}}>Déja membre? Se connecter</Text>
     </ImageBackground>
