@@ -15,11 +15,13 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
             <Text>Appartement à louer,Paris 11eme. </Text>
             <Text>2 pièces/30m2. </Text>
             <Text h4>700€/mois </Text>
-            <IconFontAwesome style={{marginLeft:320}}
+            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
                 name="heart"
                 size={25}
                 color="black"
-                onPress = {()=> navigation.navigate('Favoris') }
+                onPress = {()=> {
+                  navigation.navigate('Favoris');
+                }}
             />
         </Card>
         </TouchableOpacity>

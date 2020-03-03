@@ -11,13 +11,13 @@ function HomePage({navigation}){
         />
         <Button
             buttonStyle= {{backgroundColor: "#D3455B",marginBottom:30, marginTop:200, borderRadius:5}}
-            title="Se Connecter avec Google"
+            title="Se connecter avec Google"
             string = "#79d279"
             onPress={() => { navigation.navigate('home')}}
           />
            <Button
             buttonStyle= {{backgroundColor: "#125CE0", marginBottom:30,borderRadius:5, paddingLeft:50,paddingRight:50}}
-            title="Se Connecter"
+            title="Se connecter"
             string = "#79d279"
             onPress={() => { navigation.navigate('SingUp')}}
           /> 
