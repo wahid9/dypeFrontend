@@ -10,11 +10,11 @@ function Connection({navigation}) {
         style={{height:115, width:222, marginTop:60,marginBottom: 210}}
     />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
-    inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-    placeholder='Mot de passe'/>
+        inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
+        placeholder='Mot de passe'/>
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
-    inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-    placeholder='Confirmation mot de passe'/>
+        inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
+        placeholder='Confirmation mot de passe'/>
      <Button
           buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
           title="Se Connecter"
