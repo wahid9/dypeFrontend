@@ -12,7 +12,7 @@ export default function App() {
     <ScrollView contentContainerStyle={{flex: 1}}>
 
       <Image
-        source={require('./assets/DYPE_noir_bleu.png')}
+        source={require('../../assets/Dypebleu.png')}
         style={{alignSelf: 'center', width: 125, height: 65, marginTop: '15%', marginBottom: '10%'}}
       />
 
@@ -43,6 +43,7 @@ export default function App() {
         <SimpleLineIcons
           name='camera'
           size={30}
+          onPress={() => { navigation.navigate('Camera')}}
         />
         <EvilIcons
           name='close'

@@ -1,13 +1,19 @@
 import React from 'react';
 import { StyleSheet, View,Image,ScrollView } from 'react-native';
-import {Card, Text,Icon} from 'react-native-elements';
+import {Card, Text,Icon,Button} from 'react-native-elements';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
  function MesMatchScreens({navigation}) {
   return (
     
     <ScrollView style={{marginTop: 25}}>
+      
+      <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
+      <Button  buttonStyle={{height:50,width:50,marginLeft:10}} title="Open drawer" onPress={() => navigation.openDrawer()} />
+      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginTop:30,marginBottom:30,}}/>
+      </View>
+      
         <View style={styles.container}>
-        <Image source={require('../../assets/Dypebleu.png')}  style={{height:116, width:222, marginTop:30,marginBottom:30}}/>
+        
         </View>
         <Text h4 style={{textAlign: 'center'}}>Mes matchs</Text>
         <Card image={require('../../assets/livingRoom.jpg')}>
@@ -42,6 +48,7 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
             />
         </Card>
     </ScrollView>
+   
     
 
   );
