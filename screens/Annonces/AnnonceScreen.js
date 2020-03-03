@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet,  View, ScrollView } from 'react-native';
 import {Button, Image, Text, ListItem} from 'react-native-elements';
 
-export default function App() {
+function AnnonceScreen() {
     return (
         <ScrollView style={{marginTop: 50}}>
             <View style={styles.container}>
@@ -18,18 +18,29 @@ export default function App() {
                         />
                     <ListItem
                         title='Description:'
-                        titleStyle={{fontSize: 13, fontWeight: 'bold'}}
+                        titleStyle={{fontSize: 13, fontWeight: 'bold', paddingBottom: 10}}
                         subtitle={
-                           <Text style={{fontSize: 13, paddingTop:10}}>surface de 30m²{"\n"}construit en 1996{"\n"}4ème étage{"\n"}2 pièces{"\n"}1 chambre</Text>
+                            <View>
+                                <Text style={{fontSize: 13}}>surface de 30m²</Text>
+                                <Text style={{fontSize: 13}}>construit en 1996</Text>
+                                <Text style={{fontSize: 13}}>4ème étage</Text>
+                                <Text style={{fontSize: 13}}>2 pièces</Text>
+                                <Text style={{fontSize: 13}}>1 chambre</Text>
+                            </View>
                        }
                         bottomDivider 
                        />
                         
                         <ListItem
                         title="L'appartement:"
-                        titleStyle={{fontSize: 13, fontWeight: 'bold'}}
+                        titleStyle={{fontSize: 13, fontWeight: 'bold', paddingBottom: 10}}
                         subtitle={
-                           <Text style={{fontSize: 13, paddingTop:10}}>1 Salle de bain{"\n"}1 Toilette{"\n"}Parquet{"\n"}2 pièces{"\n"}Chauffage individuel</Text>
+                            <View>
+                                <Text style={{fontSize: 13}}>1 Salle de bain</Text>
+                                <Text style={{fontSize: 13}}>1 Toilette</Text>
+                                <Text style={{fontSize: 13}}>Parquet</Text>
+                                <Text style={{fontSize: 13}}>Chauffage individuel</Text>
+                            </View>
                        }
                         bottomDivider 
                        />
@@ -56,3 +67,5 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
 });
+
+export default AnnonceScreen;
