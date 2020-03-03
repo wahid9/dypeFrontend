@@ -17,7 +17,7 @@ function FavorisScreen() {
     <View style={styles.container}>
     <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginTop:30,marginBottom:30}}/>
     </View>
-    <Text h4 style={{textAlign: 'center'}}>Mes favoris</Text>
+    <Text h4 style={{textAlign: 'center'}}>MES FAVORIS</Text>
    
     <Card image={require('../../assets/livingRoom.jpg')} >
         <Text>Appartement à louer,Paris 11eme. </Text>

@@ -24,8 +24,10 @@ function Questionnaire1Screen({navigation}) {
       </Text>
 
       <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
-        inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-        placeholder='Réponse'/>
+        inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.7 }}
+        placeholder='Réponse'
+        inputContainerStyle={{borderBottomWidth: 0}}
+      />
 
       <Button
         title="Suivant"

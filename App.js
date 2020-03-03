@@ -13,7 +13,7 @@ import Questionnaire1Screen from './screens/Questionnaire et dossier/Questionnai
 import FavorisScreen from './screens/Mon profil/FavorisScreen'
 import CameraScreen from './screens/Questionnaire et dossier/CameraScreen'
 import Dossier from './screens/Questionnaire et dossier/DossierScreen'
-
+import AnnonceScreen from './screens/Annonces/AnnonceScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -40,6 +40,7 @@ function MyDrawer() {
   );
 }
 
+
 var StackNavigator = createStackNavigator({
   home: HomePage,
   SingUp: Connection,
@@ -48,7 +49,8 @@ var StackNavigator = createStackNavigator({
   Questionnair : Questionnaire1Screen,
   Match : MyDrawer,
   Favoris : FavorisScreen,
-  Camera : CameraScreen
+  Camera : CameraScreen,
+  Annonce : AnnonceScreen,
 
   },
   {

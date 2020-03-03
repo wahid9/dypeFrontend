@@ -6,9 +6,9 @@ function AnnonceScreen() {
     return (
         <ScrollView style={{marginTop: 50}}>
             <View style={styles.container}>
-                <Image source={require('./assets/Dypebleu.png')}  style={{height:66, width:127, marginTop:0,marginBottom:0}}/>
+                <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginTop:0,marginBottom:0}}/>
             </View>
-                <Image source={require('./assets/livingRoom.jpg')} style={{height:250, width:380, marginTop:0,marginBottom:0}}/>
+                <Image source={require('../../assets/livingRoom.jpg')} style={{height:250, width:380, marginTop:0,marginBottom:0}}/>
                 
                     {/* <Text style={{fontSize: 16}}>Appartement à louer Paris 11ème, 2 pièces/30m², 700€/mois </Text> */}
                     <ListItem
