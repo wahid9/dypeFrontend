@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View,Image,ScrollView } from 'react-native';
+import { StyleSheet, View,Image,ScrollView,TouchableOpacity } from 'react-native';
 import {Card, Text,Icon} from 'react-native-elements';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
  function MesMatchScreens({navigation}) {
@@ -10,7 +10,8 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
         <Image source={require('../../assets/Dypebleu.png')}  style={{height:116, width:222, marginTop:30,marginBottom:30}}/>
         </View>
         <Text h4 style={{textAlign: 'center'}}>Mes matchs</Text>
-        <Card image={require('../../assets/livingRoom.jpg')}>
+        <TouchableOpacity onPress = {()=> navigation.navigate("Annonce")}>
+        <Card image={require('../../assets/livingRoom.jpg')} onPress = {()=> console.log("j'ai toucher")}>
             <Text>Appartement à louer,Paris 11eme. </Text>
             <Text>2 pièces/30m2. </Text>
             <Text h4>700€/mois </Text>
@@ -21,6 +22,7 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
                 onPress = {()=> navigation.navigate('Favoris') }
             />
         </Card>
+        </TouchableOpacity>
         <Card image={require('../../assets/livingRoom.jpg')}>
             <Text>Appartement à louer,Paris 11eme. </Text>
             <Text>2 pièces/30m2. </Text>

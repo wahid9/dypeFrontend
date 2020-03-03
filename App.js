@@ -1,3 +1,4 @@
+console.disableYellowBox = true;
 import React from 'react';
 import {createAppContainer } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -7,7 +8,8 @@ import HomePage from './screens/Connection/HomeScreen';
 import ApercuScreen from './screens/Annonces/ApercuScreen';
 import MesMatchScreens from './screens/Annonces/MesMatchsScreen';
 import Questionnaire1Screen from './screens/Questionnaire et dossier/Questionnaire1Screen';
-import FavorisScreen from './screens/Mon profil/FavorisScreen'
+import FavorisScreen from './screens/Mon profil/FavorisScreen';
+import AnnonceScreen from './screens/Annonces/AnnonceScreen';
 
 var StackNavigator = createStackNavigator({
   home: HomePage,
@@ -17,6 +19,7 @@ var StackNavigator = createStackNavigator({
   Questionnair : Questionnaire1Screen,
   Match : MesMatchScreens,
   Favoris : FavorisScreen,
+  Annonce : AnnonceScreen,
 
   },
   {
