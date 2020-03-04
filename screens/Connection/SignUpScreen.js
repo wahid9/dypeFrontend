@@ -10,54 +10,58 @@ function Inscription({navigation}) {
   const [mdpConfirm,setMdpConfirm]= useState("");
   
   var Register = async ()=> {
+    if(mdp != mdpConfirm){
+      Alert.alert("Mots de passe différents"," Veuillez saisir le meme mot de passe")
+    }else{
     await fetch('http://10.2.5.232:3000/SingUp', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `nom=${nom}&prenom=${prenom}&email=${email}&mdp=${mdp}&mdpConfirm=${mdpConfirm}`
-  });
-}
+  })
+    navigation.navigate("Apercu");}
+  }
 var Btn;
   if(nom == ""){
     Btn = <Button
     buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
     title="S'inscrire"
     string = "#79d279"
-    onPress = {()=> Alert.alert("vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
+    onPress = {()=> Alert.alert("Vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
     />;
   }else if(prenom == ""){
     Btn = <Button
     buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
     title="S'inscrire"
     string = "#79d279"
-    onPress = {()=> Alert.alert("vous n'avez pas rempli tout le formulaire"," Veuillez remplir tous les champs obligatoires")}
+    onPress = {()=> Alert.alert("Vous n'avez pas rempli tout le formulaire"," Veuillez remplir tous les champs obligatoires")}
     />;  
   }else if(email == ""){
     Btn = <Button
     buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
     title="S'inscrire"
     string = "#79d279"
-    onPress = {()=> Alert.alert("vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
+    onPress = {()=> Alert.alert("Vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
     />;  
   }else if(mdp == ""){
     Btn = <Button
     buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
     title="S'inscrire"
     string = "#79d279"
-    onPress = {()=> Alert.alert("vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
+    onPress = {()=> Alert.alert("Vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
     />;  
   }else if(mdpConfirm == ""){
     Btn = <Button
     buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
     title="S'inscrire"
     string = "#79d279"
-    onPress = {()=> Alert.alert("vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
+    onPress = {()=> Alert.alert("Vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
     />;
   }else{
     Btn = <Button
     buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
     title="S'inscrire"
     string = "#79d279"
-    onPress={() => { {Register() , navigation.navigate("Apercu")} }}
+    onPress={() => { Register() }}
     />;
   }
   return (
@@ -98,7 +102,9 @@ var Btn;
             value = {mdpConfirm}
             />
             {Btn}
-      <Text style={{color:"white",marginTop:50}}>Déja membre? Se connecter</Text>
+      <Text style={{color:"white",marginTop:50}}
+      onPress = {()=> navigation.navigate("SingUp") }
+      >Déja membre? Se connecter</Text>
       <KeyboardAvoidingView behavior = "padding" enabled>
       </KeyboardAvoidingView>
     </ImageBackground>
