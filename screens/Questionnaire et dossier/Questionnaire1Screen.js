@@ -28,7 +28,6 @@ function Questionnaire1Screen({navigation}) {
         placeholder='Réponse'
         inputContainerStyle={{borderBottomWidth: 0}}
       />
-        
 
       <Button
         title="Suivant"
