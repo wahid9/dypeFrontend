@@ -26,7 +26,7 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
                 size={25}
                 color="black"
                 onPress = {()=> {
-                  navigation.navigate('Favoris');
+                  navigation.navigate('Mes Favoris');
                 }}
             />
         </Card>
