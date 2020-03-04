@@ -13,7 +13,7 @@ function Inscription({navigation}) {
     if(mdp != mdpConfirm){
       Alert.alert("Mots de passe différents"," Veuillez saisir le meme mot de passe")
     }else{
-    await fetch('http://10.2.5.232:3000/SingUp', {
+    await fetch('http://10.2.5.189:3000/SingUp', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `nom=${nom}&prenom=${prenom}&email=${email}&mdp=${mdp}&mdpConfirm=${mdpConfirm}`
