@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { StyleSheet, View,Image,ScrollView } from 'react-native';
+import { StyleSheet, View,Image,ScrollView, Alert} from 'react-native';
 import {Card, Badge, Text,Button} from 'react-native-elements';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Overlay } from 'react-native-elements';
@@ -11,8 +11,8 @@ function FavorisScreen() {
        <Overlay
      isVisible={isVisible}
      onBackdropPress={() => {setIsVisible(false)}}
-   >
      
+   > 
    </Overlay>
     <View style={styles.container}>
     <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginTop:30,marginBottom:30}}/>
@@ -28,7 +28,21 @@ function FavorisScreen() {
                 name="trash"
                 size={25}
                 color="black"
-                onPress = {()=> {setIsVisible(true)}}
+                onPress = {()=> {Alert.alert(
+                  'Etes-vous sûr(e) de vouloir supprimer cette annonce de vos favoris ? ',
+                  '',
+                  [
+                    
+                    {
+                      text: 'OUI',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {text: 'NON', onPress: () => console.log('OK Pressed')},
+                  ],
+                  {cancelable: false},
+                  
+                );}}
                
             />
     </Card>

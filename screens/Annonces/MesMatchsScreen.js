@@ -25,9 +25,6 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
                 name="heart"
                 size={25}
                 color="black"
-                onPress = {()=> {
-                  navigation.navigate('Favoris');
-                }}
             />
         </Card>
         </TouchableOpacity>
