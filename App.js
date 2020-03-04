@@ -54,10 +54,11 @@ var StackNavigator = createStackNavigator({
   SingIn : Inscription ,
   Apercu : ApercuScreen,
   Questionnair : Questionnaire1Screen,
-  Match : MyDrawer,
   Favoris : FavorisScreen,
   Camera : CameraScreen,
-  Annonce : AnnonceScreen
+  Annonce : AnnonceScreen,
+  Match : MyDrawer
+
   },
   {
     headerMode: "none",
@@ -69,7 +70,7 @@ var StackNavigator = createStackNavigator({
 const Navigation = createAppContainer(StackNavigator);
 export default function App() {
   return (
-    
+
     <Provider store={store}>
       <Navigation/>
     </Provider>

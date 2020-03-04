@@ -17,7 +17,7 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
         </View>
         <Text h4 style={{textAlign: 'center'}}>Mes matchs</Text>
         <TouchableOpacity onPress = {()=> navigation.navigate("Annonce")}>
-        <Card image={require('../../assets/livingRoom.jpg')} onPress = {()=> console.log("j'ai toucher")}>
+        <Card image={require('../../assets/livingRoom.jpg')} >
             <Text>Appartement à louer,Paris 11eme. </Text>
             <Text>2 pièces/30m2. </Text>
             <Text h4>700€/mois </Text>
