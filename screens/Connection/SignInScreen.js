@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text,ImageBackground,Image} from 'react-native';
+import { StyleSheet, Text,ImageBackground,Image,KeyboardAvoidingView} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 
 function Connection({navigation}) {
@@ -23,6 +23,8 @@ function Connection({navigation}) {
       />
       <Text style={{color:"white",marginTop:50}}>Mot de passe oublié?</Text>
       <Text style={{color:"white",marginTop:50}}>Pas de compte? S'inscrire</Text>
+      <KeyboardAvoidingView behavior = "padding" enabled>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 }

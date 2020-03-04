@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet,ImageBackground,Image,Text, TextInput} from 'react-native';
+import { StyleSheet,ImageBackground,Image,Text, KeyboardAvoidingView} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 
 function Inscription({navigation}) {
@@ -16,7 +16,11 @@ function Inscription({navigation}) {
   body: `nom=${nom}&prenom=${prenom}&email=${email}&mdp=${mdp}&mdpConfirm=${mdpConfirm}`
 });
 }
-
+  if(nom == ""){
+    console.log("c'est vide")  
+  }else{
+    console.log("c'est remplie")
+  }
   return (
     <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
     <Image
@@ -60,7 +64,9 @@ function Inscription({navigation}) {
           string = "#79d279"
           onPress={() => { {Register() , navigation.navigate("Apercu")} }}
         />
-    <Text style={{color:"white",marginTop:50}}>Déja membre? Se connecter</Text>
+      <Text style={{color:"white",marginTop:50}}>Déja membre? Se connecter</Text>
+      <KeyboardAvoidingView behavior = "padding" enabled>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 }
