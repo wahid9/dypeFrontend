@@ -47,10 +47,10 @@ var StackNavigator = createStackNavigator({
   SingIn : Inscription ,
   Apercu : ApercuScreen,
   Questionnair : Questionnaire1Screen,
-  Match : MyDrawer,
   Favoris : FavorisScreen,
   Camera : CameraScreen,
   Annonce : AnnonceScreen,
+  Match : MyDrawer
 
   },
   {
