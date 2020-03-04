@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet,ImageBackground,Image,Text, KeyboardAvoidingView} from 'react-native';
+import { StyleSheet,ImageBackground,Image,Text, KeyboardAvoidingView, Alert} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 
 function Inscription({navigation}) {
@@ -8,25 +8,64 @@ function Inscription({navigation}) {
   const [email, setEmail]= useState("");
   const [mdp, setMdp]= useState("");
   const [mdpConfirm,setMdpConfirm]= useState("");
-
+  
   var Register = async ()=> {
-  await fetch('http://10.2.5.232:3000/SingUp', {
-  method: 'POST',
-  headers: {'Content-Type':'application/x-www-form-urlencoded'},
-  body: `nom=${nom}&prenom=${prenom}&email=${email}&mdp=${mdp}&mdpConfirm=${mdpConfirm}`
-});
+    await fetch('http://10.2.5.232:3000/SingUp', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: `nom=${nom}&prenom=${prenom}&email=${email}&mdp=${mdp}&mdpConfirm=${mdpConfirm}`
+  });
 }
+var Btn;
   if(nom == ""){
-    console.log("c'est vide")  
+    Btn = <Button
+    buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
+    title="S'inscrire"
+    string = "#79d279"
+    onPress = {()=> Alert.alert("vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
+    />;
+  }else if(prenom == ""){
+    Btn = <Button
+    buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
+    title="S'inscrire"
+    string = "#79d279"
+    onPress = {()=> Alert.alert("vous n'avez pas rempli tout le formulaire"," Veuillez remplir tous les champs obligatoires")}
+    />;  
+  }else if(email == ""){
+    Btn = <Button
+    buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
+    title="S'inscrire"
+    string = "#79d279"
+    onPress = {()=> Alert.alert("vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
+    />;  
+  }else if(mdp == ""){
+    Btn = <Button
+    buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
+    title="S'inscrire"
+    string = "#79d279"
+    onPress = {()=> Alert.alert("vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
+    />;  
+  }else if(mdpConfirm == ""){
+    Btn = <Button
+    buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
+    title="S'inscrire"
+    string = "#79d279"
+    onPress = {()=> Alert.alert("vous n'avez pas rempli tout le formulaire","Veuillez remplir tous les champs obligatoires")}
+    />;
   }else{
-    console.log("c'est remplie")
+    Btn = <Button
+    buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
+    title="S'inscrire"
+    string = "#79d279"
+    onPress={() => { {Register() , navigation.navigate("Apercu")} }}
+    />;
   }
   return (
     <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
     <Image
         source= {require("../../assets/dype.png")}
         style={{height:115, width:222, marginTop:70}}
-    />    
+    />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{marginTop:80 ,backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
             placeholder='Nom'
@@ -58,12 +97,7 @@ function Inscription({navigation}) {
             onChangeText = {(value)=>setMdpConfirm(value)}
             value = {mdpConfirm}
             />
-     <Button
-          buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
-          title="S'inscrire"
-          string = "#79d279"
-          onPress={() => { {Register() , navigation.navigate("Apercu")} }}
-        />
+            {Btn}
       <Text style={{color:"white",marginTop:50}}>Déja membre? Se connecter</Text>
       <KeyboardAvoidingView behavior = "padding" enabled>
       </KeyboardAvoidingView>
