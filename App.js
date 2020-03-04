@@ -22,8 +22,39 @@ import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 const store = createStore(combineReducers({documentReducer}));
 
-const Drawer = createDrawerNavigator();
 
+// const Stack = createStackNavigator()
+
+// function MyStack() {
+//   return (
+//     <Stack.Navigator>
+//       <Stack.Screen name="Annonce" component={AnnonceScreen} />
+//       <Stack.Screen name="Mes Matchs" component={MesMatchScreens} />
+//     </Stack.Navigator>
+//   );
+// }
+
+
+
+
+var StackNavigator = createStackNavigator({
+  home: HomePage,
+  SingUp: Connection,
+  SingIn : Inscription ,
+  Apercu : ApercuScreen,
+  Questionnair : Questionnaire1Screen,
+  Match : MyDrawer, params: MesMatchScreens,
+  Annonce: AnnonceScreen
+  // Camera : CameraScreen,
+  
+
+  },
+  {
+    headerMode: "none",
+  },
+);
+
+const Drawer = createDrawerNavigator();
 function MyDrawer() {
   return (
     <NavigationContainer>
@@ -39,7 +70,7 @@ function MyDrawer() {
 
     }}>
       <Drawer.Screen name="Mes matchs" component={MesMatchScreens} />
-      <Drawer.Screen name="Mes favoris" component={FavorisScreen} />
+      <Drawer.Screen name="Mes Favoris" component={FavorisScreen} />
       <Drawer.Screen name="Mes documents" component={Dossier}/>
 
     </Drawer.Navigator>
@@ -48,22 +79,22 @@ function MyDrawer() {
 }
 
 
-var StackNavigator = createStackNavigator({
-  home: HomePage,
-  SingUp: Connection,
-  SingIn : Inscription ,
-  Apercu : ApercuScreen,
-  Questionnair : Questionnaire1Screen,
-  Favoris : FavorisScreen,
-  Camera : CameraScreen,
-  Annonce : AnnonceScreen,
-  Match : MyDrawer
+// var StackNavigator = createStackNavigator({
+//   home: HomePage,
+//   SingUp: Connection,
+//   SingIn : Inscription ,
+//   Apercu : ApercuScreen,
+//   Questionnair : Questionnaire1Screen,
+//   Favoris : FavorisScreen,
+//   Camera : CameraScreen,
+//   Annonce : AnnonceScreen,
+//   Match : MyDrawer
 
-  },
-  {
-    headerMode: "none",
-  },
-);
+//   },
+//   {
+//     headerMode: "none",
+//   },
+// );
 
 
 
