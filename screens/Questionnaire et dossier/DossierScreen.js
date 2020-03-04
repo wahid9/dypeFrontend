@@ -39,6 +39,7 @@ function Dossier({onCameraClick, navigation}) {
         name='close'
         size={30}
         style={{marginLeft: 10}}
+        onPress={() => setCountID(countID-1)}
       />
     </View>
     )
