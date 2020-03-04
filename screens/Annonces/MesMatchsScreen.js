@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, View,Image,ScrollView } from 'react-native';
 import {Card, Text,Icon,Button} from 'react-native-elements';
 import { StyleSheet, View,Image,ScrollView,TouchableOpacity } from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';

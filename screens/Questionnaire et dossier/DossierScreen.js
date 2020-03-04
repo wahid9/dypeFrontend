@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import { Input, Button, Tooltip } from 'react-native-elements';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
@@ -6,7 +7,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 
-export default function Dossier() {
+function Dossier(props) {
   return (
     <ScrollView>
 
@@ -50,6 +51,7 @@ export default function Dossier() {
         <SimpleLineIcons
           name='camera'
           size={30}
+          onPress={ () => props.onCameraClick('id1') }
         />
         <EvilIcons
           name='close'
@@ -395,7 +397,7 @@ export default function Dossier() {
         />
       </View>
 
-      
+
       <Button
         title="Soumettre le dossier"
         buttonStyle={{backgroundColor: '#fce229', width: 'auto', padding: 10}}
@@ -417,3 +419,17 @@ const styles = StyleSheet.create({
 });
 
 
+function mapDispatchToProps(dispatch){
+  return {
+    onCameraClick: function(docType){
+      dispatch({type: 'saveDocType', docType})
+    }
+  }
+}
+
+
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Dossier)
