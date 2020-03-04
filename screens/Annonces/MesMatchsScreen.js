@@ -2,22 +2,24 @@ import React from 'react';
 import {Card, Text,Icon,Button} from 'react-native-elements';
 import { StyleSheet, View,Image,ScrollView,TouchableOpacity } from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
- function MesMatchScreens({navigation}) {
+import IconBurger from '@expo/vector-icons/Feather';
+ 
+function MesMatchScreens({navigation}) {
   return (
     
     <ScrollView style={{marginTop: 25}}>
       
+      <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => navigation.openDrawer()} />
       <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
-      <Button  buttonStyle={{height:50,width:50,marginLeft:10}} title="Open drawer" onPress={() => navigation.openDrawer()} />
-      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginTop:30,marginBottom:30,}}/>
+      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
       </View>
       
         <View style={styles.container}>
         
         </View>
         <Text h4 style={{textAlign: 'center'}}>Mes matchs</Text>
-        <TouchableOpacity onPress = {()=> navigation.navigate("Annonce")}>
-        <Card image={require('../../assets/livingRoom.jpg')} >
+        <TouchableOpacity onPress = {()=> navigation.navigate('Annonce')}>
+        <Card image={require('../../assets/livingRoom.jpg')} onPress = {()=> console.log("j'ai toucher")}>
             <Text>Appartement à louer,Paris 11eme. </Text>
             <Text>2 pièces/30m2. </Text>
             <Text h4>700€/mois </Text>
