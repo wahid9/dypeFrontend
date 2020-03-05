@@ -4,7 +4,7 @@ import React from 'react';
 import {createAppContainer,} from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import {createStackNavigator} from 'react-navigation-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import Inscription from './screens/Connection/SignUpScreen';
 import Connection from './screens/Connection/SignInScreen';
@@ -22,42 +22,38 @@ import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 const store = createStore(combineReducers({documentReducer}));
 
+const Stack = createStackNavigator();
 
-// const Stack = createStackNavigator()
+export default function App() {
+  return (
 
-// function MyStack() {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen name="Annonce" component={AnnonceScreen} />
-//       <Stack.Screen name="Mes Matchs" component={MesMatchScreens} />
-//     </Stack.Navigator>
-//   );
-// }
+<Provider store={store}>
+  <NavigationContainer>
+
+    <Stack.Navigator
+        headerMode= "none">
+        <Stack.Screen name="Home" component={HomePage} />
+        <Stack.Screen name="SignIn" component={Connection} />
+        <Stack.Screen name="SignUp" component={Inscription} />
+        <Stack.Screen name="Questionnaire" component={Questionnaire1Screen} />
+        <Stack.Screen name="Favoris" component={FavorisScreen} />
+        <Stack.Screen name="Camera" component={CameraScreen} />
+        <Stack.Screen name="Apercu" component={ApercuScreen} />
+        <Stack.Screen name="Match" component={MyDrawer} />
+        <Stack.Screen name="Annonces" component={AnnonceScreen} />
+      </Stack.Navigator>
+  </NavigationContainer>
+</Provider>
 
 
 
-
-var StackNavigator = createStackNavigator({
-  home: HomePage,
-  SingUp: Connection,
-  SingIn : Inscription ,
-  Apercu : ApercuScreen,
-  Questionnaire : Questionnaire1Screen,
-  Match : MyDrawer, params: MesMatchScreens,
-  Annonce: AnnonceScreen
-  // Camera : CameraScreen,
-  
-
-  },
-  {
-    headerMode: "none",
-  },
-);
+  );
+}
 
 const Drawer = createDrawerNavigator();
 function MyDrawer() {
   return (
-    <NavigationContainer>
+
     <Drawer.Navigator
     drawerContentOptions={{
       activeTintColor: '#FCE229',
@@ -67,44 +63,12 @@ function MyDrawer() {
     drawerStyle={{
       backgroundColor :'#125CE0',
       width: 200,
-
+      
     }}>
       <Drawer.Screen name="Mes matchs" component={MesMatchScreens} />
       <Drawer.Screen name="Mes Favoris" component={FavorisScreen} />
       <Drawer.Screen name="Mes documents" component={Dossier}/>
 
-    </Drawer.Navigator>
-    </NavigationContainer>
-  );
-}
-
-
-// var StackNavigator = createStackNavigator({
-//   home: HomePage,
-//   SingUp: Connection,
-//   SingIn : Inscription ,
-//   Apercu : ApercuScreen,
-//   Questionnair : Questionnaire1Screen,
-//   Favoris : FavorisScreen,
-//   Camera : CameraScreen,
-//   Annonce : AnnonceScreen,
-//   Match : MyDrawer
-
-//   },
-//   {
-//     headerMode: "none",
-//   },
-// );
-
-
-
-const Navigation = createAppContainer(StackNavigator);
-export default function App() {
-  return (
-
-    <Provider store={store}>
-      <Navigation/>
-    </Provider>
-    
+</Drawer.Navigator>
   );
 }

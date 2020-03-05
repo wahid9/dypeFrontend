@@ -11,6 +11,7 @@
     "@react-native-community/masked-view": "^0.1.7",
     "@react-navigation/drawer": "^5.1.1",
     "@react-navigation/native": "^5.0.9",
+    "@react-navigation/stack": "^5.1.1",
     "expo": "~36.0.0",
     "popup-ui": "^1.0.10",
     "react": "~16.9.0",
@@ -29,7 +30,8 @@
     "react-navigation-stack": "^2.2.2",
     "react-navigation-tabs": "^2.8.2",
     "react-redux": "^7.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "expo-document-picker": "~8.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "~8.0.0",

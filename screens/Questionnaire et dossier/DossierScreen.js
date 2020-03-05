@@ -5,6 +5,9 @@ import { Input, Button, Tooltip } from 'react-native-elements';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import IconBurger from '@expo/vector-icons/Feather';
+
+import * as DocumentPicker from 'expo-document-picker';
 
 
 function Dossier({onCameraClick, navigation}) {
@@ -27,12 +30,14 @@ function Dossier({onCameraClick, navigation}) {
         buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
         containerStyle={{marginRight: 10}}
         titleStyle={{color: 'white', fontSize: 14}}
+        
       />
       <SimpleLineIcons
         name='camera'
         size={30}
         onPress={ () => {
           onCameraClick(`id${i+2}`);
+          navigation.navigate('Camera')
         }}
       />
       <EvilIcons
@@ -46,12 +51,12 @@ function Dossier({onCameraClick, navigation}) {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={{marginTop: 25}}>
 
-      <Image
-        source={require('../../assets/Dypebleu.png')}
-        style={{alignSelf: 'center', width: 125, height: 65, marginTop: '15%', marginBottom: '10%'}}
-      />
+      <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => navigation.openDrawer()} />
+      <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
+      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
+      </View>
 
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
         <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center'}}>
@@ -84,6 +89,10 @@ function Dossier({onCameraClick, navigation}) {
           buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
           containerStyle={{marginRight: 10}}
           titleStyle={{color: 'white', fontSize: 14}}
+          onPress={ async () => {
+            let documentFromPhone = await DocumentPicker.getDocumentAsync();
+            console.log('documentFromPhone :', documentFromPhone);
+          }}
         />
         <SimpleLineIcons
           name='camera'
