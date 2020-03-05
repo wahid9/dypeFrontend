@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {connect} from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import { Input, Button, Tooltip } from 'react-native-elements';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
@@ -6,7 +7,44 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 
-export default function Dossier() {
+function Dossier({onCameraClick, navigation}) {
+
+  const [countID, setCountID] = useState(0);
+
+  let listInputID=[]
+
+  for(let i=0; i<countID; i++){
+
+    listInputID.push(<View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
+      <Input
+        containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
+        inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
+        inputContainerStyle={{borderBottomWidth: 0}}
+        placeholder='fichier.jpg'
+      />
+      <Button
+        title="Télécharger"
+        buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
+        containerStyle={{marginRight: 10}}
+        titleStyle={{color: 'white', fontSize: 14}}
+      />
+      <SimpleLineIcons
+        name='camera'
+        size={30}
+        onPress={ () => {
+          onCameraClick(`id${i+2}`);
+        }}
+      />
+      <EvilIcons
+        name='close'
+        size={30}
+        style={{marginLeft: 10}}
+        onPress={() => setCountID(countID-1)}
+      />
+    </View>
+    )
+  }
+
   return (
     <ScrollView>
 
@@ -50,6 +88,10 @@ export default function Dossier() {
         <SimpleLineIcons
           name='camera'
           size={30}
+          onPress={ () => {
+            onCameraClick('id1');
+            // navigation.navigate('Camera');
+          } }
         />
         <EvilIcons
           name='close'
@@ -58,29 +100,7 @@ export default function Dossier() {
         />
       </View>
 
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
-        <Input
-          containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-          inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-          inputContainerStyle={{borderBottomWidth: 0}}
-          placeholder='fichier.jpg'
-        />
-        <Button
-          title="Télécharger"
-          buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-          containerStyle={{marginRight: 10}}
-          titleStyle={{color: 'white', fontSize: 14}}
-        />
-        <SimpleLineIcons
-          name='camera'
-          size={30}
-        />
-        <EvilIcons
-          name='close'
-          size={30}
-          style={{marginLeft: 10}}
-        />
-      </View>
+      {listInputID}
 
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 50}}>
         <Text>
@@ -90,6 +110,7 @@ export default function Dossier() {
           name='addfile'
           size={25}
           style={{marginLeft: 10, color: '#125ce0'}}
+          onPress={() => setCountID(countID+1)}
         />
       </View>
 
@@ -395,7 +416,7 @@ export default function Dossier() {
         />
       </View>
 
-      
+
       <Button
         title="Soumettre le dossier"
         buttonStyle={{backgroundColor: '#fce229', width: 'auto', padding: 10}}
@@ -417,3 +438,17 @@ const styles = StyleSheet.create({
 });
 
 
+function mapDispatchToProps(dispatch){
+  return {
+    onCameraClick: function(docType){
+      dispatch({type: 'saveDocType', docType})
+    }
+  }
+}
+
+
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Dossier)
