@@ -79,18 +79,6 @@ function MyDrawer() {
 }
 
 
-<<<<<<< HEAD
-var StackNavigator = createStackNavigator({
-  home: HomePage,
-  SingUp: Connection,
-  SingIn : Inscription ,
-  Apercu : ApercuScreen,
-  Questionnaire : Questionnaire1Screen,
-  Favoris : FavorisScreen,
-  Camera : CameraScreen,
-  Annonce : AnnonceScreen,
-  Match : MyDrawer
-=======
 // var StackNavigator = createStackNavigator({
 //   home: HomePage,
 //   SingUp: Connection,
@@ -101,7 +89,6 @@ var StackNavigator = createStackNavigator({
 //   Camera : CameraScreen,
 //   Annonce : AnnonceScreen,
 //   Match : MyDrawer
->>>>>>> 50a27ba211e3598eb41273e9128719723e220774
 
 //   },
 //   {
