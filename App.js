@@ -46,7 +46,7 @@ var StackNavigator = createStackNavigator({
   SingUp: Connection,
   SingIn : Inscription ,
   Apercu : ApercuScreen,
-  Questionnair : Questionnaire1Screen,
+  Questionnaire : Questionnaire1Screen,
   Favoris : FavorisScreen,
   Camera : CameraScreen,
   Annonce : AnnonceScreen,
