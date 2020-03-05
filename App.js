@@ -44,7 +44,7 @@ export default function App() {
         <Stack.Screen name="Match" component={MyDrawer} />
         <Stack.Screen name="Annonces" component={AnnonceScreen} />
       </Stack.Navigator>
-      
+
   </NavigationContainer>
 </Provider>
 
@@ -76,4 +76,5 @@ function MyDrawer() {
 
   );
 }
+
 
