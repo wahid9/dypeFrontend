@@ -15,7 +15,7 @@ function MesMatchScreens({navigation}) {
       
        
         <Text h4 style={{textAlign: 'center'}}>Mes matchs</Text>
-        <TouchableOpacity onPress = {()=> navigation.navigate('Annonce')}>
+        <TouchableOpacity onPress = {()=> navigation.navigate('Annonces')}>
         <Card image={require('../../assets/livingRoom.jpg')} onPress = {()=> console.log("j'ai toucher")}>
             <Text>Appartement à louer,Paris 11eme. </Text>
             <Text>2 pièces/30m2. </Text>
@@ -31,7 +31,7 @@ function MesMatchScreens({navigation}) {
             <Text>Appartement à louer,Paris 11eme. </Text>
             <Text>2 pièces/30m2. </Text>
             <Text h4>700€/mois </Text>
-            <IconFontAwesome style={{marginLeft:320}}
+            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
                 name="heart"
                 size={25}
                 color="black"
@@ -41,7 +41,7 @@ function MesMatchScreens({navigation}) {
             <Text>Appartement à louer,Paris 11eme. </Text>
             <Text>2 pièces/30m2. </Text>
             <Text h4>700€/mois </Text>
-            <IconFontAwesome style={{marginLeft:320}}
+            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
                 name="heart"
                 size={25}
                 color="black"

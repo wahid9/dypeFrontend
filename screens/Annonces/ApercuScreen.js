@@ -18,7 +18,7 @@ import {Card, Badge, Text,Button} from 'react-native-elements';
            title="Créer mon dossier"
            type="solid"
            buttonStyle={{backgroundColor: "#125CE0",paddingLeft:50,paddingRight:50, marginTop:50}}
-           onPress={() => { navigation.navigate('Questionnair')}}
+           onPress={() => { navigation.navigate('Questionnaire')}}
           
        />
 
