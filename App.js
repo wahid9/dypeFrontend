@@ -22,58 +22,6 @@ import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 const store = createStore(combineReducers({documentReducer}));
 
-// const Drawer = createDrawerNavigator();
-
-// const Stack = createStackNavigator()
-
-// function MyStack() {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen name="Annonce" component={AnnonceScreen} />
-//       <Stack.Screen name="Mes Matchs" component={MesMatchScreens} />
-//     </Stack.Navigator>
-//   );
-// }
-
-
-
-
-// var StackNavigator = createStackNavigator({
-//   home: HomePage,
-//   SingUp: Connection,
-//   SingIn : Inscription ,
-//   Apercu : ApercuScreen,
-//   Questionnair : Questionnaire1Screen,
-//   Match : MyDrawer,
-//   Annonce: AnnonceScreen
-//   // Camera : CameraScreen,
-  
-
-//   },
-//   {
-//     headerMode: "none",
-//   },
-// );
-
-
-
-
-// var StackNavigator = createStackNavigator({
-//   home: HomePage,
-//   SingUp: Connection,
-//   SingIn : Inscription ,
-//   Apercu : ApercuScreen,
-//   Questionnair : Questionnaire1Screen,
-//   Favoris : FavorisScreen,
-//   Camera : CameraScreen,
-//   Annonce : AnnonceScreen,
-//   // Match : MyDrawer
-
-//   },
-//   {
-//     headerMode: "none",
-//   },
-// );
 
 const Stack = createStackNavigator();
 
@@ -128,14 +76,3 @@ function MyDrawer() {
 }
 
 
-
-// const Navigation = createAppContainer(StackNavigator);
-// export default function App() {
-//   return (
-
-//     <Provider store={store}>
-//       <Navigation/>
-//     </Provider>
-    
-//   );
-// }
