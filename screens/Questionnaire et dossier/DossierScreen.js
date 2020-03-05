@@ -29,10 +29,7 @@ function Dossier({onCameraClick, navigation}) {
         buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
         containerStyle={{marginRight: 10}}
         titleStyle={{color: 'white', fontSize: 14}}
-        onPress={ async () => {
-          let documentFromPhone = await DocumentPicker.getDocumentAsync();
-          console.log('documentFromPhone :', documentFromPhone);
-        }}
+        
       />
       <SimpleLineIcons
         name='camera'
@@ -91,6 +88,10 @@ function Dossier({onCameraClick, navigation}) {
           buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
           containerStyle={{marginRight: 10}}
           titleStyle={{color: 'white', fontSize: 14}}
+          onPress={ async () => {
+            let documentFromPhone = await DocumentPicker.getDocumentAsync();
+            console.log('documentFromPhone :', documentFromPhone);
+          }}
         />
         <SimpleLineIcons
           name='camera'
