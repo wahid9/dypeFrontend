@@ -33,6 +33,7 @@ function Dossier({onCameraClick, navigation}) {
         size={30}
         onPress={ () => {
           onCameraClick(`id${i+2}`);
+          navigation.navigate('Camera')
         }}
       />
       <EvilIcons
