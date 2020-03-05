@@ -6,6 +6,8 @@ import IconAntDesing from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
+import * as DocumentPicker from 'expo-document-picker';
+
 
 function Dossier({onCameraClick, navigation}) {
 
@@ -27,6 +29,10 @@ function Dossier({onCameraClick, navigation}) {
         buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
         containerStyle={{marginRight: 10}}
         titleStyle={{color: 'white', fontSize: 14}}
+        onPress={ async () => {
+          let documentFromPhone = await DocumentPicker.getDocumentAsync();
+          console.log('documentFromPhone :', documentFromPhone);
+        }}
       />
       <SimpleLineIcons
         name='camera'
