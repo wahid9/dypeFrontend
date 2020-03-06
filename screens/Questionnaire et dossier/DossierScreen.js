@@ -15,11 +15,21 @@ function Dossier({onCameraClick, navigation}) {
   const [countID, setCountID] = useState(1);
   const [listIDdata, setListIDdata] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async() => {
 
+          //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
+
+      var rawData = await fetch("http://10.2.5.181:3000/getDocuments");
+      var data = await rawData.json();
+      setListIDdata(data.documents);
+    }
+    fetchData();
+  }, []);
+  
   const uploadFromPhone = async (docType) => {
 
     let documentFromPhone = await DocumentPicker.getDocumentAsync();
-    console.log('documentFromPhone :', documentFromPhone);
 
     // FONCTIONNE POUR TOUT MAIS DANS LE FUTUR REVOIR AU PROPRE LA GESTION TYPE DE FICHIER (JPEG - PDF, ETC...)
 
@@ -27,12 +37,10 @@ function Dossier({onCameraClick, navigation}) {
     data.append('doc', {
       uri: documentFromPhone.uri,
       type: 'image/jpeg',
-      name: `${docType}`
+      name: `${docType}+${documentFromPhone.name}`
     });
 
-    console.log('data :', data);
-
-    //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
+              //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
 
     var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromphone", {
       method: 'POST',
@@ -40,16 +48,14 @@ function Dossier({onCameraClick, navigation}) {
     });
     var response = await rawResponse.json();
 
-    console.log("REP", response);
-
-    setListIDdata([...listIDdata, response]);
+    setListIDdata([...listIDdata, response.docUploaded]);
 
   }
 
 
   let listID = listIDdata.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>fichier téléchargé</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
               <EvilIcons
                 name='close'
                 size={30}
