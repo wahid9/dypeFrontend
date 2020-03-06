@@ -6,7 +6,6 @@ import IconBurger from '@expo/vector-icons/Feather';
  
 function MesMatchScreens({navigation}) {
   return (
-    
     <ScrollView style={{marginTop: 25}}>
       
       <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => navigation.openDrawer()} />
@@ -14,9 +13,7 @@ function MesMatchScreens({navigation}) {
       <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
       </View>
       
-        <View style={styles.container}>
-        
-        </View>
+       
         <Text h4 style={{textAlign: 'center'}}>Mes matchs</Text>
         <TouchableOpacity onPress = {()=> navigation.navigate('Annonces')}>
         <Card image={require('../../assets/livingRoom.jpg')} onPress = {()=> console.log("j'ai toucher")}>

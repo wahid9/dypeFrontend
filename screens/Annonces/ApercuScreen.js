@@ -10,7 +10,7 @@ function ApercuScreen({navigation}){
       <View style={{ height:310}}>
         <ScrollView horizontal={true}>
           
-          <View style={{height:300, width: 300}}>
+          {/* <View style={{height:300, width: 300}}>
           <Card containerStyle={{padding: 0,paddingBottom:10}}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={{paddingRight:10}}><Image source={require('../../assets/livingRoom.jpg')} style = {{width:240, height:180}}/></View>
@@ -32,20 +32,39 @@ function ApercuScreen({navigation}){
             <Text style={{paddingBottom:20}}>2 pieces /30m2</Text>
             <Text style={{fontSize:35}}>700€/mois</Text>
           </Card>
-          </View>
+          </View> */}
 
           <View style={{height:300, width: 300}}>
-          <Card containerStyle={{padding: 0,paddingBottom:10}}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View style={{paddingRight:10}}><Image source={require('../../assets/livingRoom.jpg')} style = {{width:240, height:180}}/></View>
-            <View style={{paddingRight:10}}><Image source={require('../../assets/livingRoom.jpg')} style = {{width:240, height:180}}/></View>
-            </ScrollView>
+          <Card image= {require('../../assets/livingRoom.jpg')} containerStyle={{padding: 0,paddingBottom:10}}>
             <Text style={{paddingBottom:5, paddingTop:10}}>Appartemnt à louer, Paris 11eme</Text>
             <Text style={{paddingBottom:20}}>2 pieces /30m2</Text>
             <Text style={{fontSize:35}}>700€/mois</Text>
           </Card>
           </View>
           
+          <View style={{height:300, width: 300}}>
+          <Card image= {require('../../assets/livingRoom.jpg')} containerStyle={{padding: 0,paddingBottom:10}}>
+            <Text style={{paddingBottom:5, paddingTop:10}}>Appartemnt à louer, Paris 11eme</Text>
+            <Text style={{paddingBottom:20}}>2 pieces /30m2</Text>
+            <Text style={{fontSize:35}}>700€/mois</Text>
+          </Card>
+          </View>
+
+          <View style={{height:300, width: 300}}>
+          <Card image= {require('../../assets/livingRoom.jpg')} containerStyle={{padding: 0,paddingBottom:10}}>
+            <Text style={{paddingBottom:5, paddingTop:10}}>Appartemnt à louer, Paris 11eme</Text>
+            <Text style={{paddingBottom:20}}>2 pieces /30m2</Text>
+            <Text style={{fontSize:35}}>700€/mois</Text>
+          </Card>
+          </View>
+
+          <View style={{height:300, width: 300}}>
+          <Card image= {require('../../assets/livingRoom.jpg')} containerStyle={{padding: 0,paddingBottom:10}}>
+            <Text style={{paddingBottom:5, paddingTop:10}}>Appartemnt à louer, Paris 11eme</Text>
+            <Text style={{paddingBottom:20}}>2 pieces /30m2</Text>
+            <Text style={{fontSize:35}}>700€/mois</Text>
+          </Card>
+          </View>
         </ScrollView>
       </View>
       <Button
