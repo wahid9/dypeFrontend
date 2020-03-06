@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import { Input, Button, Tooltip } from 'react-native-elements';
@@ -12,43 +12,52 @@ import * as DocumentPicker from 'expo-document-picker';
 
 function Dossier({onCameraClick, navigation}) {
 
-  const [countID, setCountID] = useState(0);
+  const [countID, setCountID] = useState(1);
+  const [listIDdata, setListIDdata] = useState([]);
 
-  let listInputID=[]
 
-  for(let i=0; i<countID; i++){
+  const uploadFromPhone = async (docType) => {
 
-    listInputID.push(<View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
-      <Input
-        containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-        inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-        inputContainerStyle={{borderBottomWidth: 0}}
-        placeholder='fichier.jpg'
-      />
-      <Button
-        title="Télécharger"
-        buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-        containerStyle={{marginRight: 10}}
-        titleStyle={{color: 'white', fontSize: 14}}
-        
-      />
-      <SimpleLineIcons
-        name='camera'
-        size={30}
-        onPress={ () => {
-          onCameraClick(`id${i+2}`);
-          navigation.navigate('Camera')
-        }}
-      />
-      <EvilIcons
-        name='close'
-        size={30}
-        style={{marginLeft: 10}}
-        onPress={() => setCountID(countID-1)}
-      />
-    </View>
-    )
+    let documentFromPhone = await DocumentPicker.getDocumentAsync();
+    console.log('documentFromPhone :', documentFromPhone);
+
+    // FONCTIONNE POUR TOUT MAIS DANS LE FUTUR REVOIR AU PROPRE LA GESTION TYPE DE FICHIER (JPEG - PDF, ETC...)
+
+    var data = new FormData();
+    data.append('doc', {
+      uri: documentFromPhone.uri,
+      type: 'image/jpeg',
+      name: `${docType}`
+    });
+
+    console.log('data :', data);
+
+    //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
+
+    var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromphone", {
+      method: 'POST',
+      body: data
+    });
+    var response = await rawResponse.json();
+
+    console.log("REP", response);
+
+    setListIDdata([...listIDdata, response]);
+
   }
+
+
+  let listID = listIDdata.map(function(doc, i){
+    return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>fichier téléchargé</Text>
+              <EvilIcons
+                name='close'
+                size={30}
+                style={{marginLeft: 10, marginRight: 5}}
+              />
+            </View>
+  })
+
 
   return (
     <ScrollView style={{marginTop: 25}}>
@@ -77,39 +86,39 @@ function Dossier({onCameraClick, navigation}) {
         </Tooltip>
       </View>
 
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-        <Input
-          containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-          inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-          inputContainerStyle={{borderBottomWidth: 0}}
-          placeholder='fichier.jpg'
-        />
-        <Button
-          title="Télécharger"
-          buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-          containerStyle={{marginRight: 10}}
-          titleStyle={{color: 'white', fontSize: 14}}
-          onPress={ async () => {
-            let documentFromPhone = await DocumentPicker.getDocumentAsync();
-            console.log('documentFromPhone :', documentFromPhone);
-          }}
-        />
-        <SimpleLineIcons
-          name='camera'
-          size={30}
-          onPress={ () => {
-            onCameraClick('id1');
-            // navigation.navigate('Camera');
-          } }
-        />
-        <EvilIcons
-          name='close'
-          size={30}
-          style={{marginLeft: 10}}
-        />
-      </View>
+      {listID}
 
-      {listInputID}
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
+      <Input
+        containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
+        inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
+        inputContainerStyle={{borderBottomWidth: 0}}
+        placeholder='fichier.jpg'
+      />
+      <Button
+        title="Télécharger"
+        buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
+        containerStyle={{marginRight: 10}}
+        titleStyle={{color: 'white', fontSize: 14}}
+        onPress={ async () => {
+          uploadFromPhone('id');
+        }}
+      />
+      <SimpleLineIcons
+        name='camera'
+        size={30}
+        onPress={ () => {
+          // onCameraClick();
+          navigation.navigate('Camera')
+        }}
+      />
+      <EvilIcons
+        name='close'
+        size={30}
+        style={{marginLeft: 10}}
+        onPress={() => setCountID(countID-1)}
+      />
+    </View>
 
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 50}}>
         <Text>
