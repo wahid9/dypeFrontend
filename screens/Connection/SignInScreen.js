@@ -64,7 +64,7 @@ var signIn = async ()=> {
         {Btn}
       <Text style={{color:"white",marginTop:50}}>Mot de passe oublié?</Text>
       <Text style={{color:"white",marginTop:50}}
-      onPress = {()=> navigation.navigate("SingIn") }
+      onPress = {()=> navigation.navigate("SignUp") }
       >Pas de compte? S'inscrire</Text>
       <KeyboardAvoidingView behavior = "padding" enabled>
       </KeyboardAvoidingView>

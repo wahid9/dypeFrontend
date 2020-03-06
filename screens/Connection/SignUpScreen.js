@@ -103,7 +103,7 @@ var Btn;
             />
             {Btn}
       <Text style={{color:"white",marginTop:50}}
-      onPress = {()=> navigation.navigate("SingUp") }
+      onPress = {()=> navigation.navigate("SignIn") }
       >Déja membre? Se connecter</Text>
       <KeyboardAvoidingView behavior = "padding" enabled>
       </KeyboardAvoidingView>
