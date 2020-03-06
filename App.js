@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Inscription from './screens/Connection/SignUpScreen';
+import ForgotPassword from './screens/Connection/ForgotPassword';
 import Connection from './screens/Connection/SignInScreen';
 import HomePage from './screens/Connection/HomeScreen';
 import ApercuScreen from './screens/Annonces/ApercuScreen';
@@ -35,6 +36,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomePage} />
         <Stack.Screen name="SignIn" component={Connection} />
         <Stack.Screen name="SignUp" component={Inscription} />
+        <Stack.Screen name="MdpOublie" component={ForgotPassword} />
         <Stack.Screen name="Questionnaire" component={Questionnaire1Screen} />
         <Stack.Screen name="Favoris" component={FavorisScreen} />
         <Stack.Screen name="Camera" component={CameraScreen} />

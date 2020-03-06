@@ -57,14 +57,16 @@ var signIn = async ()=> {
         />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
         inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-        placeholder='Confirmation mot de passe'
+        placeholder='Mot de passe'
         onChangeText = {(value)=> setMdp(value)}
         value = {mdp}
         />
         {Btn}
-      <Text style={{color:"white",marginTop:50}}>Mot de passe oublié?</Text>
       <Text style={{color:"white",marginTop:50}}
-      onPress = {()=> navigation.navigate("SingIn") }
+      onPress = {()=> navigation.navigate("MdpOublie") }
+      >Mot de passe oublié?</Text>
+      <Text style={{color:"white",marginTop:50}}
+      onPress = {()=> navigation.navigate("SignUp") }
       >Pas de compte? S'inscrire</Text>
       <KeyboardAvoidingView behavior = "padding" enabled>
       </KeyboardAvoidingView>
