@@ -22,14 +22,12 @@ import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 const store = createStore(combineReducers({documentReducer}));
 
-
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
 
 <Provider store={store}>
-  
   <NavigationContainer>
 
     <Stack.Navigator
@@ -44,19 +42,18 @@ export default function App() {
         <Stack.Screen name="Match" component={MyDrawer} />
         <Stack.Screen name="Annonces" component={AnnonceScreen} />
       </Stack.Navigator>
-
   </NavigationContainer>
 </Provider>
+
 
 
   );
 }
 
-
 const Drawer = createDrawerNavigator();
 function MyDrawer() {
   return (
-    
+
     <Drawer.Navigator
     drawerContentOptions={{
       activeTintColor: '#FCE229',
@@ -72,9 +69,6 @@ function MyDrawer() {
       <Drawer.Screen name="Mes Favoris" component={FavorisScreen} />
       <Drawer.Screen name="Mes documents" component={Dossier}/>
 
-    </Drawer.Navigator>
-
+</Drawer.Navigator>
   );
 }
-
-
