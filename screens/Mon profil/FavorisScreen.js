@@ -16,16 +16,9 @@ function FavorisScreen({navigation}) {
    > 
    </Overlay>
    <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => navigation.openDrawer()} />
-<<<<<<< HEAD
-    <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
-      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginTop:30,marginBottom:30}}/>
-    </View>
-
-=======
       <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
       <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
       </View>
->>>>>>> afc2db34c0e6009298556d501c1048ffa74a6458
     <Text h4 style={{textAlign: 'center'}}>MES FAVORIS</Text>
    
     <Card image={require('../../assets/livingRoom.jpg')} >
