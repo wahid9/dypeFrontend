@@ -43,7 +43,7 @@ function RDVScreen({navigation}) {
                 width= {330}
                 isVisible={isCancelled}
                 onBackdropPress={() => {setIsCancelled(false)}}>
-            <Text>Pourquoi t'annules enculé</Text>
+            <Text></Text>
         </Overlay>
 
         <Overlay 
@@ -142,8 +142,8 @@ function RDVScreen({navigation}) {
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity 
-                            onPress = {()=> setIsCancelled(true)}
-                            // onPress={()=> Alert.alert("Pourquoi t'annules enculé")}
+                            // onPress = {()=> setIsCancelled(true)}
+                            onPress={()=> Alert.alert("Votre rendez-vous est bien annulé")}
                             >
                                 <View style={{flexDirection:'row'}}>
                                     <IconCross name={'x-circle'} size={20}></IconCross>
@@ -152,8 +152,75 @@ function RDVScreen({navigation}) {
                             </TouchableOpacity>
                         </View>
                         </Card>
-                    
-
+                        <Card containerStyle={{height: 'auto'}}>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={{paddingRight:10, flex:3}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut efficitur ornare nunc, in tempus ex. Morbi ac tortor </Text>
+                            <Image source={require('../../assets/livingRoom.jpg')} style={{height: 60, width: 90}}></Image>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-around', paddingTop:20}}>
+                            <TouchableOpacity onPress = {()=> setIsVisible(true)}>
+                                <View style={{flexDirection:'row'}}>
+                                    <IconClock name={'restore-clock'} size={25} style={{marginTop:-4}}/>
+                                    <Text style={{marginLeft:5}}>déplacer le rdv</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                            // onPress = {()=> setIsCancelled(true)}
+                            onPress={()=> Alert.alert("Votre rendez-vous est bien annulé")}
+                            >
+                                <View style={{flexDirection:'row'}}>
+                                    <IconCross name={'x-circle'} size={20}></IconCross>
+                                    <Text style={{marginLeft:5}}>annuler le rdv</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        </Card>
+                        <Card containerStyle={{height: 'auto'}}>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={{paddingRight:10, flex:3}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut efficitur ornare nunc, in tempus ex. Morbi ac tortor </Text>
+                            <Image source={require('../../assets/livingRoom.jpg')} style={{height: 60, width: 90}}></Image>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-around', paddingTop:20}}>
+                            <TouchableOpacity onPress = {()=> setIsVisible(true)}>
+                                <View style={{flexDirection:'row'}}>
+                                    <IconClock name={'restore-clock'} size={25} style={{marginTop:-4}}/>
+                                    <Text style={{marginLeft:5}}>déplacer le rdv</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                            // onPress = {()=> setIsCancelled(true)}
+                            onPress={()=> Alert.alert("Votre rendez-vous est bien annulé")}
+                            >
+                                <View style={{flexDirection:'row'}}>
+                                    <IconCross name={'x-circle'} size={20}></IconCross>
+                                    <Text style={{marginLeft:5}}>annuler le rdv</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        </Card>
+                        <Card containerStyle={{height: 'auto'}}>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={{paddingRight:10, flex:3}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut efficitur ornare nunc, in tempus ex. Morbi ac tortor </Text>
+                            <Image source={require('../../assets/livingRoom.jpg')} style={{height: 60, width: 90}}></Image>
+                        </View>
+                        <View style={{flexDirection:'row', justifyContent:'space-around', paddingTop:20}}>
+                            <TouchableOpacity onPress = {()=> setIsVisible(true)}>
+                                <View style={{flexDirection:'row'}}>
+                                    <IconClock name={'restore-clock'} size={25} style={{marginTop:-4}}/>
+                                    <Text style={{marginLeft:5}}>déplacer le rdv</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                            // onPress = {()=> setIsCancelled(true)}
+                            onPress={()=> Alert.alert("Votre rendez-vous est bien annulé")}
+                            >
+                                <View style={{flexDirection:'row'}}>
+                                    <IconCross name={'x-circle'} size={20}></IconCross>
+                                    <Text style={{marginLeft:5}}>annuler le rdv</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        </Card>
             </View>
         </ScrollView>
         </View>

@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import {Calendar, CalendarList, Agenda, LocaleConfig} from 'react-native-calendars';
 import IconBurger from '@expo/vector-icons/Feather';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerActions } from '@react-navigation/native';
 
 function AnnonceScreen({navigation}) {
 
@@ -14,7 +14,7 @@ function AnnonceScreen({navigation}) {
     const [calendarDay, setCalendarDay] = useState('');
     const [confirmation, setConfirmation] = useState(false);
     const [monRdv, setMonRdv] = useState ({});
-    const [opacity, setOpacity] = useState(1)
+    const [colorButton, setColorButton] = useState("#125CE0")
  
 
     LocaleConfig.locales['fr'] = {
@@ -40,6 +40,18 @@ function AnnonceScreen({navigation}) {
 
     var handleSubmitHour = () => {setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '14:30'})}
     // console.log('rrrr', monRdv)
+
+    // var handlePressed =() => {
+    //     navigation.dispatch(
+    //         CommonActions.reset({
+    //           index:0 ,
+    //           routes: [
+    //             { name: 'MesMatchs' },
+               
+    //           ],
+    //         })
+    //       );}
+
     return (
 
         <View style={{flex: 1}}>
@@ -78,9 +90,9 @@ function AnnonceScreen({navigation}) {
                         <Button 
                             title= '11:30'
                             titleStyle={{fontSize: 14}}
-                            buttonStyle= {{backgroundColor: "#125CE0", height:44, width: 96, opacity: 0.5}}
+                            buttonStyle= {{backgroundColor: colorButton, height:44, width: 96}}
                             containerStyle = {{borderRadius:30}} 
-                            onPress ={()=> { setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '11:30'}); console.log('rrrr', monRdv)}}
+                            onPress ={()=> { setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '11:30'}); setColorButton('#74b9ff')}}
                             />
                         <Button 
                             title= '14:30'
@@ -123,7 +135,7 @@ function AnnonceScreen({navigation}) {
 
             <ScrollView style={{marginTop: 25}}>
                 
-            <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => navigation.openDrawer()} />
+            <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => { navigation.openDrawer()}} />
             <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
                 <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
             </View>
