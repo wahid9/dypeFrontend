@@ -1,19 +1,26 @@
 import React, {useEffect,useState} from 'react';
 import {Card, Text,Icon,Button} from 'react-native-elements';
-import { StyleSheet, View,Image,ScrollView,TouchableOpacity } from 'react-native';
+import { StyleSheet, View,Image,ScrollView,TouchableOpacity,AsyncStorage} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
  
 function MesMatchScreens({navigation}) {
   const [like, setLike] = useState(false)
+  const [tabLiked,setTabLiked]= useState([])
 
     var colorLike;
     var AnnonceLiked = () =>{
       setLike(!like)
+      
+    }
+
+    var sendFavoris = ()=>{
+      AsyncStorage.setItem("likedAnnonces",JSON.stringify())
     }
 
     if(like){
       colorLike = "red"
+    
     }
 
 
@@ -21,6 +28,8 @@ function MesMatchScreens({navigation}) {
   useEffect(() => {
     fetchData();
   }, []);
+
+
   
   var  fetchData= async ()=> {
     var data =  await fetch("http://10.2.5.232:3000/RecoverAnnonce");
@@ -30,6 +39,10 @@ function MesMatchScreens({navigation}) {
   }
     var lesAnnonces;
 
+
+
+
+
   annonce.map( ( annonce, i ) =>{
       lesAnnonces = <TouchableOpacity onPress = {()=> navigation.navigate('Annonces')}>
       <Card image={{ uri: annonce.image }} imageStyle= {{height:250}}>
@@ -38,7 +51,7 @@ function MesMatchScreens({navigation}) {
           <Text style={{marginBottom:5}}>{annonce.nbPiece} / {annonce.surface}</Text>
           <Text h4 style={{marginBottom:5}}>{annonce.prix}</Text> 
           <Image source={{ uri: annonce.image }}/>
-          <IconFontAwesome  onPress = {()=>AnnonceLiked()}style={{alignSelf: 'flex-end', marginRight:5}}
+          <IconFontAwesome  onPress = {()=>AnnonceLiked()} style={{alignSelf: 'flex-end', marginRight:5}}
               name="heart"
               size={25}
               color={colorLike}
@@ -46,7 +59,7 @@ function MesMatchScreens({navigation}) {
       </Card>
       </TouchableOpacity>
   })
-  console.log(lesAnnonces)
+  
   return (
     <ScrollView style={{marginTop: 25}}>
       
