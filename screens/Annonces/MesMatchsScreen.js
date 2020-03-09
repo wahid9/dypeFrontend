@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Card, Text,Icon,Button} from 'react-native-elements';
 import { StyleSheet, View,Image,ScrollView,TouchableOpacity } from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
  
 function MesMatchScreens({navigation}) {
+  const [like, setLike] = useState(false)
+
+    var colorLike;
+    var AnnonceLiked = () =>{
+      setLike(!like)
+    }
+
+    if(like){
+      colorLike = "red"
+    }
+
   return (
     <ScrollView style={{marginTop: 25}}>
       
@@ -20,10 +31,10 @@ function MesMatchScreens({navigation}) {
             <Text>Appartement à louer,Paris 11eme. </Text>
             <Text>2 pièces/30m2. </Text>
             <Text h4>700€/mois </Text>
-            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
+            <IconFontAwesome onPress={()=>AnnonceLiked()} style={{alignSelf: 'flex-end', marginRight:5}}
                 name="heart"
                 size={25}
-                color="black"
+                color={colorLike}
             />
         </Card>
         </TouchableOpacity>
