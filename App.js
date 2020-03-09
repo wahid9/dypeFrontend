@@ -15,14 +15,14 @@ import MesMatchScreens from './screens/Annonces/MesMatchsScreen';
 import Questionnaire1Screen from './screens/Questionnaire et dossier/Questionnaire1Screen';
 import FavorisScreen from './screens/Mon profil/FavorisScreen'
 import CameraScreen from './screens/Questionnaire et dossier/CameraScreen'
-import Dossier from './screens/Questionnaire et dossier/DossierScreen'
+import DossierScreen from './screens/Questionnaire et dossier/DossierScreen'
 import AnnonceScreen from './screens/Annonces/AnnonceScreen';
 import RDVScreen from './screens/Mon profil/RDVScreen';
 
-import documentReducer from './reducers/documentReducer';
+import docType from './reducers/docTypeReducer';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
-const store = createStore(combineReducers({documentReducer}));
+const store = createStore(combineReducers({docType}));
 
 const Stack = createStackNavigator();
 
@@ -45,14 +45,15 @@ export default function App() {
         <Stack.Screen name="Match" component={MyDrawer} />
         <Stack.Screen name="Annonces" component={AnnonceScreen} />
         <Stack.Screen name="RendezVous" component={RDVScreen} />
+        <Stack.Screen name="Dossier" component={DossierScreen} />
       </Stack.Navigator>
   </NavigationContainer>
 </Provider>
 
 
-
   );
 }
+
 
 const Drawer = createDrawerNavigator();
 function MyDrawer() {
@@ -71,7 +72,7 @@ function MyDrawer() {
     }}>
       <Drawer.Screen name="Mes matchs" component={MesMatchScreens} />
       <Drawer.Screen name="Mes Favoris" component={FavorisScreen} />
-      <Drawer.Screen name="Mes documents" component={Dossier}/>
+      <Drawer.Screen name="Mes documents" component={DossierScreen}/>
       <Drawer.Screen name="Mes rdv" component={RDVScreen} />
       <Drawer.Screen name=";" component={AnnonceScreen} />
 
