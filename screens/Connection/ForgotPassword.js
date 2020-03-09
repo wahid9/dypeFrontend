@@ -34,7 +34,7 @@ function ForgotPassword({navigation}) {
           buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
           title="Confirmer"
           string = "#79d279" 
-          onPress={() => navigation.navigate('SignIn') }
+          onPress={() => { Alert.alert("Votre nouveau mot de passe a bien été enregistré"),navigation.navigate('SignIn') }}
       />
   }
 
