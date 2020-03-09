@@ -6,6 +6,8 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import { Camera } from 'expo-camera';
 import { connect } from 'react-redux';
 
+// BESOIN DE GERER LE UNMOUNT DU COMPOSANT CAMERA?? CA MARCHE BIEN CHEZ MOI
+
 function SnapScreen(props) {
   
   const [hasPermission, setHasPermission] = useState(null);
@@ -14,7 +16,6 @@ function SnapScreen(props) {
   var camera = useRef(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [photoUri, setPhotoUri] = useState ();
-  const [validationPhoto, setValidationPhoto] = useState(false);
 
   // DEMANDE DE PERMISSION ACCES A L'APPAREIL PHOTO DU TELEPHONE
 
@@ -99,6 +100,9 @@ function SnapScreen(props) {
                     body: data
                   });
                   var response = await rawResponse.json();
+
+                  props.addDocument(response.docUploaded);
+
                 setPreviewVisible(false);
                 // props.navigation.navigate('Dossier');
               }}
@@ -141,7 +145,15 @@ function mapStateToProps(state){
   return { docType: state.docType }
 };
 
+function mapDispatchToProps(dispatch){
+  return {
+    addDocument: function(document){
+      dispatch({type: 'addDocument', document});
+    }
+  }
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(SnapScreen);

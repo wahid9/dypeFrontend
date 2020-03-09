@@ -8,6 +8,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Inscription from './screens/Connection/SignUpScreen';
 import ForgotPassword from './screens/Connection/ForgotPassword';
+
 import Connection from './screens/Connection/SignInScreen';
 import HomePage from './screens/Connection/HomeScreen';
 import ApercuScreen from './screens/Annonces/ApercuScreen';
@@ -20,9 +21,10 @@ import AnnonceScreen from './screens/Annonces/AnnonceScreen';
 import RDVScreen from './screens/Mon profil/RDVScreen';
 
 import docType from './reducers/docTypeReducer';
+import docList from './reducers/docListReducer';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
-const store = createStore(combineReducers({docType}));
+const store = createStore(combineReducers({docType, docList}));
 
 const Stack = createStackNavigator();
 
@@ -50,10 +52,8 @@ export default function App() {
   </NavigationContainer>
 </Provider>
 
-
   );
 }
-
 
 const Drawer = createDrawerNavigator();
 function MyDrawer() {
