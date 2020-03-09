@@ -3,11 +3,11 @@ import {Card, Text,Icon,Button} from 'react-native-elements';
 import { StyleSheet, View,Image,ScrollView,TouchableOpacity,AsyncStorage} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
-
  
 function MesMatchScreens({navigation}) {
   
   const [tabLiked,setTabLiked]= useState([])
+  const [annonce, setAnnonce] = useState([]);
 
    
   
@@ -17,12 +17,12 @@ function MesMatchScreens({navigation}) {
       AsyncStorage.setItem("likedAnnonces",JSON.stringify(tabLiked))
     }
 
-
-
-    
-
-
   const [annonce, setAnnonce] = useState([]);
+    if(like){
+      colorLike = "red"
+    
+    }
+  
   useEffect(() => {
     fetchData();
   }, []);
