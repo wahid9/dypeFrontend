@@ -1,19 +1,147 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Camera Screen</Text>
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
+import {Button, Overlay, Image} from 'react-native-elements';
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import { Camera } from 'expo-camera';
+import { connect } from 'react-redux';
+
+function SnapScreen(props) {
+  
+  const [hasPermission, setHasPermission] = useState(null);
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  
+  var camera = useRef(null);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [photoUri, setPhotoUri] = useState ();
+  const [validationPhoto, setValidationPhoto] = useState(false);
+
+  // DEMANDE DE PERMISSION ACCES A L'APPAREIL PHOTO DU TELEPHONE
+
+  useEffect(() => { 
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  // APPAREIL PHOTO
+
+  var cameraDisplay
+   if(hasPermission) {
+    cameraDisplay = <Camera style={{ flex: 1 }} 
+    type={Camera.Constants.Type.back}
+    flashMode={flash}
+    ref={ref => (camera = ref)}
+    >
+      <View    
+        style={{
+          flex: 1,
+          backgroundColor: 'transparent',
+          flexDirection: 'row',
+        }}>
+  
+        <TouchableOpacity
+          style={{
+         
+            alignSelf: 'flex-end',
+            alignItems: 'center',
+          }}
+          onPress={() => {
+            setFlash(
+              flash === Camera.Constants.FlashMode.torch
+                ? Camera.Constants.FlashMode.off
+                : Camera.Constants.FlashMode.torch
+            );
+          }}>
+           <IconFontAwesome
+                name="flash"
+                size={20}
+                color="#ffffff"
+            /><Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flash </Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
+    </Camera>
+   } else {
+    cameraDisplay = <View style={{ flex: 1 }}></View>
+   }
+
+  return (
+    <View style={{flex:1}}>
+
+          <Overlay isVisible={previewVisible} width= '80%' height='80%'>
+            <Image 
+              source={{uri: photoUri}}
+              style={{width: '100%', height: '90%', marginBottom: 0, paddingBottom: 0}}
+            />
+            <Button
+              title="Prendre à nouveau"
+              buttonStyle={{backgroundColor: '#125ce0', width: '90%', height: 40}}
+              containerStyle={{alignItems: 'center', marginTop: -35, marginBottom: 5}}
+              titleStyle={{color: 'white', fontSize: 14}}
+              onPress={()=>setPreviewVisible(false)}
+            />
+            <Button
+              title="Valider cette photo"
+              buttonStyle={{backgroundColor: '#125ce0', width: '90%', height: 40}}
+              containerStyle={{alignItems: 'center'}}
+              titleStyle={{color: 'white', fontSize: 14}}
+              onPress={async()=>{
+                var data = new FormData();
+                  data.append('photo', {
+                    uri: photoUri,
+                    type: 'image/jpeg',
+                    name: `${props.docType}+photo.jpg`
+                  });
+  
+                  var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromcamera", {
+                    method: 'POST',
+                    body: data
+                  });
+                  var response = await rawResponse.json();
+                setPreviewVisible(false);
+                // props.navigation.navigate('Dossier');
+              }}
+            />
+          </Overlay>
+
+        {cameraDisplay}
+    
+        <Button
+            onPress={async () => {
+
+              if (camera) {
+
+                let photo = await camera.takePictureAsync({quality : 0.7});    // POSSIBILITE D'OPTIMISATION DE LA GESTION QUALITE
+                setPhotoUri(photo.uri);
+
+                setPreviewVisible(true);
+                  
+              }
+            }}
+            icon={
+              <SimpleLineIcons
+              name='camera'
+              size={30}
+              style={{color: 'white'}}
+            />
+            }
+            title="Prendre la photo"
+            titleStyle={{marginLeft: 10}}
+            buttonStyle={{backgroundColor: "#125ce0", borderRadius: 0}}
+            type="solid"
+        />
+   
+    
+</View>
+  );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
+
+function mapStateToProps(state){
+  return { docType: state.docType }
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(SnapScreen);

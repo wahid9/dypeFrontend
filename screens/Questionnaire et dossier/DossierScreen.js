@@ -12,12 +12,13 @@ import * as DocumentPicker from 'expo-document-picker';
 
 function Dossier({onCameraClick, navigation}) {
 
-  const [countID, setCountID] = useState(1);
+  // const [countID, setCountID] = useState(1);
   const [listIDdata, setListIDdata] = useState([]);
 
   useEffect(() => {
     const fetchData = async() => {
-
+          // RECUPERE DANS LA BDD LES DOCUMENTS DEJA TELECHARGES PAR L'UTILISATEUR
+          // BESOIN DE RENSEIGNER LE TOKEN UTILISATEUR
           //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
 
       var rawData = await fetch("http://10.2.5.181:3000/getDocuments");
@@ -27,6 +28,9 @@ function Dossier({onCameraClick, navigation}) {
     fetchData();
   }, []);
   
+
+  // TELECHARGEMENT DE DOCUMENTS DEPUIS LE TELEPHONE:
+
   const uploadFromPhone = async (docType) => {
 
     let documentFromPhone = await DocumentPicker.getDocumentAsync();
@@ -41,6 +45,7 @@ function Dossier({onCameraClick, navigation}) {
     });
 
               //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
+              // BESOIN DE RENSEIGNER LE TOKEN UTILISATEUR
 
     var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromphone", {
       method: 'POST',
@@ -52,6 +57,8 @@ function Dossier({onCameraClick, navigation}) {
 
   }
 
+
+  // ELEMENTS JSX REPRESENTANT LES FICHIERS D'IDENTITE DEJA TELECHARGES
 
   let listID = listIDdata.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -94,49 +101,34 @@ function Dossier({onCameraClick, navigation}) {
 
       {listID}
 
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
-      <Input
-        containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-        inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-        inputContainerStyle={{borderBottomWidth: 0}}
-        placeholder='fichier.jpg'
-      />
-      <Button
-        title="Télécharger"
-        buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-        containerStyle={{marginRight: 10}}
-        titleStyle={{color: 'white', fontSize: 14}}
-        onPress={ async () => {
-          uploadFromPhone('id');
-        }}
-      />
-      <SimpleLineIcons
-        name='camera'
-        size={30}
-        onPress={ () => {
-          // onCameraClick();
-          navigation.navigate('Camera')
-        }}
-      />
-      <EvilIcons
-        name='close'
-        size={30}
-        style={{marginLeft: 10}}
-        onPress={() => setCountID(countID-1)}
-      />
-    </View>
-
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 50}}>
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
+      
+      
+      
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
           Ajouter un fichier:
         </Text>
         <IconAntDesing
           name='addfile'
           size={25}
-          style={{marginLeft: 10, color: '#125ce0'}}
-          onPress={() => setCountID(countID+1)}
+          style={{marginLeft: 10, marginRight: 10, color: '#125ce0'}}
+          onPress={ async () => {
+            uploadFromPhone('id');
+          }}
         />
+        <SimpleLineIcons
+        name='camera'
+        size={30}
+        style={{color: '#125ce0'}}
+        onPress={ () => {
+          onCameraClick('id');
+          navigation.navigate('Camera');
+        }}
+      />
       </View>
+
+    </View>
 
 
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginTop: 20}}>
