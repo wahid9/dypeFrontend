@@ -14,19 +14,17 @@ function MesMatchScreens({navigation}) {
   var  fetchData= async ()=> {
     var data =  await fetch("http://10.2.5.232:3000/RecoverAnnonce");
     var response = await data.json();
-
-    setAnnonce([... annonce, ...response.rep]) 
+    console.log(response.rep)
+    setAnnonce(response.rep) 
   }
-    var lesAnnonces;
-
-  annonce.map( ( annonce, i ) =>{
-      lesAnnonces = <TouchableOpacity onPress = {()=> navigation.navigate('Annonces')}>
-      <Card image={{ uri: annonce.image }} imageStyle= {{height:250}}>
-          <Text style={{marginBottom:5, fontSize:25}}>{annonce.typeDeBien}</Text>
-          <Text style={{marginBottom:5}}>{annonce.descriptionBref}</Text>
-          <Text style={{marginBottom:5}}>{annonce.nbPiece} / {annonce.surface}</Text>
-          <Text h4 style={{marginBottom:5}}>{annonce.prix}</Text> 
-          <Image source={{ uri: annonce.image }}/>
+    var lesAnnonces = annonce.map( ( data, i ) =>{
+      return( <TouchableOpacity onPress = {()=> navigation.navigate('Annonces')}>
+      <Card image={{ uri: data.image }} imageStyle= {{height:250}}>
+          <Text style={{marginBottom:5, fontSize:25}}>{data.typeDeBien}</Text>
+          <Text style={{marginBottom:5}}>{data.descriptionBref}</Text>
+          <Text style={{marginBottom:5}}>{data.nbPiece} / {data.surface}</Text>
+          <Text h4 style={{marginBottom:5}}>{data.prix}</Text> 
+          <Image source={{ uri: data.image }}/>
           <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
               name="heart"
               size={25}
@@ -34,8 +32,9 @@ function MesMatchScreens({navigation}) {
           />
       </Card>
       </TouchableOpacity>
-  })
-  console.log(lesAnnonces)
+  )}
+  )
+  // console.log(lesAnnonces)
   return (
     <ScrollView style={{marginTop: 25}}>
       
