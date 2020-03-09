@@ -5,7 +5,8 @@ import {Card, Text,Button} from 'react-native-elements';
 function ApercuScreen({navigation}){
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127,marginTop:-150, marginBottom:50}}/>
+      {/* <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127,marginTop:-150, marginBottom:50}}/> */}
+      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
       <Text h4 style={{textAlign: 'center', marginBottom:20}}>Aperçu des biens disponible</Text>
       <View style={{ height:310}}>
         <ScrollView horizontal={true}>
@@ -34,7 +35,7 @@ function ApercuScreen({navigation}){
           </Card>
           </View> */}
 
-          <View style={{height:300, width: 300}}>
+          <View >
           <Card image= {require('../../assets/livingRoom.jpg')} containerStyle={{padding: 0,paddingBottom:10}}>
             <Text style={{paddingBottom:5, paddingTop:10}}>Appartemnt à louer, Paris 11eme</Text>
             <Text style={{paddingBottom:20}}>2 pieces /30m2</Text>
