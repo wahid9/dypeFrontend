@@ -6,23 +6,20 @@ import IconBurger from '@expo/vector-icons/Feather';
 
  
 function MesMatchScreens({navigation}) {
-  const [like, setLike] = useState(false)
+  
   const [tabLiked,setTabLiked]= useState([])
 
-    var colorLike;
-    var AnnonceLiked = () =>{
-      setLike(!like)
-      
+   
+  
+
+    var sendFavoris = (i)=>{
+      setTabLiked([...tabLiked,annonce[i]])
+      AsyncStorage.setItem("likedAnnonces",JSON.stringify(tabLiked))
     }
 
-    var sendFavoris = ()=>{
-      AsyncStorage.setItem("likedAnnonces",JSON.stringify())
-    }
 
-    if(like){
-      colorLike = "red"
+
     
-    }
 
 
   const [annonce, setAnnonce] = useState([]);
@@ -33,23 +30,26 @@ function MesMatchScreens({navigation}) {
 
   
   var  fetchData= async ()=> {
-    var data =  await fetch("http://10.2.5.232:3000/RecoverAnnonce");
+    var data =  await fetch("http://10.2.5.189:3000/RecoverAnnonce");
     var response = await data.json();
-    console.log(response.rep)
-    setAnnonce(response.rep) 
+    setAnnonce(response.rep)
+  
   }
-    var lesAnnonces = annonce.map( ( data, i ) =>{
-      return( <TouchableOpacity onPress = {()=> navigation.navigate('Annonces')}>
+  var postion = null;
+  console.log(tabLiked)
+
+    var lesAnnonces = annonce.map((data, i ) =>{
+      return( <TouchableOpacity key={i} onPress = {()=> navigation.navigate('Annonces')}>
       <Card image={{ uri: data.image }} imageStyle= {{height:250}}>
           <Text style={{marginBottom:5, fontSize:25}}>{data.typeDeBien}</Text>
           <Text style={{marginBottom:5}}>{data.descriptionBref}</Text>
           <Text style={{marginBottom:5}}>{data.nbPiece} / {data.surface}</Text>
           <Text h4 style={{marginBottom:5}}>{data.prix}</Text> 
           <Image source={{ uri: data.image }}/>
-          <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
+          <IconFontAwesome onPress = {()=>sendFavoris(i)} style={{alignSelf: 'flex-end', marginRight:5}}
               name="heart"
               size={25}
-              color={colorLike}
+              color="black"
           />
       </Card>
       </TouchableOpacity>

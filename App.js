@@ -92,7 +92,7 @@ function MyStack() {
 
 <StackNew.Navigator headerMode= "none">
   <StackNew.Screen name="MesMatchs" component={MyDrawer} />
-  <StackNew.Screen name="Annonces" component={MyDrawer} />
+  <StackNew.Screen name="Annonces" component={AnnonceScreen} />
   <StackNew.Screen name="RendezVous" component={RDVScreen} /> 
 </StackNew.Navigator>
   );

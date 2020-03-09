@@ -1,5 +1,5 @@
-import React,{useState} from 'react';
-import { StyleSheet, View,Image,ScrollView, Alert} from 'react-native';
+import React,{useState,useEffect} from 'react';
+import { StyleSheet, View,Image,ScrollView, Alert, AsyncStorage} from 'react-native';
 import {Card, Badge, Text,Button} from 'react-native-elements';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Overlay } from 'react-native-elements';
@@ -8,6 +8,15 @@ import IconBurger from '@expo/vector-icons/Feather';
 function FavorisScreen({navigation}) {
  
   const [isVisible, setIsVisible] = useState(false);
+
+  // var getFavoris = () =>{
+  //   AsyncStorage.getItem("likedAnnonces",function(error, annonces){
+  //     console.log(annonces);
+  //     })
+  // }
+  useEffect(() => {
+    getFavoris();
+  }, []);
   return (
     <ScrollView style={{marginTop: 25}}>
        <Overlay
