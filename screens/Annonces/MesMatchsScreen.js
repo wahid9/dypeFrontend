@@ -1,10 +1,57 @@
-import React from 'react';
+import React, {useEffect,useState} from 'react';
 import {Card, Text,Icon,Button} from 'react-native-elements';
-import { StyleSheet, View,Image,ScrollView,TouchableOpacity } from 'react-native';
+import { StyleSheet, View,Image,ScrollView,TouchableOpacity,AsyncStorage} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
  
 function MesMatchScreens({navigation}) {
+  const [like, setLike] = useState(false);
+  const [annonce, setAnnonce] = useState([]);
+
+    var colorLike;
+    var AnnonceLiked = () =>{
+      setLike(!like)
+      
+    }
+
+    var sendFavoris = ()=>{
+      AsyncStorage.setItem("likedAnnonces",JSON.stringify())
+    }
+    if(like){
+      colorLike = "red"
+    
+    }
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
+  
+  var  fetchData= async ()=> {
+    var data =  await fetch("http://10.2.5.181:3000/RecoverAnnonce");
+    var response = await data.json();
+    setAnnonce(response.rep) 
+  }
+  
+  var lesAnnonces = annonce.map( ( data, i ) =>{
+      return( 
+      <TouchableOpacity key = {i} onPress = {()=> navigation.navigate('Annonces')}>
+        <Card image={{ uri: data.image }} imageStyle= {{height:250}}>
+            <Text style={{marginBottom:5, fontSize:25}}>{data.localisation}</Text>
+            <Text style={{marginBottom:5, fontSize:20}}>{data.typeDeBien}</Text>
+            <Text style={{marginBottom:5}}>{data.descriptionBref}</Text>
+            <Text style={{marginBottom:5}}>{data.nbPiece} / {data.surface}</Text>
+            <Text h4 style={{marginBottom:5}}>{data.prix}</Text> 
+            <Image source={{ uri: data.image }}/>
+            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
+                name="heart"
+                size={25}
+                color={colorLike}
+            />
+        </Card>
+      </TouchableOpacity>)
+  })
   return (
     <ScrollView style={{marginTop: 25}}>
       
@@ -12,45 +59,9 @@ function MesMatchScreens({navigation}) {
       <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
       <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
       </View>
-      
-       
         <Text h4 style={{textAlign: 'center'}}>Mes matchs</Text>
-        <TouchableOpacity onPress = {()=> navigation.navigate('Annonces')}>
-        <Card image={require('../../assets/livingRoom.jpg')} onPress = {()=> console.log("j'ai toucher")}>
-            <Text>Appartement à louer,Paris 11eme. </Text>
-            <Text>2 pièces/30m2. </Text>
-            <Text h4>700€/mois </Text>
-            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
-                name="heart"
-                size={25}
-                color="black"
-            />
-        </Card>
-        </TouchableOpacity>
-        <Card image={require('../../assets/livingRoom.jpg')}>
-            <Text>Appartement à louer,Paris 11eme. </Text>
-            <Text>2 pièces/30m2. </Text>
-            <Text h4>700€/mois </Text>
-            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
-                name="heart"
-                size={25}
-                color="black"
-            />
-        </Card>
-        <Card image={require('../../assets/livingRoom.jpg')}>
-            <Text>Appartement à louer,Paris 11eme. </Text>
-            <Text>2 pièces/30m2. </Text>
-            <Text h4>700€/mois </Text>
-            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
-                name="heart"
-                size={25}
-                color="black"
-            />
-        </Card>
+        {lesAnnonces}
     </ScrollView>
-   
-    
-
   );
 }
 
