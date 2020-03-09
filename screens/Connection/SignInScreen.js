@@ -18,7 +18,7 @@ var signIn = async ()=> {
   if(response.success == false){
     Alert.alert("Email ou mot de passe incorrects", "Veuillez saisir le bon email et mot de passe")
   }else{
-    navigation.navigate('Apercu');
+    navigation.navigate('Criteres');
   }
 }
   var Btn;

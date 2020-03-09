@@ -18,7 +18,7 @@ function Inscription({navigation}) {
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `nom=${nom}&prenom=${prenom}&email=${email}&mdp=${mdp}&mdpConfirm=${mdpConfirm}`
   })
-    navigation.navigate("Apercu");}
+    navigation.navigate("Criteres");}
   }
 var Btn;
   if(nom == ""){
