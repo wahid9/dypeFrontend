@@ -22,9 +22,10 @@ import Critere from './screens/Annonces/CriteresScreen';
 import MyDrawer from './screens/Navigation/DrawerScreen';
 
 import docType from './reducers/docTypeReducer';
+import docList from './reducers/docListReducer';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
-const store = createStore(combineReducers({docType}));
+const store = createStore(combineReducers({docType, docList}));
 
 
 const Stack = createStackNavigator();
@@ -110,5 +111,3 @@ function MyStack() {
 // </ThirdStack.Navigator>
 //   );
 // }
-
-

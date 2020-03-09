@@ -9,11 +9,14 @@ import IconBurger from '@expo/vector-icons/Feather';
 
 import * as DocumentPicker from 'expo-document-picker';
 
+function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}) {
 
-function Dossier({onCameraClick, navigation}) {
-
-  // const [countID, setCountID] = useState(1);
   const [listIDdata, setListIDdata] = useState([]);
+  const [listJDdata, setListJDdata] = useState([]);
+  const [listBSdata, setListBSdata] = useState([]);
+  const [listCTdata, setListCTdata] = useState([]);
+  const [listAIdata, setListAIdata] = useState([]);
+
 
   useEffect(() => {
     const fetchData = async() => {
@@ -23,13 +26,21 @@ function Dossier({onCameraClick, navigation}) {
 
       var rawData = await fetch("http://10.2.5.181:3000/getDocuments");
       var data = await rawData.json();
-      setListIDdata(data.documents);
+      // setListIDdata(data.documents);
+      getDocuments(data.documents);
+
+      for(let i=0; i<docList.length; i++){
+        if(docList[i].type[0]==='i' && docList[i].type[1]==='d'){
+          setListIDdata( [...listIDdata, docList[i]] );
+        }
+      }
+
     }
     fetchData();
   }, []);
   
 
-  // TELECHARGEMENT DE DOCUMENTS DEPUIS LE TELEPHONE:
+  // TELECHARGEMENT DE DOCUMENTS DEPUIS LE TELEPHONE: §§§ RESTE A VOIR AVEC LES IPHONES §§§
 
   const uploadFromPhone = async (docType) => {
 
@@ -43,6 +54,7 @@ function Dossier({onCameraClick, navigation}) {
       type: 'image/jpeg',
       name: `${docType}+${documentFromPhone.name}`
     });
+    // data.append('typedefichier', docType)  POUR PASSER PLUS PROPRE LE TYPE DE FICHIER AU BACK -> A RECUPERER DANS LE REQ.BODY ET NON REQ.FILES
 
               //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
               // BESOIN DE RENSEIGNER LE TOKEN UTILISATEUR
@@ -53,13 +65,41 @@ function Dossier({onCameraClick, navigation}) {
     });
     var response = await rawResponse.json();
 
-    setListIDdata([...listIDdata, response.docUploaded]);
+    addDocument(response.docUploaded);
 
   }
 
+  // FILTRE POUR TROUVER LES DOCUMENTS D'IDENTITE DEPUIS DOCLIST DU STORE
 
-  // ELEMENTS JSX REPRESENTANT LES FICHIERS D'IDENTITE DEJA TELECHARGES
+  let tempListID=[];
+  let tempListJD=[];
+  let tempListBS=[];
+  let tempListCT=[];
+  let tempListAI=[];
 
+  useEffect(()=>{
+    for(let i=0; i<docList.length; i++){
+      if(docList[i].type[0]==='i' && docList[i].type[1]==='d'){
+        tempListID.push(docList[i]);
+      } else if(docList[i].type[0]==='j' && docList[i].type[1]==='d'){
+        tempListJD.push(docList[i]);
+      } else if(docList[i].type[0]==='b' && docList[i].type[1]==='s'){
+        tempListBS.push(docList[i]);
+      } else if(docList[i].type[0]==='c' && docList[i].type[1]==='t'){
+        tempListCT.push(docList[i]);
+      } else if(docList[i].type[0]==='a' && docList[i].type[1]==='i'){
+        tempListAI.push(docList[i]);
+      }
+    }
+    setListIDdata(tempListID);
+    setListJDdata(tempListJD);
+    setListBSdata(tempListBS);
+    setListCTdata(tempListCT);
+    setListAIdata(tempListAI);
+  }, [docList]);
+
+
+  // MAP POUR ELEMENTS ID
   let listID = listIDdata.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
@@ -72,6 +112,54 @@ function Dossier({onCameraClick, navigation}) {
   })
 
 
+  // MAP POUR ELEMENTS JUSTIF IDENTITE
+  let listJD = listJDdata.map(function(doc, i){
+    return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
+              <EvilIcons
+                name='close'
+                size={30}
+                style={{marginLeft: 10, marginRight: 5}}
+              />
+            </View>
+  });
+
+  // MAP POUR ELEMENTS BULLETINS DE SALAIRE
+  let listBS = listBSdata.map(function(doc, i){
+    return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
+              <EvilIcons
+                name='close'
+                size={30}
+                style={{marginLeft: 10, marginRight: 5}}
+              />
+            </View>
+  });
+
+  // MAP POUR ELEMENTS CONTRAT DE TRAVAIL
+  let listCT = listCTdata.map(function(doc, i){
+    return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
+              <EvilIcons
+                name='close'
+                size={30}
+                style={{marginLeft: 10, marginRight: 5}}
+              />
+            </View>
+  });
+
+  // MAP POUR ELEMENTS AVIS IMPOSITION
+  let listAI = listAIdata.map(function(doc, i){
+    return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
+              <EvilIcons
+                name='close'
+                size={30}
+                style={{marginLeft: 10, marginRight: 5}}
+              />
+            </View>
+  });
+
   return (
     <ScrollView style={{marginTop: 25}}>
 
@@ -81,7 +169,7 @@ function Dossier({onCameraClick, navigation}) {
       </View>
 
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10}}>
-        <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center'}}>
+        <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center', fontWeight: 'bold'}}>
           Justificatif d'identité
         </Text>
         <Tooltip 
@@ -100,10 +188,6 @@ function Dossier({onCameraClick, navigation}) {
       </View>
 
       {listID}
-
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
-      
-      
       
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
@@ -118,21 +202,18 @@ function Dossier({onCameraClick, navigation}) {
           }}
         />
         <SimpleLineIcons
-        name='camera'
-        size={30}
-        style={{color: '#125ce0'}}
-        onPress={ () => {
-          onCameraClick('id');
-          navigation.navigate('Camera');
-        }}
-      />
+          name='camera'
+          size={30}
+          style={{color: '#125ce0'}}
+          onPress={ () => {
+            onCameraClick('id');
+            navigation.navigate('Camera');
+          }}
+        />
       </View>
 
-    </View>
-
-
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginTop: 20}}>
-        <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center'}}>
+        <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center', fontWeight: 'bold'}}>
           Justificatif de domicile
         </Text>
         <Tooltip 
@@ -151,70 +232,34 @@ function Dossier({onCameraClick, navigation}) {
         </Tooltip>
       </View>
 
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-        <Input
-          containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-          inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-          inputContainerStyle={{borderBottomWidth: 0}}
-          placeholder='piece_1.pdf'
-        />
-        <Button
-          title="Télécharger"
-          buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-          containerStyle={{marginRight: 10}}
-          titleStyle={{color: 'white', fontSize: 14}}
-        />
-        <SimpleLineIcons
-          name='camera'
-          size={30}
-          onPress={() => { navigation.navigate('Camera')}}
-        />
-        <EvilIcons
-          name='close'
-          size={30}
-          style={{marginLeft: 10}}
-        />
-      </View>
+      {listJD}
 
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
-        <Input
-          containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-          inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-          inputContainerStyle={{borderBottomWidth: 0}}
-          placeholder='piece_2.jpg'
-        />
-        <Button
-          title="Télécharger"
-          buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-          containerStyle={{marginRight: 10}}
-          titleStyle={{color: 'white', fontSize: 14}}
-        />
-        <SimpleLineIcons
-          name='camera'
-          size={30}
-        />
-        <EvilIcons
-          name='close'
-          size={30}
-          style={{marginLeft: 10}}
-        />
-      </View>
-
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 50}}>
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
           Ajouter un fichier:
         </Text>
         <IconAntDesing
           name='addfile'
           size={25}
-          style={{marginLeft: 10, color: '#125ce0'}}
+          style={{marginLeft: 10, marginRight: 10, color: '#125ce0'}}
+          onPress={ async () => {
+            uploadFromPhone('jd');
+          }}
+        />
+        <SimpleLineIcons
+          name='camera'
+          size={30}
+          style={{color: '#125ce0'}}
+          onPress={ () => {
+            onCameraClick('jd');
+            navigation.navigate('Camera');
+          }}
         />
       </View>
 
 
-
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginTop: 20}}>
-        <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center'}}>
+        <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center', fontWeight: 'bold'}}>
           Bulletins de salaire
         </Text>
         <Tooltip 
@@ -233,91 +278,33 @@ function Dossier({onCameraClick, navigation}) {
         </Tooltip>
       </View>
 
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-        <Input
-          containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-          inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-          inputContainerStyle={{borderBottomWidth: 0}}
-          placeholder='Janvier_2020.pdf'
-        />
-        <Button
-          title="Télécharger"
-          buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-          containerStyle={{marginRight: 10}}
-          titleStyle={{color: 'white', fontSize: 14}}
-        />
-        <SimpleLineIcons
-          name='camera'
-          size={30}
-        />
-        <EvilIcons
-          name='close'
-          size={30}
-          style={{marginLeft: 10}}
-        />
-      </View>
+      {listBS}
 
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
-        <Input
-          containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-          inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-          inputContainerStyle={{borderBottomWidth: 0}}
-          placeholder='Dec_2019.jpg'
-        />
-        <Button
-          title="Télécharger"
-          buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-          containerStyle={{marginRight: 10}}
-          titleStyle={{color: 'white', fontSize: 14}}
-        />
-        <SimpleLineIcons
-          name='camera'
-          size={30}
-        />
-        <EvilIcons
-          name='close'
-          size={30}
-          style={{marginLeft: 10}}
-        />
-      </View>
-
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10}}>
-        <Input
-          containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-          inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-          inputContainerStyle={{borderBottomWidth: 0}}
-          placeholder='Nov_2019.jpg'
-        />
-        <Button
-          title="Télécharger"
-          buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-          containerStyle={{marginRight: 10}}
-          titleStyle={{color: 'white', fontSize: 14}}
-        />
-        <SimpleLineIcons
-          name='camera'
-          size={30}
-        />
-        <EvilIcons
-          name='close'
-          size={30}
-          style={{marginLeft: 10}}
-        />
-      </View>
-
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 50}}>
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
           Ajouter un fichier:
         </Text>
         <IconAntDesing
           name='addfile'
           size={25}
-          style={{marginLeft: 10, color: '#125ce0'}}
+          style={{marginLeft: 10, marginRight: 10, color: '#125ce0'}}
+          onPress={ async () => {
+            uploadFromPhone('bs');
+          }}
+        />
+        <SimpleLineIcons
+          name='camera'
+          size={30}
+          style={{color: '#125ce0'}}
+          onPress={ () => {
+            onCameraClick('bs');
+            navigation.navigate('Camera');
+          }}
         />
       </View>
 
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginTop: 20}}>
-        <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center'}}>
+        <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center', fontWeight: 'bold'}}>
           Contrat de travail
         </Text>
         <Tooltip 
@@ -336,48 +323,34 @@ function Dossier({onCameraClick, navigation}) {
         </Tooltip>
       </View>
 
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-        <Input
-          containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-          inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-          inputContainerStyle={{borderBottomWidth: 0}}
-          placeholder='fichier.pdf'
-        />
-        <Button
-          title="Télécharger"
-          buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-          containerStyle={{marginRight: 10}}
-          titleStyle={{color: 'white', fontSize: 14}}
-        />
-        <SimpleLineIcons
-          name='camera'
-          size={30}
-        />
-        <EvilIcons
-          name='close'
-          size={30}
-          style={{marginLeft: 10}}
-        />
-      </View>
+      {listCT}
 
-
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 50}}>
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
           Ajouter un fichier:
         </Text>
         <IconAntDesing
           name='addfile'
           size={25}
-          style={{marginLeft: 10, color: '#125ce0'}}
+          style={{marginLeft: 10, marginRight: 10, color: '#125ce0'}}
+          onPress={ async () => {
+            uploadFromPhone('ct');
+          }}
+        />
+        <SimpleLineIcons
+          name='camera'
+          size={30}
+          style={{color: '#125ce0'}}
+          onPress={ () => {
+            onCameraClick('ct');
+            navigation.navigate('Camera');
+          }}
         />
       </View>
 
 
-
-
-
       <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginTop: 20}}>
-        <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center'}}>
+        <Text style={{color: '#282828', marginLeft: '5%', marginRight: 10, textAlign: 'center', fontWeight: 'bold'}}>
           Dernier avis d'imposition
         </Text>
         <Tooltip 
@@ -396,39 +369,28 @@ function Dossier({onCameraClick, navigation}) {
         </Tooltip>
       </View>
 
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-        <Input
-          containerStyle = {{marginRight: 10, height: 40, width: '45%', borderWidth: 1, borderRadius: 5, borderColor: '#E5E5E5', justifyContent: 'center', padding: 0}} 
-          inputStyle={{paddingTop:2, fontSize: 16, height: 30}}
-          inputContainerStyle={{borderBottomWidth: 0}}
-          placeholder='avis_imposition.pdf'
-        />
-        <Button
-          title="Télécharger"
-          buttonStyle={{backgroundColor: '#125ce0', width: 95, height: 40}}
-          containerStyle={{marginRight: 10}}
-          titleStyle={{color: 'white', fontSize: 14}}
-        />
-        <SimpleLineIcons
-          name='camera'
-          size={30}
-        />
-        <EvilIcons
-          name='close'
-          size={30}
-          style={{marginLeft: 10}}
-        />
-      </View>
+      {listAI}
 
-
-      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 50}}>
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
           Ajouter un fichier:
         </Text>
         <IconAntDesing
           name='addfile'
           size={25}
-          style={{marginLeft: 10, color: '#125ce0'}}
+          style={{marginLeft: 10, marginRight: 10, color: '#125ce0'}}
+          onPress={ async () => {
+            uploadFromPhone('ai');
+          }}
+        />
+        <SimpleLineIcons
+          name='camera'
+          size={30}
+          style={{color: '#125ce0'}}
+          onPress={ () => {
+            onCameraClick('ai');
+            navigation.navigate('Camera');
+          }}
         />
       </View>
 
@@ -453,11 +415,21 @@ const styles = StyleSheet.create({
   },
 });
 
+function mapStateToProps(state){
+  return { docList: state.docList }
+}
+
 
 function mapDispatchToProps(dispatch){
   return {
     onCameraClick: function(docType){
-      dispatch({type: 'saveDocType', docType})
+      dispatch({type: 'saveDocType', docType});
+    },
+    getDocuments: function(documents){
+      dispatch({type: 'getDocuments', documents});
+    },
+    addDocument: function(document){
+      dispatch({type: 'addDocument', document});
     }
   }
 }
@@ -465,6 +437,6 @@ function mapDispatchToProps(dispatch){
 
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Dossier)
