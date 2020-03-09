@@ -5,6 +5,17 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
  
 function MesMatchScreens({navigation}) {
+  const [like, setLike] = useState(false)
+
+    var colorLike;
+    var AnnonceLiked = () =>{
+      setLike(!like)
+    }
+
+    if(like){
+      colorLike = "red"
+    }
+
 
   const [annonce, setAnnonce] = useState([]);
   useEffect(() => {
@@ -28,13 +39,12 @@ function MesMatchScreens({navigation}) {
           <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
               name="heart"
               size={25}
-              color="black"
+              color={colorLike}
           />
       </Card>
       </TouchableOpacity>
   )}
   )
-  // console.log(lesAnnonces)
   return (
     <ScrollView style={{marginTop: 25}}>
       
