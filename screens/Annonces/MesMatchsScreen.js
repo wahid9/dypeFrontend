@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect,useState} from 'react';
 import {Card, Text,Icon,Button} from 'react-native-elements';
 import { StyleSheet, View,Image,ScrollView,TouchableOpacity } from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -16,6 +16,37 @@ function MesMatchScreens({navigation}) {
       colorLike = "red"
     }
 
+
+  const [annonce, setAnnonce] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  var  fetchData= async ()=> {
+    var data =  await fetch("http://10.2.5.232:3000/RecoverAnnonce");
+    var response = await data.json();
+
+    setAnnonce([... annonce, ...response.rep]) 
+  }
+    var lesAnnonces;
+
+  annonce.map( ( annonce, i ) =>{
+      lesAnnonces = <TouchableOpacity onPress = {()=> navigation.navigate('Annonces')}>
+      <Card image={{ uri: annonce.image }} imageStyle= {{height:250}}>
+          <Text style={{marginBottom:5, fontSize:25}}>{annonce.typeDeBien}</Text>
+          <Text style={{marginBottom:5}}>{annonce.descriptionBref}</Text>
+          <Text style={{marginBottom:5}}>{annonce.nbPiece} / {annonce.surface}</Text>
+          <Text h4 style={{marginBottom:5}}>{annonce.prix}</Text> 
+          <Image source={{ uri: annonce.image }}/>
+          <IconFontAwesome  onPress = {()=>AnnonceLiked()}style={{alignSelf: 'flex-end', marginRight:5}}
+              name="heart"
+              size={25}
+              color={colorLike}
+          />
+      </Card>
+      </TouchableOpacity>
+  })
+  console.log(lesAnnonces)
   return (
     <ScrollView style={{marginTop: 25}}>
       
@@ -23,45 +54,9 @@ function MesMatchScreens({navigation}) {
       <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
       <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
       </View>
-      
-       
         <Text h4 style={{textAlign: 'center'}}>Mes matchs</Text>
-        <TouchableOpacity onPress = {()=> navigation.navigate('Annonces')}>
-        <Card image={require('../../assets/livingRoom.jpg')} onPress = {()=> console.log("j'ai toucher")}>
-            <Text>Appartement à louer,Paris 11eme. </Text>
-            <Text>2 pièces/30m2. </Text>
-            <Text h4>700€/mois </Text>
-            <IconFontAwesome onPress={()=>AnnonceLiked()} style={{alignSelf: 'flex-end', marginRight:5}}
-                name="heart"
-                size={25}
-                color={colorLike}
-            />
-        </Card>
-        </TouchableOpacity>
-        <Card image={require('../../assets/livingRoom.jpg')}>
-            <Text>Appartement à louer,Paris 11eme. </Text>
-            <Text>2 pièces/30m2. </Text>
-            <Text h4>700€/mois </Text>
-            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
-                name="heart"
-                size={25}
-                color="black"
-            />
-        </Card>
-        <Card image={require('../../assets/livingRoom.jpg')}>
-            <Text>Appartement à louer,Paris 11eme. </Text>
-            <Text>2 pièces/30m2. </Text>
-            <Text h4>700€/mois </Text>
-            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
-                name="heart"
-                size={25}
-                color="black"
-            />
-        </Card>
+        {lesAnnonces}
     </ScrollView>
-   
-    
-
   );
 }
 
