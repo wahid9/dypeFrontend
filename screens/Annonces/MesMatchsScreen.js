@@ -6,7 +6,7 @@ import IconBurger from '@expo/vector-icons/Feather';
 import { connect } from 'react-redux';
 import { add } from 'react-native-reanimated';
  
-function MesMatchScreens({navigation,theToken}) {
+function MesMatchScreens({navigation,theToken,reduxFunction}) {
   
   
   const [annonce, setAnnonce] = useState([]);
@@ -22,12 +22,16 @@ function MesMatchScreens({navigation,theToken}) {
    
     }
   
-  useEffect(() => {
+  
+var RecupDataAnnonce = (i) => {
+  reduxFunction(annonce[i]);
+  navigation.navigate('Annonces')
+}
+
+useEffect(() => {
     fetchData();
   }, []);
 
-
-  
   var  fetchData= async ()=> {
     var data =  await fetch("http://10.2.5.189:3000/RecoverAnnonce");
     var response = await data.json();
@@ -36,7 +40,7 @@ function MesMatchScreens({navigation,theToken}) {
   
 
     var lesAnnonces = annonce.map((data, i ) =>{
-      return( <TouchableOpacity key={i} onPress = {()=> navigation.navigate('Annonces')}>
+      return( <TouchableOpacity key={i} onPress = {()=> RecupDataAnnonce(i) }>
       <Card image={{ uri: data.images[0] }} imageStyle= {{height:250}}>
           <Text style={{marginBottom:5, fontSize:25}}>{data.typeDeBien}</Text>
           <Text style={{marginBottom:5}}>{data.descriptionBref}</Text>
@@ -51,6 +55,7 @@ function MesMatchScreens({navigation,theToken}) {
       </TouchableOpacity>
   )}
   )
+  
   return (
     <ScrollView style={{marginTop: 25}}>
       
@@ -78,8 +83,12 @@ function mapStateToProps(state){
   return { theToken: state.token }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    reduxFunction: function(tabDataAnnonce) { 
+      dispatch({type:'seeAnnonce', annonce: tabDataAnnonce}) 
+    }
+  }
+}
 
-export default connect(
-mapStateToProps,
-null,
-)(MesMatchScreens)
+export default connect(mapStateToProps,mapDispatchToProps)(MesMatchScreens);
