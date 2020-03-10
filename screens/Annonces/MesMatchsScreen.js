@@ -9,32 +9,17 @@ function MesMatchScreens({navigation}) {
   const [tabLiked,setTabLiked]= useState([])
   const [annonce, setAnnonce] = useState([]);
 
-   
-  
-
-    var sendFavoris = (i)=>{
-      setTabLiked([...tabLiked,annonce[i]])
-      AsyncStorage.setItem("likedAnnonces",JSON.stringify(tabLiked))
-    }
-
-  const [annonce, setAnnonce] = useState([]);
-    if(like){
-      colorLike = "red"
-    
-    }
+  var sendFavoris = (i)=>{
+    setTabLiked([...tabLiked,annonce[i]])
+    AsyncStorage.setItem("likedAnnonces",JSON.stringify(tabLiked))
+  }
   
   useEffect(() => {
     fetchData();
   }, []);
-
-
   
   var  fetchData= async ()=> {
-<<<<<<< HEAD
-    var data =  await fetch("http://10.2.5.189:3000/RecoverAnnonce");
-=======
     var data =  await fetch("http://10.2.5.181:3000/RecoverAnnonce");
->>>>>>> 111f1bbb4abde91622a3cee5f7f12f9f68294b87
     var response = await data.json();
     setAnnonce(response.rep)
   

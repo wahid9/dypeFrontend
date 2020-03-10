@@ -10,7 +10,7 @@ import IconBurger from '@expo/vector-icons/Feather';
 
 import * as DocumentPicker from 'expo-document-picker';
 
-function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}) {
+function Dossier({onCameraClick, getDocuments, addDocument, docList, onClickDelete, navigation}) {
 
   const [listIDdata, setListIDdata] = useState([]);
   const [listJDdata, setListJDdata] = useState([]);
@@ -97,6 +97,8 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}
       method: 'DELETE'
     })
     let response = await rawResponse.json();
+
+    onClickDelete(tempDoc);
 
     if(tempDoc.type[0]==='i' && tempDoc.type[1]==='d'){
       setListIDdata(listIDdata.filter((e) => (e._id !== tempDoc._id) ));
@@ -528,6 +530,9 @@ function mapDispatchToProps(dispatch){
     },
     addDocument: function(document){
       dispatch({type: 'addDocument', document});
+    },
+    onClickDelete: function(document){
+      dispatch({type: 'deleteDocument', document})
     }
   }
 }
