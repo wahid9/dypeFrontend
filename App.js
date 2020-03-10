@@ -23,18 +23,12 @@ import MyDrawer from './screens/Navigation/DrawerScreen';
 
 import docType from './reducers/docTypeReducer';
 import docList from './reducers/docListReducer';
-<<<<<<< HEAD
 import token from './reducers/userReducer';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
-const store = createStore(combineReducers({docType, docList,token}));
-=======
 import annonce from './reducers/AnnonceReducer';
-import {Provider} from 'react-redux';
-import {createStore, combineReducers} from 'redux';
+const store = createStore(combineReducers({docType, docList,token,annonce}));
 
-const store = createStore(combineReducers({docType, docList, annonce}));
->>>>>>> e558aac186a1df3244d95f1de1fba47b9a1974cd
 
 
 const Stack = createStackNavigator();
