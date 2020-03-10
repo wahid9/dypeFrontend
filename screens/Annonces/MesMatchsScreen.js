@@ -18,9 +18,7 @@ function MesMatchScreens({navigation,theToken,reduxFunction}) {
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}&idAnnonceLiked=${data._id}`
      })
-   
-   
-    }
+  }
   
   
 var RecupDataAnnonce = (i) => {
@@ -42,10 +40,10 @@ useEffect(() => {
     var lesAnnonces = annonce.map((data, i ) =>{
       return( <TouchableOpacity key={i} onPress = {()=> RecupDataAnnonce(i) }>
       <Card image={{ uri: data.images[0] }} imageStyle= {{height:250}}>
+          <Text>{data.ville} ({data.codePostal})</Text>
           <Text style={{marginBottom:5, fontSize:25}}>{data.typeDeBien}</Text>
-          <Text style={{marginBottom:5}}>{data.descriptionBref}</Text>
-          <Text style={{marginBottom:5}}>{data.nbPiece} / {data.surface}</Text>
-          <Text h4 style={{marginBottom:5}}>{data.prix}</Text> 
+          <Text style={{marginBottom:5}}>{data.nbPiece} pièces / {data.surface} m²</Text>
+          <Text h4 style={{marginBottom:5}}>{data.prix} €/mois</Text> 
           <IconFontAwesome onPress = {()=>addLike(data)} style={{alignSelf: 'flex-end', marginRight:5}}
               name="heart"
               size={25}

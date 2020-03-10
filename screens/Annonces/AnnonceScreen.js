@@ -39,7 +39,7 @@ function AnnonceScreen({navigation,detailAnnonce}) {
     }
 
     var handleSubmitHour = () => {setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '14:30'})}
-    console.log(annonce)
+   
     return (
     <View style={{flex: 1}}>
         <Overlay 
