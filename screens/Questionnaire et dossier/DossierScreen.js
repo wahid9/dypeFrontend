@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
-import { Input, Button, Tooltip } from 'react-native-elements';
+import { Button, Tooltip, Overlay } from 'react-native-elements';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import IconBurger from '@expo/vector-icons/Feather';
 
 import * as DocumentPicker from 'expo-document-picker';
@@ -16,6 +17,9 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}
   const [listBSdata, setListBSdata] = useState([]);
   const [listCTdata, setListCTdata] = useState([]);
   const [listAIdata, setListAIdata] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [submitVisible, setSubmitVisible] = useState(false);
+  const [tempDoc, setTempDoc] = useState({});
 
 
   useEffect(() => {
@@ -54,7 +58,10 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}
       type: 'image/jpeg',
       name: `${docType}+${documentFromPhone.name}`
     });
-    // data.append('typedefichier', docType)  POUR PASSER PLUS PROPRE LE TYPE DE FICHIER AU BACK -> A RECUPERER DANS LE REQ.BODY ET NON REQ.FILES
+
+    //   POUR PASSER PLUS PROPRE LE TYPE DE FICHIER AU BACK -> A RECUPERER DANS LE REQ.BODY ET NON REQ.FILES
+
+    // data.append('typedefichier', docType)
 
               //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
               // BESOIN DE RENSEIGNER LE TOKEN UTILISATEUR
@@ -69,7 +76,43 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}
 
   }
 
-  // FILTRE POUR TROUVER LES DOCUMENTS D'IDENTITE DEPUIS DOCLIST DU STORE
+
+  // GERE LE PROBLEME DE FICHIER AVEC NOM TROP LONG
+  const formatDocumentName = (doc) => {
+    if(doc.length>35){
+      var newString=doc.slice(3, 35);
+      newString = newString+"...";
+    } else {
+      var newString=doc.slice(3);
+    }
+    return newString;
+  }
+
+
+  // FAUDRA FAIRE PASSER LE TOKEN     await fetch(`http://10.2.5.181:3000/deleteDocument/${props.token}/${tempDoc._id}`, {
+
+  const deleteDocument = async () => {
+    console.log('TEMPdoc :', tempDoc);
+    let rawResponse = await fetch(`http://10.2.5.181:3000/deleteDocument/${tempDoc._id}`, {
+      method: 'DELETE'
+    })
+    let response = await rawResponse.json();
+
+    if(tempDoc.type[0]==='i' && tempDoc.type[1]==='d'){
+      setListIDdata(listIDdata.filter((e) => (e._id !== tempDoc._id) ));
+    } else if(tempDoc.type[0]==='j' && tempDoc.type[1]==='d'){
+      setListJDdata(listJDdata.filter((e) => (e._id !== tempDoc._id) ));
+    } else if(tempDoc.type[0]==='b' && tempDoc.type[1]==='s'){
+      setListBSdata(listBSdata.filter((e) => (e._id !== tempDoc._id) ));
+    } else if(tempDoc.type[0]==='c' && tempDoc.type[1]==='t'){
+      setListCTdata(listCTdata.filter((e) => (e._id !== tempDoc._id) ));
+    } else if(tempDoc.type[0]==='a' && tempDoc.type[1]==='i'){
+      setListAIdata(listAIdata.filter((e) => (e._id !== tempDoc._id) ));
+    }
+    setVisible(false);
+  }
+
+  // FILTRE DES DIFFERENTS TYPES DE DOCUMENTS DEPUIS DOCLIST DU STORE
 
   let tempListID=[];
   let tempListJD=[];
@@ -102,11 +145,15 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}
   // MAP POUR ELEMENTS ID
   let listID = listIDdata.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}> {formatDocumentName(doc.type)} </Text>
               <EvilIcons
                 name='close'
                 size={30}
                 style={{marginLeft: 10, marginRight: 5}}
+                onPress={()=>{
+                  setVisible(true);
+                  setTempDoc(doc);
+                }}
               />
             </View>
   })
@@ -115,11 +162,15 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}
   // MAP POUR ELEMENTS JUSTIF IDENTITE
   let listJD = listJDdata.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
               <EvilIcons
                 name='close'
                 size={30}
                 style={{marginLeft: 10, marginRight: 5}}
+                onPress={()=>{
+                  setVisible(true);
+                  setTempDoc(doc);
+                }}
               />
             </View>
   });
@@ -127,11 +178,15 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}
   // MAP POUR ELEMENTS BULLETINS DE SALAIRE
   let listBS = listBSdata.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
               <EvilIcons
                 name='close'
                 size={30}
                 style={{marginLeft: 10, marginRight: 5}}
+                onPress={()=>{
+                  setVisible(true);
+                  setTempDoc(doc);
+                }}
               />
             </View>
   });
@@ -139,11 +194,15 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}
   // MAP POUR ELEMENTS CONTRAT DE TRAVAIL
   let listCT = listCTdata.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
               <EvilIcons
                 name='close'
                 size={30}
                 style={{marginLeft: 10, marginRight: 5}}
+                onPress={()=>{
+                  setVisible(true);
+                  setTempDoc(doc);
+                }}
               />
             </View>
   });
@@ -151,11 +210,15 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}
   // MAP POUR ELEMENTS AVIS IMPOSITION
   let listAI = listAIdata.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{doc.type.slice(3)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
               <EvilIcons
                 name='close'
                 size={30}
                 style={{marginLeft: 10, marginRight: 5}}
+                onPress={()=>{
+                  setVisible(true);
+                  setTempDoc(doc);
+                }}
               />
             </View>
   });
@@ -400,7 +463,42 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, navigation}
         buttonStyle={{backgroundColor: '#fce229', width: 'auto', padding: 10}}
         containerStyle={{alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginTop: 30, marginBottom: 20}}
         titleStyle={{color: '#282828', fontSize: 14}}
+        onPress={()=>setSubmitVisible(true)}
       />
+
+
+      <Overlay isVisible={visible} width='80%' height='auto'>
+        <View>
+          <Text>Etes-vous sûr de vouloir supprimer ce fichier?</Text>
+          <Button
+            title="Valider la suppresion"
+            buttonStyle={{backgroundColor: '#125ce0', width: 'auto', padding: 10}}
+            containerStyle={{justifyContent: 'flex-end', marginTop: 30, marginBottom: 5}}
+            titleStyle={{fontSize: 14}}
+            onPress={()=>deleteDocument()}
+          />
+          <Button
+            title="Annuler"
+            buttonStyle={{backgroundColor: '#125ce0', width: 'auto', padding: 10}}
+            containerStyle={{justifyContent: 'flex-end', marginTop: 5, marginBottom: 10}}
+            titleStyle={{fontSize: 14}}
+            onPress={()=>setVisible(false)}
+          />
+        </View>
+      </Overlay>
+
+      <Overlay isVisible={submitVisible} width='80%' height='auto' onBackdropPress={()=>setSubmitVisible(false)}>
+          <View style={{alignItems: 'center'}}>
+            <FeatherIcon
+              name='folder-plus'
+              size={40}
+              style={{color: '#125ce0', marginBottom: 30}}
+            />
+            <Text>
+              Votre dossier a bien été soumis à notre équipe. Nous revenons vers vous dès que possible!
+            </Text>
+          </View>
+      </Overlay>
 
     </ScrollView>
   );

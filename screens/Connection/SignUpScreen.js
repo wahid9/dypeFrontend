@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet,ImageBackground,Image,Text, KeyboardAvoidingView, Alert} from 'react-native';
 import {Button, Input} from 'react-native-elements';
+import { connect } from 'react-redux';
 
 function Inscription({navigation}) {
   const [nom,setNom]= useState("");
