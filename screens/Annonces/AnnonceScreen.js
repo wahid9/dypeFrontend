@@ -129,7 +129,7 @@ function AnnonceScreen({navigation}) {
                         title= 'Confirmer'
                         buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
                         containerStyle = {{borderRadius:30, alignSelf: 'center', justifyContent: 'flex-end'}} 
-                        onPress = {() => {navigation.navigate('RendezVous'); setConfirmation(false) }}
+                        onPress = {() => {navigation.navigate('Mes rdv'); setConfirmation(false) }}
                         />
             </Overlay>
 

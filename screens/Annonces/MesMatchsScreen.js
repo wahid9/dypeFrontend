@@ -1,15 +1,13 @@
 import React, {useEffect,useState} from 'react';
 import {Card, Text,Icon,Button} from 'react-native-elements';
-import { StyleSheet, View,Image,ScrollView,TouchableOpacity,AsyncStorage} from 'react-native';
+import { StyleSheet, View,Image,ScrollView,TouchableOpacity,AsyncStorage, ClippingRectangle} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
  
 function MesMatchScreens({navigation}) {
   
   const [tabLiked,setTabLiked]= useState([])
-  const [annonce, setAnnonce] = useState([]);
-
-   
+    
   
 
     var sendFavoris = (i)=>{
@@ -18,11 +16,7 @@ function MesMatchScreens({navigation}) {
     }
 
   const [annonce, setAnnonce] = useState([]);
-    if(like){
-      colorLike = "red"
     
-    }
-  
   useEffect(() => {
     fetchData();
   }, []);
@@ -30,25 +24,19 @@ function MesMatchScreens({navigation}) {
 
   
   var  fetchData= async ()=> {
-<<<<<<< HEAD
-    var data =  await fetch("http://10.2.5.189:3000/RecoverAnnonce");
-=======
-    var data =  await fetch("http://10.2.5.181:3000/RecoverAnnonce");
->>>>>>> 111f1bbb4abde91622a3cee5f7f12f9f68294b87
+    var data =  await fetch("http://10.2.5.209:3000/mesMatchs");
     var response = await data.json();
-    setAnnonce(response.rep)
+    setAnnonce(response.annonces)
+    // console.log(response.annonces)
   
   }
-  var postion = null;
-  console.log(tabLiked)
-
     var lesAnnonces = annonce.map((data, i ) =>{
       return( <TouchableOpacity key={i} onPress = {()=> navigation.navigate('Annonces')}>
-      <Card image={{ uri: data.image }} imageStyle= {{height:250}}>
-          <Text style={{marginBottom:5, fontSize:25}}>{data.typeDeBien}</Text>
-          <Text style={{marginBottom:5}}>{data.descriptionBref}</Text>
-          <Text style={{marginBottom:5}}>{data.nbPiece} / {data.surface}</Text>
-          <Text h4 style={{marginBottom:5}}>{data.prix}</Text> 
+      <Card image={{ uri: data.images[0] }} imageStyle= {{height:250}}>
+          <Text style={{marginBottom:5, fontSize: 22}}>{data.ville} ({data.codePostal})</Text>
+          <Text style={{marginBottom:5, fontSize:18}}>{data.typeDeBien}</Text>
+          <Text style={{marginBottom:5}}>{data.nbPiece} pièces/ {data.surface} m²</Text>
+          <Text h4 style={{marginBottom:5}}>{data.prix}€/mois</Text> 
           <Image source={{ uri: data.image }}/>
           <IconFontAwesome onPress = {()=>sendFavoris(i)} style={{alignSelf: 'flex-end', marginRight:5}}
               name="heart"

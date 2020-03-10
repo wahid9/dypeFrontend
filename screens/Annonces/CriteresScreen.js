@@ -1,8 +1,24 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
 
 function Critere({navigation}) {
+
+  const [ville, setVille] = useState("");
+  const [budgetMin, setBudgetMin] = useState("");
+  const [budgetMax, setBudgetMax] = useState("");
+
+  var select = async () => {
+    var data = await fetch("http://10.2.5.209:3000/recherche", {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: `ville=${ville}&budgetMin=${budgetMin}&budgetMax=${budgetMax}`
+    });
+    var response = await data.json()
+    console.log(response)
+    navigation.navigate('Drawer')
+  }
+
   return (
     <View style={styles.container}>
 
@@ -20,29 +36,29 @@ function Critere({navigation}) {
         inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
         placeholder='Dans quelle ville ?'
         inputContainerStyle={{borderBottomWidth: 0}}
+        onChangeText = {(value)=> setVille(value)}
+        value = {ville}
       />
       <Input containerStyle = {{marginBottom: -40, width: '70%'}} 
         inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
-        placeholder='Votre budget'
+        placeholder='Votre budget min'
         inputContainerStyle={{borderBottomWidth: 0}}
+        onChangeText = {(value)=> setBudgetMin(value)}
+        value = {budgetMin}
       />
       <Input containerStyle = {{marginBottom: -40, width: '70%'}} 
         inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
-        placeholder='Pièces min'
+        placeholder='Votre budget max'
         inputContainerStyle={{borderBottomWidth: 0}}
+        onChangeText = {(value)=> setBudgetMax(value)}
+        value = {budgetMax}
       />
-      <Input containerStyle = {{marginBottom: 0, width: '70%'}} 
-        inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
-        placeholder='Surface min'
-        inputContainerStyle={{borderBottomWidth: 0}}
-      />
-
       <Button
         title="Suivant"
         buttonStyle={{backgroundColor: '#fce229', width: 100}}
         containerStyle={{flex: 0.2, alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginBottom:'5%'}}
         titleStyle={{color: '#282828'}}
-        onPress = {()=> navigation.navigate('Match') }
+        onPress = {()=> select() }
       />
 
     </View>
