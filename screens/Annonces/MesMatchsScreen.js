@@ -5,18 +5,19 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
  
 function MesMatchScreens({navigation}) {
-  const [like, setLike] = useState(false);
+  
+  const [tabLiked,setTabLiked]= useState([])
   const [annonce, setAnnonce] = useState([]);
 
-    var colorLike;
-    var AnnonceLiked = () =>{
-      setLike(!like)
-      
+   
+  
+
+    var sendFavoris = (i)=>{
+      setTabLiked([...tabLiked,annonce[i]])
+      AsyncStorage.setItem("likedAnnonces",JSON.stringify(tabLiked))
     }
 
-    var sendFavoris = ()=>{
-      AsyncStorage.setItem("likedAnnonces",JSON.stringify())
-    }
+  const [annonce, setAnnonce] = useState([]);
     if(like){
       colorLike = "red"
     
@@ -29,29 +30,35 @@ function MesMatchScreens({navigation}) {
 
   
   var  fetchData= async ()=> {
+<<<<<<< HEAD
+    var data =  await fetch("http://10.2.5.189:3000/RecoverAnnonce");
+=======
     var data =  await fetch("http://10.2.5.181:3000/RecoverAnnonce");
+>>>>>>> 111f1bbb4abde91622a3cee5f7f12f9f68294b87
     var response = await data.json();
-    setAnnonce(response.rep) 
-  }
+    setAnnonce(response.rep)
   
-  var lesAnnonces = annonce.map( ( data, i ) =>{
-      return( 
-      <TouchableOpacity key = {i} onPress = {()=> navigation.navigate('Annonces')}>
-        <Card image={{ uri: data.image }} imageStyle= {{height:250}}>
-            <Text style={{marginBottom:5, fontSize:25}}>{data.localisation}</Text>
-            <Text style={{marginBottom:5, fontSize:20}}>{data.typeDeBien}</Text>
-            <Text style={{marginBottom:5}}>{data.descriptionBref}</Text>
-            <Text style={{marginBottom:5}}>{data.nbPiece} / {data.surface}</Text>
-            <Text h4 style={{marginBottom:5}}>{data.prix}</Text> 
-            <Image source={{ uri: data.image }}/>
-            <IconFontAwesome style={{alignSelf: 'flex-end', marginRight:5}}
-                name="heart"
-                size={25}
-                color={colorLike}
-            />
-        </Card>
-      </TouchableOpacity>)
-  })
+  }
+  var postion = null;
+  console.log(tabLiked)
+
+    var lesAnnonces = annonce.map((data, i ) =>{
+      return( <TouchableOpacity key={i} onPress = {()=> navigation.navigate('Annonces')}>
+      <Card image={{ uri: data.image }} imageStyle= {{height:250}}>
+          <Text style={{marginBottom:5, fontSize:25}}>{data.typeDeBien}</Text>
+          <Text style={{marginBottom:5}}>{data.descriptionBref}</Text>
+          <Text style={{marginBottom:5}}>{data.nbPiece} / {data.surface}</Text>
+          <Text h4 style={{marginBottom:5}}>{data.prix}</Text> 
+          <Image source={{ uri: data.image }}/>
+          <IconFontAwesome onPress = {()=>sendFavoris(i)} style={{alignSelf: 'flex-end', marginRight:5}}
+              name="heart"
+              size={25}
+              color="black"
+          />
+      </Card>
+      </TouchableOpacity>
+  )}
+  )
   return (
     <ScrollView style={{marginTop: 25}}>
       
