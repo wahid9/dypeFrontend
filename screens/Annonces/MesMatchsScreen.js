@@ -3,21 +3,24 @@ import {Card, Text,Icon,Button} from 'react-native-elements';
 import { StyleSheet, View,Image,ScrollView,TouchableOpacity,AsyncStorage} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
+import { connect } from 'react-redux';
+import { add } from 'react-native-reanimated';
  
-function MesMatchScreens({navigation}) {
+function MesMatchScreens({navigation,theToken}) {
   
-  const [tabLiked,setTabLiked]= useState([])
+  
   const [annonce, setAnnonce] = useState([]);
 
+   var addLike = async (data)=>{
+    console.log(data)
+    var envoiAnnonce = await fetch('http://10.2.5.189:3000/addLike',{
+       method: 'POST',
+       headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: `token=${theToken}&idAnnonceLiked=${data._id}`
+     })
    
-  
-
-    var sendFavoris = (i)=>{
-      setTabLiked([...tabLiked,annonce[i]])
-      AsyncStorage.setItem("likedAnnonces",JSON.stringify(tabLiked))
+   
     }
-    
-    
   
   useEffect(() => {
     fetchData();
@@ -29,18 +32,17 @@ function MesMatchScreens({navigation}) {
     var data =  await fetch("http://10.2.5.189:3000/RecoverAnnonce");
     var response = await data.json();
     setAnnonce(response.rep)
-  
   }
   
+
     var lesAnnonces = annonce.map((data, i ) =>{
       return( <TouchableOpacity key={i} onPress = {()=> navigation.navigate('Annonces')}>
-      <Card image={{ uri: data.image }} imageStyle= {{height:250}}>
+      <Card image={{ uri: data.images[0] }} imageStyle= {{height:250}}>
           <Text style={{marginBottom:5, fontSize:25}}>{data.typeDeBien}</Text>
           <Text style={{marginBottom:5}}>{data.descriptionBref}</Text>
           <Text style={{marginBottom:5}}>{data.nbPiece} / {data.surface}</Text>
           <Text h4 style={{marginBottom:5}}>{data.prix}</Text> 
-          <Image source={{ uri: data.image }}/>
-          <IconFontAwesome onPress = {()=>sendFavoris(i)} style={{alignSelf: 'flex-end', marginRight:5}}
+          <IconFontAwesome onPress = {()=>addLike(data)} style={{alignSelf: 'flex-end', marginRight:5}}
               name="heart"
               size={25}
               color="black"
@@ -71,4 +73,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default MesMatchScreens;
+
+function mapStateToProps(state){
+  return { theToken: state.token }
+}
+
+
+export default connect(
+mapStateToProps,
+null,
+)(MesMatchScreens)
