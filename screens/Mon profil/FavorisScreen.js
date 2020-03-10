@@ -8,14 +8,8 @@ import IconBurger from '@expo/vector-icons/Feather';
 function FavorisScreen({navigation}) {
  
   const [isVisible, setIsVisible] = useState(false);
-
-  // var getFavoris = () =>{
-  //   AsyncStorage.getItem("likedAnnonces",function(error, annonces){
-  //     console.log(annonces);
-  //     })
-  // }
+    
   useEffect(() => {
-    getFavoris();
   }, []);
   return (
     <ScrollView style={{marginTop: 25}}>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet,ImageBackground,Image,Text, KeyboardAvoidingView, Alert} from 'react-native';
 import {Button, Input} from 'react-native-elements';
+import { connect } from 'react-redux';
 
-function Inscription({navigation}) {
+function Inscription({navigation,onSubmitToken}) {
   const [nom,setNom]= useState("");
   const [prenom,setPrenom]= useState("");
   const [email, setEmail]= useState("");
@@ -13,12 +14,18 @@ function Inscription({navigation}) {
     if(mdp != mdpConfirm){
       Alert.alert("Mots de passe différents"," Veuillez saisir le meme mot de passe")
     }else{
-    await fetch('http://10.2.5.181:3000/SingUp', {
+    var data = await fetch('http://10.2.5.189:3000/SingUp', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `nom=${nom}&prenom=${prenom}&email=${email}&mdp=${mdp}&mdpConfirm=${mdpConfirm}`
-  })
-    navigation.navigate("Criteres");}
+  })  
+  var response = await data.json();
+  onSubmitToken(response.newUser.token)
+  navigation.navigate("Criteres");
+   
+  }
+    
+  
   }
 var Btn;
   if(nom == ""){
@@ -120,4 +127,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Inscription;
+function mapDispatchToProps(dispatch){
+  return{
+    onSubmitToken : function(token){
+      dispatch({type : 'tokenExist', token })
+    }
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Inscription);
+

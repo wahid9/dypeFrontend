@@ -16,12 +16,8 @@ function MesMatchScreens({navigation}) {
       setTabLiked([...tabLiked,annonce[i]])
       AsyncStorage.setItem("likedAnnonces",JSON.stringify(tabLiked))
     }
-
-  const [annonce, setAnnonce] = useState([]);
-    if(like){
-      colorLike = "red"
     
-    }
+    
   
   useEffect(() => {
     fetchData();
@@ -30,18 +26,12 @@ function MesMatchScreens({navigation}) {
 
   
   var  fetchData= async ()=> {
-<<<<<<< HEAD
     var data =  await fetch("http://10.2.5.189:3000/RecoverAnnonce");
-=======
-    var data =  await fetch("http://10.2.5.181:3000/RecoverAnnonce");
->>>>>>> 111f1bbb4abde91622a3cee5f7f12f9f68294b87
     var response = await data.json();
     setAnnonce(response.rep)
   
   }
-  var postion = null;
-  console.log(tabLiked)
-
+  
     var lesAnnonces = annonce.map((data, i ) =>{
       return( <TouchableOpacity key={i} onPress = {()=> navigation.navigate('Annonces')}>
       <Card image={{ uri: data.image }} imageStyle= {{height:250}}>
