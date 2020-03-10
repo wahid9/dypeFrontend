@@ -71,42 +71,44 @@ function SnapScreen(props) {
     <View style={{flex:1}}>
 
           <Overlay isVisible={previewVisible} width= '80%' height='80%'>
-            <Image 
-              source={{uri: photoUri}}
-              style={{width: '100%', height: '90%', marginBottom: 0, paddingBottom: 0}}
-            />
-            <Button
-              title="Prendre à nouveau"
-              buttonStyle={{backgroundColor: '#125ce0', width: '90%', height: 40}}
-              containerStyle={{alignItems: 'center', marginTop: -35, marginBottom: 5}}
-              titleStyle={{color: 'white', fontSize: 14}}
-              onPress={()=>setPreviewVisible(false)}
-            />
-            <Button
-              title="Valider cette photo"
-              buttonStyle={{backgroundColor: '#125ce0', width: '90%', height: 40}}
-              containerStyle={{alignItems: 'center'}}
-              titleStyle={{color: 'white', fontSize: 14}}
-              onPress={async()=>{
-                var data = new FormData();
-                  data.append('photo', {
-                    uri: photoUri,
-                    type: 'image/jpeg',
-                    name: `${props.docType}+photo.jpg`
-                  });
-  
-                  var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromcamera", {
-                    method: 'POST',
-                    body: data
-                  });
-                  var response = await rawResponse.json();
+            <View>
+              <Image 
+                source={{uri: photoUri}}
+                style={{width: '100%', height: '90%', marginBottom: 0, paddingBottom: 0}}
+              />
+              <Button
+                title="Prendre à nouveau"
+                buttonStyle={{backgroundColor: '#125ce0', width: '90%', height: 40}}
+                containerStyle={{alignItems: 'center', marginTop: -35, marginBottom: 5}}
+                titleStyle={{color: 'white', fontSize: 14}}
+                onPress={()=>setPreviewVisible(false)}
+              />
+              <Button
+                title="Valider cette photo"
+                buttonStyle={{backgroundColor: '#125ce0', width: '90%', height: 40}}
+                containerStyle={{alignItems: 'center'}}
+                titleStyle={{color: 'white', fontSize: 14}}
+                onPress={async()=>{
+                  var data = new FormData();
+                    data.append('photo', {
+                      uri: photoUri,
+                      type: 'image/jpeg',
+                      name: `${props.docType}+photo.jpg`
+                    });
+    
+                    var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromcamera", {
+                      method: 'POST',
+                      body: data
+                    });
+                    var response = await rawResponse.json();
 
-                  props.addDocument(response.docUploaded);
+                    props.addDocument(response.docUploaded);
 
-                setPreviewVisible(false);
-                // props.navigation.navigate('Dossier');
-              }}
-            />
+                  setPreviewVisible(false);
+                  // props.navigation.navigate('Dossier');
+                }}
+              />
+            </View>
           </Overlay>
 
         {cameraDisplay}
