@@ -18,9 +18,7 @@ function MesMatchScreens({navigation,theToken,reduxFunction}) {
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}&idAnnonceLiked=${data._id}`
      })
-   
-   
-    }
+  }
   
   
 var RecupDataAnnonce = (i) => {
