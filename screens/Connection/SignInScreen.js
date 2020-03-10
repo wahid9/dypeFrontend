@@ -2,19 +2,26 @@ import React, {useState} from 'react';
 import { StyleSheet, Text,ImageBackground,Image,KeyboardAvoidingView,Alert} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import { set } from 'react-native-reanimated';
+import { connect } from 'react-redux';
+import { requestPermissionsAsync } from 'expo-camera';
 
-function Connection({navigation}) {
+function Connection({navigation,onSubmitToken}) {
   const [email, setEmail]= useState("");
   const [mdp, setMdp]= useState("");
+  
 
 var signIn = async ()=> {
-  var data = await fetch('http://10.2.5.232:3000/signIn', {
+  var data = await fetch('http://10.2.5.209:3000/signIn', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `email=${email}&mdp=${mdp}`
   });
+
   var response = await data.json();
-  console.log(response.success);
+  
+  onSubmitToken(response.monToken)
+  console.log("RES", response)
+  
   if(response.success == false){
     Alert.alert("Email ou mot de passe incorrects", "Veuillez saisir le bon email et mot de passe")
   }else{
@@ -83,4 +90,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Connection;
+function mapDispatchToProps(dispatch){
+  return{
+    onSubmitToken : function(token){
+      dispatch({type : 'tokenExist', token })
+    }
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Connection);
