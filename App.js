@@ -23,9 +23,11 @@ import MyDrawer from './screens/Navigation/DrawerScreen';
 
 import docType from './reducers/docTypeReducer';
 import docList from './reducers/docListReducer';
+import annonce from './reducers/AnnonceReducer';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
-const store = createStore(combineReducers({docType, docList}));
+
+const store = createStore(combineReducers({docType, docList, annonce}));
 
 
 const Stack = createStackNavigator();
