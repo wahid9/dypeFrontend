@@ -10,8 +10,12 @@ import IconHouse from '@expo/vector-icons/AntDesign';
 import IconHeart from '@expo/vector-icons/FontAwesome';
 import IconDoc from '@expo/vector-icons/MaterialCommunityIcons';
 import IconRdv from '@expo/vector-icons/AntDesign'
-import { Image, View } from 'react-native';
+import { Image, View, ImageBackground } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 
 const Drawer = createDrawerNavigator();
 
@@ -20,24 +24,21 @@ function MyDrawer() {
   
 
       <Drawer.Navigator    
-      drawerContentOptions={{
-        activeTintColor: '#FCE229',
-        inactiveTintColor: '#FFFFFF',
-        style: <Image source={require('../../assets/Mascotte.png')} />
-      }}
-      drawerStyle={{
-        backgroundColor :'#125CE0',
-        width: 200,
-        
-      }}
-      >
-        <Drawer.Screen   listeners={{
-          focus: e=>{
-            
-          }
+        drawerContentOptions={{
+          activeTintColor: '#FCE229',
+          inactiveTintColor: '#FFFFFF',
+          style: <Image source={require('../../assets/Mascotte.png')} />
+        }}
+        drawerStyle={{
+          backgroundColor :'#125CE0',
+          width: 200,
           
         }}
-                         options={{
+        
+          // drawerContent={props => <ImageBackground source={require('../../assets/Mascotte.png')}/>}
+        
+      >
+        <Drawer.Screen options={{
                          drawerIcon: ({color: tintColor}) => <IconHouse
                             name='home' 
                             size={18}
