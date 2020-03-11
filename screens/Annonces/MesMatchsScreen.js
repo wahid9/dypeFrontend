@@ -11,9 +11,14 @@ function MesMatchScreens({navigation,theToken,reduxFunction}) {
   
   const [annonce, setAnnonce] = useState([]);
 
+  // var sendFavoris = (i)=>{
+  //   setTabLiked([...tabLiked,annonce[i]])
+  //   AsyncStorage.setItem("likedAnnonces",JSON.stringify(tabLiked))
+  // }
+  
    var addLike = async (data)=>{
     console.log(data)
-    var envoiAnnonce = await fetch('http://10.2.5.189:3000/addLike',{
+    var envoiAnnonce = await fetch('http://10.2.5.209:3000/addLike',{
        method: 'POST',
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}&idAnnonceLiked=${data._id}`
@@ -31,11 +36,14 @@ useEffect(() => {
   }, []);
 
   var  fetchData= async ()=> {
-    var data =  await fetch("http://10.2.5.209:3000/mesMatchs");
+    var data =  await fetch("http://10.2.5.209:3000/mesMatchs",{
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: `token=${theToken}`
+    })
     var response = await data.json();
+    console.log(response.annonces)
     setAnnonce(response.annonces)
-    // console.log(response.annonces)
-  
   }
     var lesAnnonces = annonce.map((data, i ) =>{
       return( <TouchableOpacity key={i} onPress = {()=> RecupDataAnnonce(i)}>

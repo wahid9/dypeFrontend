@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
+import { connect } from 'react-redux';
 
-function Critere({navigation}) {
+function Critere({navigation, token}) {
 
   const [ville, setVille] = useState("");
   const [budgetMin, setBudgetMin] = useState("");
@@ -12,7 +13,7 @@ function Critere({navigation}) {
     var data = await fetch("http://10.2.5.209:3000/recherche", {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `ville=${ville}&budgetMin=${budgetMin}&budgetMax=${budgetMax}`
+      body: `ville=${ville}&budgetMin=${budgetMin}&budgetMax=${budgetMax}&token=${token}`
     });
     var response = await data.json()
     console.log(response)
@@ -74,4 +75,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Critere;
+function mapStateToProps(state){
+  return { token: state.token }
+}
+
+export default connect(
+   mapStateToProps,
+    null)(Critere);
