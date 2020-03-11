@@ -17,8 +17,7 @@ function MesMatchScreens({navigation,theToken,reduxFunction}) {
   // }
   
    var addLike = async (data)=>{
-    console.log(data)
-    var envoiAnnonce = await fetch('http://10.2.5.209:3000/addLike',{
+    var envoiAnnonce = await fetch('http://10.2.5.232:3000/addLike',{
        method: 'POST',
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}&idAnnonceLiked=${data._id}`
@@ -42,7 +41,6 @@ useEffect(() => {
       body: `token=${theToken}`
     })
     var response = await data.json();
-    console.log(response.annonces)
     setAnnonce(response.annonces)
   }
     var lesAnnonces = annonce.map((data, i ) =>{

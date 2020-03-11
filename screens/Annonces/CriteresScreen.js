@@ -10,7 +10,7 @@ function Critere({navigation, token}) {
   const [budgetMax, setBudgetMax] = useState("");
 
   var select = async () => {
-    var data = await fetch("http://10.2.5.209:3000/recherche", {
+    var data = await fetch("http://10.2.5.232:3000/recherche", {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `ville=${ville}&budgetMin=${budgetMin}&budgetMax=${budgetMax}&token=${token}`
@@ -59,7 +59,7 @@ function Critere({navigation, token}) {
         buttonStyle={{backgroundColor: '#fce229', width: 100}}
         containerStyle={{flex: 0.2, alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginBottom:'5%'}}
         titleStyle={{color: '#282828'}}
-        onPress = {()=> navigation.navigate('Drawer') }
+        onPress = {()=> select() }
       />
 
     </View>
