@@ -48,7 +48,8 @@ export default function App() {
         <Stack.Screen name="Criteres" component={Critere} />
         {/* <Stack.Screen name="Questionnaire" component={Questionnaire1Screen} /> */}
         <Stack.Screen name="Drawer" component={MyDrawer} />
-       
+        <Stack.Screen name="Camera" component={CameraScreen} />
+        <Stack.Screen name="Dossier" component={DossierScreen} />
       </Stack.Navigator>
   </NavigationContainer>
 </Provider>
