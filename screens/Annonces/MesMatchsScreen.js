@@ -11,6 +11,11 @@ function MesMatchScreens({navigation,theToken,reduxFunction}) {
   
   const [annonce, setAnnonce] = useState([]);
 
+  // var sendFavoris = (i)=>{
+  //   setTabLiked([...tabLiked,annonce[i]])
+  //   AsyncStorage.setItem("likedAnnonces",JSON.stringify(tabLiked))
+  // }
+  
    var addLike = async (data)=>{
     console.log(data)
     var envoiAnnonce = await fetch('http://10.2.5.209:3000/addLike',{
