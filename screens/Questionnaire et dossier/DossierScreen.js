@@ -10,7 +10,7 @@ import IconBurger from '@expo/vector-icons/Feather';
 
 import * as DocumentPicker from 'expo-document-picker';
 
-function Dossier({onCameraClick, getDocuments, addDocument, docList, onClickDelete, navigation}) {
+function Dossier({onCameraClick, getDocuments, addDocument, docList, onClickDelete, navigation, token}) {
 
   const [listIDdata, setListIDdata] = useState([]);
   const [listJDdata, setListJDdata] = useState([]);
@@ -25,12 +25,10 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, onClickDele
   useEffect(() => {
     const fetchData = async() => {
           // RECUPERE DANS LA BDD LES DOCUMENTS DEJA TELECHARGES PAR L'UTILISATEUR
-          // BESOIN DE RENSEIGNER LE TOKEN UTILISATEUR
           //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
-
-      var rawData = await fetch("http://10.2.5.181:3000/getDocuments");
+      
+      var rawData = await fetch(`http://10.2.5.209:3000/getDocuments/${token}`);
       var data = await rawData.json();
-      // setListIDdata(data.documents);
       getDocuments(data.documents);
 
       for(let i=0; i<docList.length; i++){
@@ -65,8 +63,8 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, onClickDele
 
               //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
               // BESOIN DE RENSEIGNER LE TOKEN UTILISATEUR
-
-    var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromphone", {
+    data.append('token', token)
+    var rawResponse = await fetch("http://10.2.5.209:3000/uploadfromphone", {
       method: 'POST',
       body: data
     });
@@ -92,8 +90,7 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, onClickDele
   // FAUDRA FAIRE PASSER LE TOKEN     await fetch(`http://10.2.5.181:3000/deleteDocument/${props.token}/${tempDoc._id}`, {
 
   const deleteDocument = async () => {
-    console.log('TEMPdoc :', tempDoc);
-    let rawResponse = await fetch(`http://10.2.5.181:3000/deleteDocument/${tempDoc._id}`, {
+    let rawResponse = await fetch(`http://10.2.5.209:3000/deleteDocument/${token}/${tempDoc._id}`, {
       method: 'DELETE'
     })
     let response = await rawResponse.json();
@@ -123,9 +120,11 @@ function Dossier({onCameraClick, getDocuments, addDocument, docList, onClickDele
   let tempListAI=[];
 
   useEffect(()=>{
+    console.log('docList :', docList);
     for(let i=0; i<docList.length; i++){
       if(docList[i].type[0]==='i' && docList[i].type[1]==='d'){
         tempListID.push(docList[i]);
+        console.log('tempListID :', tempListID);
       } else if(docList[i].type[0]==='j' && docList[i].type[1]==='d'){
         tempListJD.push(docList[i]);
       } else if(docList[i].type[0]==='b' && docList[i].type[1]==='s'){
@@ -516,7 +515,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state){
-  return { docList: state.docList }
+  return { docList: state.docList, token: state.token }
 }
 
 
@@ -536,8 +535,6 @@ function mapDispatchToProps(dispatch){
     }
   }
 }
-
-
 
 export default connect(
   mapStateToProps,

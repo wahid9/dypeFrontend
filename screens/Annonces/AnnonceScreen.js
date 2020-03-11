@@ -17,6 +17,7 @@ function AnnonceScreen({navigation,detailAnnonce}) {
     const [monRdv, setMonRdv] = useState ({});
     const [colorButton, setColorButton] = useState("#125CE0");
     const [annonce, setAnnonce] = useState(detailAnnonce);
+    const [dispoCeJour, setDispoCeJour] = useState([]);
 
     console.log(annonce);
     LocaleConfig.locales['fr'] = {
@@ -69,6 +70,45 @@ function AnnonceScreen({navigation,detailAnnonce}) {
    if(annonce.digicode == true){
     digicode = <Text style={{marginBottom:2, fontSize:17}}>digicode</Text>
    }
+    // var handleSubmitHour = () => {setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '14:30'})}
+   
+    let newDispo=[]
+    console.log('annonce.dispoVisite :', typeof annonce.dispoVisite[0]);
+    for(let i=0; i<annonce.dispoVisite.length; i++){
+        newDispo.push(new Date(annonce.dispoVisite[i]));
+    }
+
+    useEffect(()=>{
+
+        console.log('newDispo[0] :', newDispo[0]);
+        console.log('newDispo[0].getFullYear() :', newDispo[0].getFullYear());
+        console.log('newDispo[0].getDate() :', newDispo[0].getDate());
+        console.log('newDispo[0].getMonth() :', newDispo[0].getMonth());
+        console.log('calendarDay :', calendarDay);
+        for(let i=0; i<newDispo.length; i++){
+            if(newDispo[i].getFullYear()==calendarDay.year && newDispo[i].getDate()==calendarDay.day && newDispo[i].getMonth()+1==calendarDay.month){
+                setDispoCeJour([...dispoCeJour, newDispo[i]]);
+            }
+        }
+        // console.log('object :', object); ICIIIIIIIII
+
+    },[calendarDay]);
+
+
+    var listDispo=dispoCeJour.map(function(dispo, i){
+        return( <Button 
+            title= {dispo}
+            titleStyle={{fontSize: 14}}
+            buttonStyle= {{backgroundColor: colorButton, height:44, width: 96}}
+            containerStyle = {{borderRadius:30}} 
+            onPress ={()=> { setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '11:30'}); setColorButton('#74b9ff')}}
+            />
+        )
+    });
+
+    // EXEMPLE : let listID = listIDdata.map(function(doc, i){
+
+
     return (
     <View style={{flex: 1}}>
         <Overlay 
@@ -94,34 +134,18 @@ function AnnonceScreen({navigation,detailAnnonce}) {
                     title ={calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year}
                     titleStyle={{fontSize: 18, fontWeight:'700', textAlign:'center'}}
                     containerStyle={{paddingTop:0}}
-                    bottomDivider />  
+                    bottomDivider 
+                />  
                 <Text style={{textAlign: 'center', fontSize: 16, marginTop: 15}}>Choisissez un rdv parmi les disponibilités suivantes:</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
-                    <Button 
-                        title= '11:30'
-                        titleStyle={{fontSize: 14}}
-                        buttonStyle= {{backgroundColor: colorButton, height:44, width: 96}}
-                        containerStyle = {{borderRadius:30}} 
-                        onPress ={()=> { setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '11:30'}); setColorButton('#74b9ff')}}
-                        />
-                    <Button 
-                        title= '14:30'
-                        titleStyle={{fontSize: 14}}
-                        buttonStyle= {{backgroundColor: "#125CE0", height:44, width: 96}}
-                        containerStyle = {{borderRadius:30}}
-                        onPress ={()=> handleSubmitHour() }  />
-                    <Button 
-                        title= '17:00'
-                        titleStyle={{fontSize: 14}}
-                        buttonStyle= {{backgroundColor: "#125CE0", height:44, width: 96}}
-                        containerStyle = {{borderRadius:30}}
-                        onPress ={()=> { setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '17:00'}); console.log('rrrr', monRdv)}}  />
+                {listDispo}
                 </View>
                 <Button 
                     title= 'Valider'
                     buttonStyle= {{backgroundColor: "#fce229", height:30, width: 70}}
                     containerStyle = {{borderRadius:30, flex: 0.9, alignSelf: 'flex-end', justifyContent: 'flex-end'}} 
                     onPress = {() => {setConfirmation(true); setCalendarVisible(false) }}/>
+
         </Overlay>
 
         <Overlay style={{flex:1}}
@@ -177,7 +201,7 @@ function AnnonceScreen({navigation,detailAnnonce}) {
                 color="#ffffff"
                 style= {{marginRight : 5}}/>
             }
-                onPress={()=>setIsVisible(true)}
+                onPress={()=> setIsVisible(true) }
                 title="Prendre un rendez-vous"
                 buttonStyle= {{backgroundColor: "#125CE0"}}
                 containerStyle={{height: 35, marginBottom: 10}}/>
