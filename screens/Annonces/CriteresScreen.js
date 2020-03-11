@@ -58,7 +58,7 @@ function Critere({navigation}) {
         buttonStyle={{backgroundColor: '#fce229', width: 100}}
         containerStyle={{flex: 0.2, alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginBottom:'5%'}}
         titleStyle={{color: '#282828'}}
-        onPress = {()=> select() }
+        onPress = {()=> navigation.navigate('Drawer') }
       />
 
     </View>
