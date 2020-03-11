@@ -11,7 +11,7 @@ function Connection({navigation,onSubmitToken}) {
   
 
 var signIn = async ()=> {
-  var data = await fetch('http://10.2.5.209:3000/signIn', {
+  var data = await fetch('http://10.2.5.181:3000/signIn', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `email=${email}&mdp=${mdp}`
@@ -20,7 +20,7 @@ var signIn = async ()=> {
   var response = await data.json();
   console.log("RES", response)
   
-  // onSubmitToken(response.monToken)
+  onSubmitToken(response.monToken);
   
   if(response.success == false){
     Alert.alert("Email ou mot de passe incorrects", "Veuillez saisir le bon email et mot de passe")
