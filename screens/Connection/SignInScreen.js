@@ -20,7 +20,7 @@ var signIn = async ()=> {
   var response = await data.json();
   console.log("RES", response)
   
-  // onSubmitToken(response.monToken)
+  onSubmitToken(response.monToken)
   
   if(response.success == false){
     Alert.alert("Email ou mot de passe incorrects", "Veuillez saisir le bon email et mot de passe")
