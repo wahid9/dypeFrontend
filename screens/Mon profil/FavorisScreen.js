@@ -15,8 +15,6 @@ const deleteFav = async (data) =>{
   deleteOnClick(data)
 }
 
-
-
   const [isVisible, setIsVisible] = useState(false);
   var lesAnnonces = favorisList.map((data, i ) =>{
     return( <TouchableOpacity key={i}>
