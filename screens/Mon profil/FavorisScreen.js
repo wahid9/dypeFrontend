@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 function FavorisScreen({navigation,favorisList,token,deleteOnClick}) {
  
 const deleteFav = async (data) =>{
-  var rawResponse = await fetch(`http:///10.2.5.189:3000/deleteFav/${data._id}/${token}`,{
+  var rawResponse = await fetch(`http://10.2.5.189:3000/deleteFav/${data._id}/${token}`,{
   method : 'DELETE'
   })
   deleteOnClick(data)
