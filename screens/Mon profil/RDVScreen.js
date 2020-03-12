@@ -11,12 +11,23 @@ import IconAnt from 'react-native-vector-icons/AntDesign';
 import {connect} from "react-redux";
 
 function RDVScreen({navigation,data}) {
-    console.log("gogogogo",data);
+
     const [isCancelled, setIsCancelled] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [calendarVisible, setCalendarVisible] = useState(false);
     const [calendarDay, setCalendarDay] = useState('');
     const [confirmation, setConfirmation] = useState(false);
+    console.log("la date",data[0].date.getDate(),(data[0].date.getMonth()+1),data[0].date.getFullYear());
+
+    function getHour(date){
+        let hour;
+        if(date.getMinutes()!=0){
+            hour=date.getHours()-1+":"+date.getMinutes()
+        } else {
+            hour=date.getHours()-1+":"+date.getMinutes()+"0"
+        }
+        return hour;
+    }
 
     LocaleConfig.locales['fr'] = {
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
@@ -117,7 +128,12 @@ function RDVScreen({navigation,data}) {
                 
                 <Card containerStyle={{height: 'auto'}}>
                 <View style={{flexDirection:'row'}}>
-                    <Text style={{paddingRight:10, flex:3, fontSize:18, marginTop:5}}> Votre rendez-vous a été confirmé pour le {data[0].jour} {data.mois} {data.annee} à ( heure ) </Text>
+                    <Text style={{paddingRight:10, flex:3, fontSize:18, marginTop:5}}> Votre rendez-vous a été confirmé pour le {data[0].date.getDate()}/{(data[0].date.getMonth()+1)}/{data[0].date.getFullYear()} à { getHour(data[0].date) } </Text>
+                    
+                    
+                    {/* FAIRE UN MAP SUR LE TABLEAU DATA */}
+                    
+                    
                     <Image source={{ uri: data[0].image }} style={{height: 60, width: 90}}></Image>
                 </View>
                 <View style={{flexDirection:'row', justifyContent:'space-around', paddingTop:20}}>

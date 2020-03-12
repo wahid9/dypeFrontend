@@ -11,7 +11,7 @@ function Connection({navigation,onSubmitToken}) {
   
 
 var signIn = async ()=> {
-  var data = await fetch('http://10.2.5.232:3000/signIn', {
+  var data = await fetch('http://10.2.5.181:3000/signIn', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `email=${email}&mdp=${mdp}`
@@ -37,7 +37,7 @@ var signIn = async ()=> {
     title="Se connecter"
     string = "#79d279" 
     onPress = {()=> Alert.alert("Remplissez vos champs de saisie", "Veuillez saisir votre email et mot de passe")}
-/>
+    />
   }else{
   Btn =  <Button
           buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
