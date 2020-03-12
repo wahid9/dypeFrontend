@@ -28,20 +28,20 @@ var signIn = async ()=> {
   if(email == ''){
     Btn = <Button
     buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
-    title="Se Connecter"
+    title="Se connecter"
     string = "#79d279" 
     onPress = {()=> Alert.alert("Remplissez vos champs de saisie","Veuillez saisir votre email et mot de passe")}/>
   }else if(mdp== ''){
     Btn = <Button
     buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
-    title="Se Connecter"
+    title="Se connecter"
     string = "#79d279" 
     onPress = {()=> Alert.alert("Remplissez vos champs de saisie", "Veuillez saisir votre email et mot de passe")}
-/>
+    />
   }else{
   Btn =  <Button
           buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
-          title="Se Connecter"
+          title="Se connecter"
           string = "#79d279" 
           onPress={() => { signIn() }}
       />

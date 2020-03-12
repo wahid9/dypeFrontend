@@ -28,7 +28,8 @@ import favlist from './reducers/favorisListReducer'
 import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 import annonce from './reducers/AnnonceReducer';
-const store = createStore(combineReducers({docType, docList,token,annonce,favlist}));
+import RDV from './reducers/RDVReducer';
+const store = createStore(combineReducers({docType, docList,token,annonce,favlist,RDV}));
 
 
 
