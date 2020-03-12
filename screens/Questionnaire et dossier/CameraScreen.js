@@ -95,7 +95,8 @@ function SnapScreen(props) {
                       type: 'image/jpeg',
                       name: `${props.docType}+photo.jpg`
                     });
-    
+                    data.append('token', props.token)
+                    console.log('DATA', data)
                     var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromcamera", {
                       method: 'POST',
                       body: data
@@ -105,7 +106,7 @@ function SnapScreen(props) {
                     props.addDocument(response.docUploaded);
 
                   setPreviewVisible(false);
-                  // props.navigation.navigate('Dossier');
+                  props.navigation.navigate('Mes documents');
                 }}
               />
             </View>
@@ -144,7 +145,7 @@ function SnapScreen(props) {
 }
 
 function mapStateToProps(state){
-  return { docType: state.docType }
+  return { docType: state.docType, token: state.token }
 };
 
 function mapDispatchToProps(dispatch){

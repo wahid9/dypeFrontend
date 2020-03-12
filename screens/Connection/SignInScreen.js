@@ -16,12 +16,8 @@ var signIn = async ()=> {
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `email=${email}&mdp=${mdp}`
   });
-
   var response = await data.json();
-  console.log("RES", response)
-  
-  onSubmitToken(response.monToken)
-  
+  onSubmitToken(response.monToken)  
   if(response.success == false){
     Alert.alert("Email ou mot de passe incorrects", "Veuillez saisir le bon email et mot de passe")
   }else{

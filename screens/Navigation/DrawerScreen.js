@@ -15,14 +15,26 @@ import { ScrollView } from 'react-native-gesture-handler';
 import {
   DrawerContentScrollView,
   DrawerItemList,
+  DrawerItem
 } from '@react-navigation/drawer';
+
+// function CustomDrawerContent(props) {
+//   return (
+//     <DrawerContentScrollView {...props}>
+//       <DrawerItemList {...props} />
+//       <DrawerItem {...props} />
+//       <Image 
+//       source= {require('../../assets/Mascotte.png')} />
+//     </DrawerContentScrollView>
+//   );
+// }
+
 
 const Drawer = createDrawerNavigator();
 
 function MyDrawer() {
     return (
   
-
       <Drawer.Navigator    
         drawerContentOptions={{
           activeTintColor: '#FCE229',
@@ -35,7 +47,7 @@ function MyDrawer() {
           
         }}
         
-          // drawerContent={props => <ImageBackground source={require('../../assets/Mascotte.png')}/>}
+          // drawerContent= {CustomDrawerContent()}
         
       >
         <Drawer.Screen options={{

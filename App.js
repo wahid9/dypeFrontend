@@ -13,9 +13,9 @@ import HomePage from './screens/Connection/HomeScreen';
 import ApercuScreen from './screens/Annonces/ApercuScreen';
 import MesMatchScreens from './screens/Annonces/MesMatchsScreen';
 import Questionnaire1Screen from './screens/Questionnaire et dossier/Questionnaire1Screen';
-import FavorisScreen from './screens/Mon profil/FavorisScreen'
-import CameraScreen from './screens/Questionnaire et dossier/CameraScreen'
-import DossierScreen from './screens/Questionnaire et dossier/DossierScreen'
+import FavorisScreen from './screens/Mon profil/FavorisScreen';
+import CameraScreen from './screens/Questionnaire et dossier/CameraScreen';
+import DossierScreen from './screens/Questionnaire et dossier/DossierScreen';
 import AnnonceScreen from './screens/Annonces/AnnonceScreen';
 import RDVScreen from './screens/Mon profil/RDVScreen';
 import Critere from './screens/Annonces/CriteresScreen';
@@ -49,7 +49,8 @@ export default function App() {
         <Stack.Screen name="Criteres" component={Critere} />
         {/* <Stack.Screen name="Questionnaire" component={Questionnaire1Screen} /> */}
         <Stack.Screen name="Drawer" component={MyDrawer} />
-       
+        <Stack.Screen name="Camera" component={CameraScreen} />
+        <Stack.Screen name="Dossier" component={DossierScreen} />
       </Stack.Navigator>
   </NavigationContainer>
 </Provider>

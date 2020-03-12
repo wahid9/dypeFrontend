@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, KeyboardAvoidingView } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -22,17 +22,13 @@ function Critere({navigation, token}) {
 
   return (
     <View style={styles.container}>
-
-
       <Image
         source={require('../../assets/DYPE_noir_blanc.png')}
         style={{width: 125, height: 65, marginTop: '15%', marginBottom: '0%'}}
         />
-
         <Text h4 style={{color: '#fce229'}}>
             Vos critères 
         </Text>
-
       <Input containerStyle = {{marginBottom: -40, width: '70%'}} 
         inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
         placeholder='Dans quelle ville ?'
@@ -61,7 +57,8 @@ function Critere({navigation, token}) {
         titleStyle={{color: '#282828'}}
         onPress = {()=> select() }
       />
-
+      <KeyboardAvoidingView behavior = "padding" enabled>
+      </KeyboardAvoidingView>
     </View>
   );
 }
