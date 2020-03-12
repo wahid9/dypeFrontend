@@ -106,7 +106,7 @@ function SnapScreen(props) {
                     props.addDocument(response.docUploaded);
 
                   setPreviewVisible(false);
-                  props.navigation.navigate('Dossier');
+                  props.navigation.navigate('Mes documents');
                 }}
               />
             </View>
