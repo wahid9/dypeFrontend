@@ -6,7 +6,7 @@ import IconBurger from '@expo/vector-icons/Feather';
 import { connect } from 'react-redux';
 import { add } from 'react-native-reanimated';
  
-function MesMatchScreens({navigation,theToken,reduxFunction}) {
+function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavStore}) {
   
   
   const [annonce, setAnnonce] = useState([]);
@@ -17,13 +17,15 @@ function MesMatchScreens({navigation,theToken,reduxFunction}) {
   // }
   
    var addLike = async (data)=>{
-    var envoiAnnonce = await fetch('http://10.2.5.232:3000/addLike',{
+    var envoiAnnonce = await fetch('http://10.2.5.189:3000/addLike',{
        method: 'POST',
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}&idAnnonceLiked=${data._id}`
      })
+     addFavStore(data);
   }
   
+
   
 var RecupDataAnnonce = (i) => {
   reduxFunction(annonce[i]);
@@ -31,11 +33,24 @@ var RecupDataAnnonce = (i) => {
 }
 
 useEffect(() => {
-    fetchData();
+  var recupBdd = async() =>{
+    var sendToken  = await fetch('http://10.2.5.189:3000/saveToStore',{
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+     body:`token=${theToken}`
+    })
+  var annonceBdd = await sendToken.json();
+  majFavStore(annonceBdd)
+
+  }
+  recupBdd();
+  fetchData();
+    
+  
   }, []);
 
   var  fetchData= async ()=> {
-    var data =  await fetch("http://10.2.5.232:3000/mesMatchs",{
+    var data =  await fetch("http://10.2.5.189:3000/mesMatchs",{
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}`
@@ -51,7 +66,7 @@ useEffect(() => {
           <Text style={{marginBottom:5}}>{data.nbPiece} pièces/ {data.surface} m²</Text>
           <Text h4 style={{marginBottom:5}}>{data.prix}€/mois</Text> 
           <Image source={{ uri: data.image }}/>
-          <IconFontAwesome onPress = {()=>addLike(data)} style={{alignSelf: 'flex-end', marginRight:5}}
+          <IconFontAwesome onPress = {()=>{addLike(data)}} style={{alignSelf: 'flex-end', marginRight:5}}
               name="heart"
               size={25}
               color="black"
@@ -92,7 +107,13 @@ function mapDispatchToProps(dispatch) {
   return {
     reduxFunction: function(tabDataAnnonce) { 
       dispatch({type:'seeAnnonce', annonce: tabDataAnnonce}) 
-    }
+    },
+    addFavStore: function(annonceLiked) { 
+      dispatch({type:'annonceLiked',annonceLiked}) 
+    },
+    majFavStore: function(annonceLikedBdd) { 
+      dispatch({type:'annonceAddfromBdd',annonceLikedBdd}) 
+    },
   }
 }
 
