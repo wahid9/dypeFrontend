@@ -11,12 +11,12 @@ function Critere({navigation, token}) {
 
   var select = async () => {
     var data = await fetch("http://10.2.5.209:3000/recherche", {
+
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `ville=${ville}&budgetMin=${budgetMin}&budgetMax=${budgetMax}&token=${token}`
     });
     var response = await data.json()
-    console.log(response)
     navigation.navigate('Drawer')
   }
 

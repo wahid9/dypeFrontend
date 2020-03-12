@@ -8,18 +8,20 @@ import IconBurger from '@expo/vector-icons/Feather';
 import { DrawerActions } from '@react-navigation/native';
 import {connect} from "react-redux";
 
-function AnnonceScreen({navigation,detailAnnonce}) {
+function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
 
     const [isVisible, setIsVisible] = useState(false);
     const [calendarVisible, setCalendarVisible] = useState(false);
     const [calendarDay, setCalendarDay] = useState('');
     const [confirmation, setConfirmation] = useState(false);
-    const [monRdv, setMonRdv] = useState ({});
     const [colorButton, setColorButton] = useState("#125CE0");
-    const [annonce, setAnnonce] = useState(detailAnnonce);
+    
+    const [annonce, setAnnonce] = useState(detailAnnonce); // REFAIRE A L'OCCASE EN MAPPANT DIRECTEMENT SUR LE STORE
     const [dispoCeJour, setDispoCeJour] = useState([]);
+    const [monRdv, setMonRdv] = useState (new Date);
+    const [image, setImage] = useState(annonce.images[0]);
 
-    console.log(annonce);
+
     LocaleConfig.locales['fr'] = {
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
         monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -36,11 +38,22 @@ function AnnonceScreen({navigation,detailAnnonce}) {
         return moisEnLettre
     }
 
-    var handleSubmit = (day) => {
-        setCalendarVisible(true); setCalendarDay(day); setIsVisible(false); 
+    function getHour(date){
+        let hour;
+        if(date.getMinutes()!=0){
+            hour=date.getHours()-1+":"+date.getMinutes()
+        } else {
+            hour=date.getHours()-1+":"+date.getMinutes()+"0"
+        }
+        return hour;
     }
 
-    var handleSubmitHour = () => {setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '14:30'})}
+    var handleSubmit = (day) => {
+        setCalendarDay(day); 
+        setIsVisible(false); 
+        setCalendarVisible(true); 
+    }
+
    var parking;
    var interphone;
    var terrasse;
@@ -70,44 +83,55 @@ function AnnonceScreen({navigation,detailAnnonce}) {
    if(annonce.digicode == true){
     digicode = <Text style={{marginBottom:2, fontSize:17}}>digicode</Text>
    }
-    // var handleSubmitHour = () => {setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '14:30'})}
    
     let newDispo=[]
-    console.log('annonce.dispoVisite :', typeof annonce.dispoVisite[0]);
+    // console.log('annonce.dispoVisite :', typeof annonce.dispoVisite[0]);
     for(let i=0; i<annonce.dispoVisite.length; i++){
         newDispo.push(new Date(annonce.dispoVisite[i]));
     }
 
-    // useEffect(()=>{
+    useEffect(()=>{
 
-    //     console.log('newDispo[0] :', newDispo[0]);
-    //     console.log('newDispo[0].getFullYear() :', newDispo[0].getFullYear());
-    //     console.log('newDispo[0].getDate() :', newDispo[0].getDate());
-    //     console.log('newDispo[0].getMonth() :', newDispo[0].getMonth());
-    //     console.log('calendarDay :', calendarDay);
-    //     for(let i=0; i<newDispo.length; i++){
-    //         if(newDispo[i].getFullYear()==calendarDay.year && newDispo[i].getDate()==calendarDay.day && newDispo[i].getMonth()+1==calendarDay.month){
-    //             setDispoCeJour([...dispoCeJour, newDispo[i]]);
-    //         }
-    //     }
-    //     // console.log('object :', object); ICIIIIIIIII
+        console.log('newDispo[0] :', newDispo[0]);
+        console.log('calendarDay :', calendarDay);
 
-    // },[calendarDay]);
+        let tempDispoCeJour=[]
+
+        for(let i=0; i<newDispo.length; i++){
+            if(newDispo[i].getFullYear()==calendarDay.year && newDispo[i].getDate()==calendarDay.day && newDispo[i].getMonth()+1==calendarDay.month){
+                let index=tempDispoCeJour.findIndex(dispo => dispo === newDispo[i]);
+                tempDispoCeJour.push(newDispo[i]);
+            }
+        }
+        setDispoCeJour(tempDispoCeJour);
+        console.log('dispoCeJour :', dispoCeJour);
+
+
+    },[calendarDay]);
 
 
     var listDispo=dispoCeJour.map(function(dispo, i){
         return( <Button 
-            title= {dispo}
+            key={i}
+            title= {getHour(dispo)}
             titleStyle={{fontSize: 14}}
             buttonStyle= {{backgroundColor: colorButton, height:44, width: 96}}
-            containerStyle = {{borderRadius:30}} 
-            onPress ={()=> { setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '11:30'}); setColorButton('#74b9ff')}}
+            containerStyle = {{borderRadius:30, marginLeft: 5, marginRight: 5}} 
+            onPress ={()=> {setMonRdv(dispo)}}
             />
         )
     });
 
-    // EXEMPLE : let listID = listIDdata.map(function(doc, i){
+    // §§ ENREGISTRE LE RDV DANS LA BDD - OK COTE FRONT MAIS PAS ENCORE COTE BACK §§
 
+    // const saveRDV = async (rdv) => {
+    //     console.log('rdv :', rdv);
+    //     await fetch('http://10.2.5.181:3000/saveRdv', {
+    //         method: 'POST',
+    //         headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    //         body: `date=${rdv}&agence=FONCIA&token=${token}&annonce=${annonce._id}`
+    //     })
+    // }
 
     return (
     <View style={{flex: 1}}>
@@ -122,10 +146,11 @@ function AnnonceScreen({navigation,detailAnnonce}) {
             onDayPress={(day) => handleSubmit(day)}/>
         </Overlay>
         <Overlay 
-            height={350}
-            width= {330}
+            height='auto'
+            width= '90%'
             isVisible={calendarVisible}
             onBackdropPress={() => {setCalendarVisible(false)}}>
+            <View style={{justifyContent: "space-around"}}>
             <IconAnt 
                 name = 'arrowleft' 
                 size={20} 
@@ -137,15 +162,16 @@ function AnnonceScreen({navigation,detailAnnonce}) {
                     bottomDivider 
                 />  
                 <Text style={{textAlign: 'center', fontSize: 16, marginTop: 15}}>Choisissez un rdv parmi les disponibilités suivantes:</Text>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, height: 200}}>
                 {listDispo}
                 </View>
-                <Button 
+                <Button
                     title= 'Valider'
-                    buttonStyle= {{backgroundColor: "#fce229", height:30, width: 70}}
+                    buttonStyle= {{backgroundColor: "#fce229", height:35, width: 80}}
                     containerStyle = {{borderRadius:30, flex: 0.9, alignSelf: 'flex-end', justifyContent: 'flex-end'}} 
-                    onPress = {() => {setConfirmation(true); setCalendarVisible(false) }}/>
-
+                    onPress = {() => {setConfirmation(true); setCalendarVisible(false) }}
+                />
+            </View>
         </Overlay>
 
         <Overlay style={{flex:1}}
@@ -155,56 +181,59 @@ function AnnonceScreen({navigation,detailAnnonce}) {
                 onBackdropPress={() => {setConfirmation(false)}}>
                     <View style={{flex:0.8, alignItems:'center'}}>
                         <Image source={require('../../assets/foncia.png')} style={{height: 75, width: 75}} containerStyle={{marginTop:20, marginBottom:30}}/>
-                        <Text style={{textAlign:'center', justifyContent:'center'}}>Vous venez de sélectionner un rendez-vous pour {monRdv.date} à {monRdv.heure} avec l'agence Foncia du 11ème</Text>
+                        <Text style={{textAlign:'center', justifyContent:'center'}}>Vous venez de sélectionner un rendez-vous pour le {monRdv.getDate()+'/'+(monRdv.getMonth()+1)+'/'+monRdv.getFullYear()} à {getHour(monRdv)} avec l'agence Foncia du 11ème</Text>
                     </View>
                     <Button 
                         title= 'Confirmer'
                         buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
                         containerStyle = {{borderRadius:30, alignSelf: 'center', justifyContent: 'flex-end'}} 
-                        onPress = {() => {navigation.navigate('Mes rdv'); setConfirmation(false) }}
+                        onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv') }} // saveRDV(monRdv)
                         />
             </Overlay>
 
-            <ScrollView style={{marginTop: 25}}>
+
+        <ScrollView style={{marginTop: 25}}>
                 
-        <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => { navigation.openDrawer()}} />
-        <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
-            <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30}}/>
-        </View>
-       
-        <Card image={{ uri: annonce.images[0] }} imageStyle= {{height:250}} >
-            <Text style={{marginBottom:5, fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
-            <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
-            <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
-            <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
-            <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
-            <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
-            <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
-            <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
-            <Text style={{marginBottom:2, fontSize:17}}>{annonce.toilette} Toilette </Text>
-            <Text style={{marginBottom:2, fontSize:17}}>Chauffage {annonce.chauffage}</Text>
-            {parking}
-            {interphone}
-            {terrasse}
-            {cave}
-            {balcon}
-            {ascenseur}
-            {digicode}
-            <View style={{height:2, width:360,marginTop:10}}></View>
-        </Card>
+            <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => { navigation.openDrawer()}} />
+            <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
+                <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30}}/>
+            </View>
+        
+            <Card image={{ uri: annonce.images[0] }} imageStyle= {{height:250}} >
+                <Text style={{marginBottom:5, fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
+                <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
+                <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
+                <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
+                <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
+                <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
+                <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
+                <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
+                <Text style={{marginBottom:2, fontSize:17}}>{annonce.toilette} Toilette </Text>
+                <Text style={{marginBottom:2, fontSize:17}}>Chauffage {annonce.chauffage}</Text>
+                {parking}
+                {interphone}
+                {terrasse}
+                {cave}
+                {balcon}
+                {ascenseur}
+                {digicode}
+                <View style={{height:2, width:360,marginTop:10}}></View>
+            </Card>
         </ScrollView>
+
         <Button
             icon={
-            <Icon
-                name="calendar-o"
-                size={20}
-                color="#ffffff"
-                style= {{marginRight : 5}}/>
-            }
-                onPress={()=> setIsVisible(true) }
-                title="Prendre un rendez-vous"
-                buttonStyle= {{backgroundColor: "#125CE0"}}
-                containerStyle={{height: 35, marginBottom: 10}}/>
+                <Icon
+                    name="calendar-o"
+                    size={20}
+                    color="#ffffff"
+                    style= {{marginRight : 5}}/>
+                }
+                    onPress={()=> setIsVisible(true) }
+                    title="Prendre un rendez-vous"
+                    buttonStyle= {{backgroundColor: "#125CE0"}}
+                    containerStyle={{height: 35, marginBottom: 10}}
+                />
     </View>
     );
 }
@@ -220,7 +249,13 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-    return { detailAnnonce: state.annonce }
+    return { detailAnnonce: state.annonce, token: state.token }
   }
-    
-  export default connect (mapStateToProps,null)(AnnonceScreen);
+
+function mapDispatchToProps(dispatch) {
+    return {
+      reduxFunction: function(picture,monRdv) { 
+        dispatch({type:'confirmerRdv', image: picture, date : monRdv}) 
+      }}
+}
+  export default connect (mapStateToProps,mapDispatchToProps)(AnnonceScreen);

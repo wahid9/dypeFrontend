@@ -6,8 +6,9 @@ import { Overlay } from 'react-native-elements';
 import IconBurger from '@expo/vector-icons/Feather';
 import { connect } from 'react-redux';
 
-function FavorisScreen({navigation,favorisList,token,deleteOnClick}) {
+function FavorisScreen({navigation,favorisList,token,deleteOnClick,printAnnonce}) {
  
+
 const deleteFav = async (data) =>{
   var rawResponse = await fetch(`http://10.2.5.189:3000/deleteFav/${data._id}/${token}`,{
   method : 'DELETE'
@@ -15,9 +16,14 @@ const deleteFav = async (data) =>{
   deleteOnClick(data)
 }
 
+var recupAnnonce =(data)=>{
+printAnnonce(data)
+navigation.navigate('Annonces')
+}
+
   const [isVisible, setIsVisible] = useState(false);
   var lesAnnonces = favorisList.map((data, i ) =>{
-    return( <TouchableOpacity key={i}>
+    return( <TouchableOpacity key={i} onPress = {()=>recupAnnonce(data)}>
     <Card image={{ uri: data.images[0] }} imageStyle= {{height:250}}>
         <Text style={{marginBottom:5, fontSize: 22}}>{data.ville} ({data.codePostal})</Text>
         <Text style={{marginBottom:5, fontSize:18}}>{data.typeDeBien}</Text>
@@ -25,7 +31,7 @@ const deleteFav = async (data) =>{
         <Text h4 style={{marginBottom:5}}>{data.prix}€/mois</Text> 
         <Image source={{ uri: data.image }}/>
         <IconFontAwesome 
-         style={{marginLeft:320}}
+         style={{alignSelf: 'flex-end', marginRight:5}}
                 name="trash"
                 size={25}
                 color="black"
@@ -76,7 +82,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state){
-  console.log('hello',state)
+  
   return { favorisList: state.favlist, token:state.token }
 }
 
@@ -84,6 +90,9 @@ function mapDispatchToProps(dispatch){
   return{
     deleteOnClick: function(fav){
       dispatch({type: 'deleteFav',fav})
+    },
+    printAnnonce: function(fav){
+      dispatch({type: 'AnnonceFav',fav})
     },
   }
 }
