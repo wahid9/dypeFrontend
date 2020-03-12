@@ -37,7 +37,7 @@ var signIn = async ()=> {
     title="Se Connecter"
     string = "#79d279" 
     onPress = {()=> Alert.alert("Remplissez vos champs de saisie", "Veuillez saisir votre email et mot de passe")}
-/>
+    />
   }else{
   Btn =  <Button
           buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
