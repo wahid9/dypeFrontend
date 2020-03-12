@@ -19,6 +19,7 @@ function AnnonceScreen({navigation,detailAnnonce}) {
     const [annonce, setAnnonce] = useState(detailAnnonce);
     const [dispoCeJour, setDispoCeJour] = useState([]);
 
+    console.log(annonce);
     LocaleConfig.locales['fr'] = {
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
         monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -39,6 +40,36 @@ function AnnonceScreen({navigation,detailAnnonce}) {
         setCalendarVisible(true); setCalendarDay(day); setIsVisible(false); 
     }
 
+    var handleSubmitHour = () => {setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '14:30'})}
+   var parking;
+   var interphone;
+   var terrasse;
+   var ascenseur;
+   var balcon;
+   var cave;
+   var digicode;
+
+   if(annonce.parking == true){
+    parking = <Text style={{marginBottom:2, fontSize:17}}>Parking</Text>
+   }
+    if(annonce.interphone == true){
+       interphone = <Text style={{marginBottom:2, fontSize:17}}>Interphone</Text>
+   }
+   if(annonce.terrasse == true){
+    terrasse = <Text style={{marginBottom:2, fontSize:17}}>Terrasse</Text>
+   }
+   if(annonce.cave == true){
+       cave = <Text style={{marginBottom:2, fontSize:17}}>Cave</Text>
+   }
+   if(annonce.balcon == true){
+        balcon =  <Text style={{marginBottom:2, fontSize:17}}>Balcon</Text>
+   }
+   if(annonce.ascenseur == true){
+    ascenseur =  <Text style={{marginBottom:2, fontSize:17}}>ascenseur</Text>
+   }
+   if(annonce.digicode == true){
+    digicode = <Text style={{marginBottom:2, fontSize:17}}>digicode</Text>
+   }
     // var handleSubmitHour = () => {setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '14:30'})}
    
     let newDispo=[]
@@ -142,12 +173,24 @@ function AnnonceScreen({navigation,detailAnnonce}) {
         </View>
        
         <Card image={{ uri: annonce.images[0] }} imageStyle= {{height:250}} >
-            <Text style={{marginBottom:5, fontSize:22}}>{annonce.ville} {annonce.codePostal}</Text>
-            <Text style={{marginBottom:5, fontSize: 18}}>{annonce.typeDeBien}</Text>
-            <Text style={{marginBottom:5}}>{annonce.nbPiece} pièces / {annonce.surface} m²</Text>
-            <Text>chauffage {annonce.chauffage}</Text>
-            <Text></Text>
-            <Text h4 style={{marginBottom:5}}>{annonce.prix} €/mois</Text>
+            <Text style={{marginBottom:5, fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
+            <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
+            <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
+            <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
+            <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
+            <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
+            <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
+            <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
+            <Text style={{marginBottom:2, fontSize:17}}>{annonce.toilette} Toilette </Text>
+            <Text style={{marginBottom:2, fontSize:17}}>Chauffage {annonce.chauffage}</Text>
+            {parking}
+            {interphone}
+            {terrasse}
+            {cave}
+            {balcon}
+            {ascenseur}
+            {digicode}
+            <View style={{height:2, width:360,marginTop:10}}></View>
         </Card>
         </ScrollView>
         <Button
