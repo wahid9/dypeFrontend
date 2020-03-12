@@ -8,8 +8,7 @@ import IconBurger from '@expo/vector-icons/Feather';
 import { DrawerActions } from '@react-navigation/native';
 import {connect} from "react-redux";
 
-function AnnonceScreen({navigation,detailAnnonce}) {
-
+function AnnonceScreen({navigation,detailAnnonce,reduxFunction}) {
     const [isVisible, setIsVisible] = useState(false);
     const [calendarVisible, setCalendarVisible] = useState(false);
     const [calendarDay, setCalendarDay] = useState('');
@@ -17,9 +16,9 @@ function AnnonceScreen({navigation,detailAnnonce}) {
     const [monRdv, setMonRdv] = useState ({});
     const [colorButton, setColorButton] = useState("#125CE0");
     const [annonce, setAnnonce] = useState(detailAnnonce);
+    const [image, setImage] = useState(annonce.images[0]);
     const [dispoCeJour, setDispoCeJour] = useState([]);
-
-    console.log(annonce);
+    
     LocaleConfig.locales['fr'] = {
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
         monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -31,6 +30,16 @@ function AnnonceScreen({navigation,detailAnnonce}) {
 
     var monthName= ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']
 
+    var jour = calendarDay.day;
+    var mois = formatMois(calendarDay.month);
+    console.log("mon mois",mois)
+    var annee = calendarDay.year;
+    
+    var sendInfos = ()=>{
+        reduxFunction(image,jour,mois)
+        setConfirmation(false)
+        navigation.navigate('Mes rdv'); 
+    }
     function formatMois (mois)  {
         let moisEnLettre = monthName[mois-1]
         return moisEnLettre
@@ -41,7 +50,7 @@ function AnnonceScreen({navigation,detailAnnonce}) {
     }
 
     var handleSubmitHour = () => {setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '14:30'})}
-   var parking;
+    var parking;
    var interphone;
    var terrasse;
    var ascenseur;
@@ -73,7 +82,6 @@ function AnnonceScreen({navigation,detailAnnonce}) {
     // var handleSubmitHour = () => {setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '14:30'})}
    
     let newDispo=[]
-    console.log('annonce.dispoVisite :', typeof annonce.dispoVisite[0]);
     for(let i=0; i<annonce.dispoVisite.length; i++){
         newDispo.push(new Date(annonce.dispoVisite[i]));
     }
@@ -107,8 +115,6 @@ function AnnonceScreen({navigation,detailAnnonce}) {
     });
 
     // EXEMPLE : let listID = listIDdata.map(function(doc, i){
-
-
     return (
     <View style={{flex: 1}}>
         <Overlay 
@@ -161,7 +167,7 @@ function AnnonceScreen({navigation,detailAnnonce}) {
                         title= 'Confirmer'
                         buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
                         containerStyle = {{borderRadius:30, alignSelf: 'center', justifyContent: 'flex-end'}} 
-                        onPress = {() => {navigation.navigate('Mes rdv'); setConfirmation(false) }}
+                        onPress = {() => { sendInfos()}}
                         />
             </Overlay>
 
@@ -222,5 +228,11 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
     return { detailAnnonce: state.annonce }
   }
-    
-  export default connect (mapStateToProps,null)(AnnonceScreen);
+
+function mapDispatchToProps(dispatch) {
+    return {
+      reduxFunction: function(picture,day,month) { 
+        dispatch({type:'confirmerRdv', image: picture, jour : day, mois : month}) 
+      }}
+}
+  export default connect (mapStateToProps,mapDispatchToProps)(AnnonceScreen);

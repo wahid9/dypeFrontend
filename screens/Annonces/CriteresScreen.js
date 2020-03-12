@@ -16,7 +16,6 @@ function Critere({navigation, token}) {
       body: `ville=${ville}&budgetMin=${budgetMin}&budgetMax=${budgetMax}&token=${token}`
     });
     var response = await data.json()
-    console.log(response)
     navigation.navigate('Drawer')
   }
 

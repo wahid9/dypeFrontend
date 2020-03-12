@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state){
-  console.log('hello',state)
   return { favorisList: state.favlist, token:state.token }
 }
 
