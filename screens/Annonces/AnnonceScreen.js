@@ -78,21 +78,21 @@ function AnnonceScreen({navigation,detailAnnonce}) {
         newDispo.push(new Date(annonce.dispoVisite[i]));
     }
 
-    useEffect(()=>{
+    // useEffect(()=>{
 
-        console.log('newDispo[0] :', newDispo[0]);
-        console.log('newDispo[0].getFullYear() :', newDispo[0].getFullYear());
-        console.log('newDispo[0].getDate() :', newDispo[0].getDate());
-        console.log('newDispo[0].getMonth() :', newDispo[0].getMonth());
-        console.log('calendarDay :', calendarDay);
-        for(let i=0; i<newDispo.length; i++){
-            if(newDispo[i].getFullYear()==calendarDay.year && newDispo[i].getDate()==calendarDay.day && newDispo[i].getMonth()+1==calendarDay.month){
-                setDispoCeJour([...dispoCeJour, newDispo[i]]);
-            }
-        }
-        // console.log('object :', object); ICIIIIIIIII
+    //     console.log('newDispo[0] :', newDispo[0]);
+    //     console.log('newDispo[0].getFullYear() :', newDispo[0].getFullYear());
+    //     console.log('newDispo[0].getDate() :', newDispo[0].getDate());
+    //     console.log('newDispo[0].getMonth() :', newDispo[0].getMonth());
+    //     console.log('calendarDay :', calendarDay);
+    //     for(let i=0; i<newDispo.length; i++){
+    //         if(newDispo[i].getFullYear()==calendarDay.year && newDispo[i].getDate()==calendarDay.day && newDispo[i].getMonth()+1==calendarDay.month){
+    //             setDispoCeJour([...dispoCeJour, newDispo[i]]);
+    //         }
+    //     }
+    //     // console.log('object :', object); ICIIIIIIIII
 
-    },[calendarDay]);
+    // },[calendarDay]);
 
 
     var listDispo=dispoCeJour.map(function(dispo, i){
