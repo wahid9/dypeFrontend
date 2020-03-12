@@ -97,7 +97,7 @@ function SnapScreen(props) {
                     });
                     data.append('token', props.token)
                     console.log('DATA', data)
-                    var rawResponse = await fetch("http://10.2.5.209:3000/uploadfromcamera", {
+                    var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromcamera", {
                       method: 'POST',
                       body: data
                     });

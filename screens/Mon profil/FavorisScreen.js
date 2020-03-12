@@ -13,7 +13,7 @@ function FavorisScreen({navigation}) {
   }, []);
   return (
     <ScrollView style={{marginTop: 25}}>
-       <Overlay
+  <Overlay
      isVisible={isVisible}
      onBackdropPress={() => {setIsVisible(false)}}
    > 

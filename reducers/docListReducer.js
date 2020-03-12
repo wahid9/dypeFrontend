@@ -19,8 +19,6 @@ export default function(docList=[], action){
         var docListCopy=[...docList];
         let index=docListCopy.findIndex(document => document._id == action.document._id);
         docListCopy.splice(index, 1);
-        console.log('docListCopy :', docListCopy);
-        console.log('index :', index);
         return docListCopy
 
     } else {
