@@ -19,7 +19,7 @@ function AnnonceScreen({navigation,detailAnnonce}) {
     const [annonce, setAnnonce] = useState(detailAnnonce);
     const [dispoCeJour, setDispoCeJour] = useState([]);
 
-    console.log(annonce);
+
     LocaleConfig.locales['fr'] = {
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
         monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -73,7 +73,7 @@ function AnnonceScreen({navigation,detailAnnonce}) {
     // var handleSubmitHour = () => {setMonRdv({date: calendarDay.day +' '+ formatMois(calendarDay.month)+ ' ' + calendarDay.year ,heure: '14:30'})}
    
     let newDispo=[]
-    console.log('annonce.dispoVisite :', typeof annonce.dispoVisite[0]);
+    // console.log('annonce.dispoVisite :', typeof annonce.dispoVisite[0]);
     for(let i=0; i<annonce.dispoVisite.length; i++){
         newDispo.push(new Date(annonce.dispoVisite[i]));
     }
