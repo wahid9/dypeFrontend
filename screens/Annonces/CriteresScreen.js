@@ -10,7 +10,7 @@ function Critere({navigation, token}) {
   const [budgetMax, setBudgetMax] = useState("");
 
   var select = async () => {
-    var data = await fetch("http://10.2.5.232:3000/recherche", {
+    var data = await fetch("http://10.2.5.209:3000/recherche", {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `ville=${ville}&budgetMin=${budgetMin}&budgetMax=${budgetMax}&token=${token}`
@@ -35,6 +35,7 @@ function Critere({navigation, token}) {
         inputContainerStyle={{borderBottomWidth: 0}}
         onChangeText = {(value)=> setVille(value)}
         value = {ville}
+        inputContainerStyle={{borderBottomWidth:0}}
       />
       <Input containerStyle = {{marginBottom: -40, width: '70%'}} 
         inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
@@ -42,6 +43,7 @@ function Critere({navigation, token}) {
         inputContainerStyle={{borderBottomWidth: 0}}
         onChangeText = {(value)=> setBudgetMin(value)}
         value = {budgetMin}
+        inputContainerStyle={{borderBottomWidth:0}}
       />
       <Input containerStyle = {{marginBottom: -40, width: '70%'}} 
         inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
@@ -49,6 +51,7 @@ function Critere({navigation, token}) {
         inputContainerStyle={{borderBottomWidth: 0}}
         onChangeText = {(value)=> setBudgetMax(value)}
         value = {budgetMax}
+        inputContainerStyle={{borderBottomWidth:0}}
       />
       <Button
         title="Suivant"

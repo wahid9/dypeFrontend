@@ -11,7 +11,7 @@ function Connection({navigation,onSubmitToken}) {
   
 
 var signIn = async ()=> {
-  var data = await fetch('http://10.2.5.232:3000/signIn', {
+  var data = await fetch('http://10.2.5.209:3000/signIn', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `email=${email}&mdp=${mdp}`
@@ -57,12 +57,14 @@ var signIn = async ()=> {
         placeholder='Email'
         onChangeText = {(value)=> setEmail(value)}
         value = {email}
+        inputContainerStyle={{borderBottomWidth:0}}
         />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
         inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
         placeholder='Mot de passe'
         onChangeText = {(value)=> setMdp(value)}
         value = {mdp}
+        inputContainerStyle={{borderBottomWidth:0}}
         />
         {Btn}
       <Text style={{color:"white",marginTop:50}}
