@@ -1,81 +1,70 @@
 import React,{useState,useEffect} from 'react';
-import { StyleSheet, View,Image,ScrollView, Alert, AsyncStorage} from 'react-native';
+import { StyleSheet, View,Image,ScrollView, Alert, AsyncStorage,TouchableOpacity} from 'react-native';
 import {Card, Badge, Text,Button} from 'react-native-elements';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Overlay } from 'react-native-elements';
 import IconBurger from '@expo/vector-icons/Feather';
+import { connect } from 'react-redux';
 
-function FavorisScreen({navigation}) {
+function FavorisScreen({navigation,favorisList,token,deleteOnClick}) {
  
+const deleteFav = async (data) =>{
+  var rawResponse = await fetch(`http:///10.2.5.189:3000/deleteFav/${data._id}/${token}`,{
+  method : 'DELETE'
+  })
+  deleteOnClick(data)
+}
+
+
+
   const [isVisible, setIsVisible] = useState(false);
-    
-  useEffect(() => {
-  }, []);
-  return (
-    <ScrollView style={{marginTop: 25}}>
-       <Overlay
-     isVisible={isVisible}
-     onBackdropPress={() => {setIsVisible(false)}}
-   > 
-   </Overlay>
-   <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => navigation.openDrawer()} />
-      <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
-      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
-      </View>
-    <Text h4 style={{textAlign: 'center'}}>MES FAVORIS</Text>
-   
-    <Card image={require('../../assets/livingRoom.jpg')} >
-        <Text>Appartement à louer,Paris 11eme. </Text>
-        <Text>2 pièces/30m2. </Text>
-        <Text h4>700€/mois </Text>
+  var lesAnnonces = favorisList.map((data, i ) =>{
+    return( <TouchableOpacity key={i}>
+    <Card image={{ uri: data.images[0] }} imageStyle= {{height:250}}>
+        <Text style={{marginBottom:5, fontSize: 22}}>{data.ville} ({data.codePostal})</Text>
+        <Text style={{marginBottom:5, fontSize:18}}>{data.typeDeBien}</Text>
+        <Text style={{marginBottom:5}}>{data.nbPiece} pièces/ {data.surface} m²</Text>
+        <Text h4 style={{marginBottom:5}}>{data.prix}€/mois</Text> 
+        <Image source={{ uri: data.image }}/>
         <IconFontAwesome 
          style={{marginLeft:320}}
                 name="trash"
                 size={25}
                 color="black"
-                onPress = {()=> {Alert.alert(
+                onPress = {()=> {
+                  Alert.alert(
                   'Etes-vous sûr(e) de vouloir supprimer cette annonce de vos favoris ? ',
                   '',
                   [
-                    
+
                     {
-                      text: 'OUI',
+                      text: 'NON',
                       onPress: () => console.log('Cancel Pressed'),
                       style: 'cancel',
                     },
-                    {text: 'NON', onPress: () => console.log('OK Pressed')},
+                    {text: 'OUI', onPress: ()=>{deleteFav(data),console.log('hello')}},
                   ],
                   {cancelable: false},
-                  
+
                 );}}
-               
+              
+
+
             />
     </Card>
-    <Card image={require('../../assets/livingRoom.jpg')}>
-        <Text>Appartement à louer,Paris 11eme. </Text>
-        <Text>2 pièces/30m2. </Text>
-        <Text h4>700€/mois </Text>
-        <IconFontAwesome style={{marginLeft:320}}
-                name="trash"
-                size={25}
-                color="black"
-            />
-    </Card>
-    <Card image={require('../../assets/livingRoom.jpg')}>
-        <Text>Appartement à louer,Paris 11eme. </Text>
-        <Text>2 pièces/30m2. </Text>
-        <Text h4>700€/mois </Text>
-        <IconFontAwesome style={{marginLeft:320}}
-                name="trash"
-                size={25}
-                color="black"
-            />
-    </Card>
+    </TouchableOpacity>
+)}
+)
+  
+  return (
+    <ScrollView style={{marginTop: 25}}>
+   <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => navigation.openDrawer()} />
+      <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
+      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
+      </View>
+    <Text h4 style={{textAlign: 'center'}}>MES FAVORIS</Text>
+    {lesAnnonces}
 </ScrollView>
-
-    
-    
-
   );
 }
 
@@ -88,4 +77,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FavorisScreen;
+function mapStateToProps(state){
+  console.log('hello',state)
+  return { favorisList: state.favlist, token:state.token }
+}
+
+function mapDispatchToProps(dispatch){
+  return{
+    deleteOnClick: function(fav){
+      dispatch({type: 'deleteFav',fav})
+    },
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps) (FavorisScreen);
