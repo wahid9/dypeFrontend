@@ -11,7 +11,7 @@ import IconRefresh from '@expo/vector-icons/Feather'
 
 import * as DocumentPicker from 'expo-document-picker';
 
-function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onClickDelete, navigation, token}) {
+function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onClickDelete, navigation, token, onSubmitDossier}) {
 
   const [listIDdata, setListIDdata] = useState([]);
   const [listJDdata, setListJDdata] = useState([]);
@@ -497,7 +497,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
         buttonStyle={{backgroundColor: '#fce229', width: 'auto', padding: 10}}
         containerStyle={{alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginTop: 30, marginBottom: 20}}
         titleStyle={{color: '#282828', fontSize: 14}}
-        onPress={()=>setSubmitVisible(true)}
+        onPress={()=>{setSubmitVisible(true); onSubmitDossier()}}
       />
 
 
@@ -576,6 +576,9 @@ function mapDispatchToProps(dispatch){
     },
     onClickDelete: function(document){
       dispatch({type: 'deleteDocument', document})
+    },
+    onSubmitDossier: function(){
+      dispatch({type: 'submitDossier'})
     }
   }
 }
