@@ -85,7 +85,6 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
    }
    
     let newDispo=[]
-    // console.log('annonce.dispoVisite :', typeof annonce.dispoVisite[0]);
     for(let i=0; i<annonce.dispoVisite.length; i++){
         newDispo.push(new Date(annonce.dispoVisite[i]));
     }
@@ -175,21 +174,24 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
         </Overlay>
 
         <Overlay style={{flex:1}}
-                height={350}
+                height={300}
                 width= {330}
                 isVisible={confirmation}
-                onBackdropPress={() => {setConfirmation(false)}}>
-                    <View style={{flex:0.8, alignItems:'center'}}>
-                        <Image source={require('../../assets/foncia.png')} style={{height: 75, width: 75}} containerStyle={{marginTop:20, marginBottom:30}}/>
-                        <Text style={{textAlign:'center', justifyContent:'center'}}>Vous venez de sélectionner un rendez-vous pour le {monRdv.getDate()+'/'+(monRdv.getMonth()+1)+'/'+monRdv.getFullYear()} à {getHour(monRdv)} avec l'agence Foncia du 11ème</Text>
-                    </View>
-                    <Button 
-                        title= 'Confirmer'
-                        buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
-                        containerStyle = {{borderRadius:30, alignSelf: 'center', justifyContent: 'flex-end'}} 
-                        onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv') }} // saveRDV(monRdv)
-                        />
-            </Overlay>
+                onBackdropPress={() => {setConfirmation(false)}}
+        >
+            <View style={{flex:1, alignItems:'center'}}>
+                <View style={{flex:0.8, alignItems:'center'}}>
+                    <Image source={require('../../assets/foncia.png')} style={{height: 75, width: 75}} containerStyle={{marginTop:20, marginBottom:30}}/>
+                    <Text style={{textAlign:'center', justifyContent:'center'}}>Vous venez de sélectionner un rendez-vous pour le {monRdv.getDate()+'/'+(monRdv.getMonth()+1)+'/'+monRdv.getFullYear()} à {getHour(monRdv)} avec l'agence Foncia Paris Est</Text>
+                </View>
+                <Button 
+                    title= 'Confirmer'
+                    buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
+                    containerStyle = {{borderRadius:30, justifyContent: 'flex-end'}} 
+                    onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv') }} // saveRDV(monRdv)
+                />
+            </View>
+        </Overlay>
 
 
         <ScrollView style={{marginTop: 25}}>

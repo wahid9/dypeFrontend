@@ -30,7 +30,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     const fetchData = async() => {
           //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
       
-      var rawData = await fetch(`http://10.2.5.209:3000/getDocuments/${token}`);
+      var rawData = await fetch(`http://10.2.5.181:3000/getDocuments/${token}`);
       var data = await rawData.json();
       getDocumentsOnInit(data.documents);
 
@@ -61,7 +61,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
               //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
     
     data.append('token', token)
-    var rawResponse = await fetch("http://10.2.5.209:3000/uploadfromphone", {
+    var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromphone", {
       method: 'POST',
       body: data
     });
@@ -84,9 +84,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     return newString;
   }
 
-// SUPPRESSION DE DOCUMENTS
+// SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
   const deleteDocument = async () => {
-    let rawResponse = await fetch(`http://10.2.5.209:3000/deleteDocument/${token}/${tempDoc._id}`, {
+    let rawResponse = await fetch(`http://10.2.5.181:3000/deleteDocument/${token}/${tempDoc._id}`, {
       method: 'DELETE'
     })
     let response = await rawResponse.json();
@@ -112,55 +112,6 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
 
   // FILTRE DES DIFFERENTS TYPES DE DOCUMENTS DEPUIS DOCLIST DU STORE
-
-  var tempListID=[];
-  var tempListJD=[];
-  var tempListBS=[];
-  var tempListCT=[];
-  var tempListAI=[];
-
-  // AU CHANGEMENT D'ETAT DU STORE ON CHARGE 
-  // ON PASSE PAR DES TEMPLIST CAR ON A PAS LE TEMPS DE SET L'ETAT QUE LA BOUCLE EST DEJA PASSE AU I SUPERIEUR 
-  // useEffect(()=>{
-  //   for(let i=0; i<docList.length; i++){
-  //     if(docList[i].type[0]==='i' && docList[i].type[1]==='d'){
-  //       let index=tempListID.findIndex(doc => doc._id===docList[i]._id);
-  //       console.log('index :', index);
-  //       if(index===-1){
-  //         tempListID.push(docList[i]);
-  //       }
-  //     } else if(docList[i].type[0]==='j' && docList[i].type[1]==='d'){
-  //       let index=tempListJD.findIndex(doc => doc._id===docList[i]._id);
-  //       console.log('index :', index);
-  //       if(index===-1){
-  //         tempListJD.push(docList[i]);
-  //       }
-  //     } else if(docList[i].type[0]==='b' && docList[i].type[1]==='s'){
-  //       let index=tempListBS.findIndex(doc => doc._id===docList[i]._id);
-  //       console.log('index :', index);
-  //       if(index===-1){
-  //         tempListBS.push(docList[i]);
-  //       }
-  //     } else if(docList[i].type[0]==='c' && docList[i].type[1]==='t'){
-  //       let index=tempListCT.findIndex(doc => doc._id===docList[i]._id);
-  //       console.log('index :', index);
-  //       if(index===-1){
-  //         tempListCT.push(docList[i]);
-  //       }
-  //     } else if(docList[i].type[0]==='a' && docList[i].type[1]==='i'){
-  //       let index=tempListAI.findIndex(doc => doc._id===docList[i]._id);
-  //       console.log('index :', index);
-  //       if(index===-1){
-  //         tempListAI.push(docList[i]);
-  //       }
-  //     }
-  //   }
-  //   setListIDdata(tempListID);
-  //   setListJDdata(tempListJD);
-  //   setListBSdata(tempListBS);
-  //   setListCTdata(tempListCT);
-  //   setListAIdata(tempListAI);
-  // }, [docList]);
 
   let newListID=[];
   let newListJD=[];
