@@ -19,7 +19,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     const [annonce, setAnnonce] = useState(detailAnnonce); // REFAIRE A L'OCCASE EN MAPPANT DIRECTEMENT SUR LE STORE
     const [dispoCeJour, setDispoCeJour] = useState([]);
     const [monRdv, setMonRdv] = useState (new Date);
-    // const [image, setImage] = useState(annonce.images[0]);
+    const [image, setImage] = useState(annonce.images[0]);
     // console.log("Mon tableau d'images",annonce)
 
     // var images = annonce.images.map((data, i ) =>{

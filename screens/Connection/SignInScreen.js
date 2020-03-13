@@ -11,11 +11,7 @@ function Connection({navigation,onSubmitToken}) {
   
 
 var signIn = async ()=> {
-<<<<<<< HEAD
   var data = await fetch('http://10.2.5.232:3000/signIn', {
-=======
-  var data = await fetch('http://10.2.5.181:3000/signIn', {
->>>>>>> b4975929f0fd2af32ea6d8b03d35c2f42b7f890c
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `email=${email}&mdp=${mdp}`
@@ -54,7 +50,7 @@ var signIn = async ()=> {
     <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
      <Image
         source= {require("../../assets/dype.png")}
-        style={{height:115, width:222, marginTop:60}}
+        style={{height:115, width:222, marginTop:160, marginBottom: 80}}
     />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
         inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
@@ -69,6 +65,7 @@ var signIn = async ()=> {
         onChangeText = {(value)=> setMdp(value)}
         value = {mdp}
         inputContainerStyle={{borderBottomWidth:0}}
+        secureTextEntry={true}
         />
         {Btn}
       <Text style={{color:"white",marginTop:50}}
