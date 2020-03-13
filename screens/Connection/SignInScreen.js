@@ -50,7 +50,7 @@ var signIn = async ()=> {
     <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
      <Image
         source= {require("../../assets/dype.png")}
-        style={{height:115, width:222, marginTop:60,marginBottom: 210}}
+        style={{height:115, width:222, marginTop:60}}
     />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
         inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between'
   },
 });
 
