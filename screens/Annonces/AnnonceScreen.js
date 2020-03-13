@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { StyleSheet,  View, ScrollView } from 'react-native';
+import { StyleSheet,  View, ScrollView, Alert } from 'react-native';
 import {Button, Image, Text, ListItem, Overlay, Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconAnt from 'react-native-vector-icons/AntDesign';
@@ -8,7 +8,7 @@ import IconBurger from '@expo/vector-icons/Feather';
 import { DrawerActions } from '@react-navigation/native';
 import {connect} from "react-redux";
 
-function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
+function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDossier}) {
 
     const [isVisible, setIsVisible] = useState(false);
     const [calendarVisible, setCalendarVisible] = useState(false);
@@ -90,7 +90,6 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
    }
    
     let newDispo=[]
-    // console.log('annonce.dispoVisite :', typeof annonce.dispoVisite[0]);
     for(let i=0; i<annonce.dispoVisite.length; i++){
         newDispo.push(new Date(annonce.dispoVisite[i]));
     }
@@ -113,15 +112,23 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
 
 
     },[calendarDay]);
+    
 
 
     var listDispo=dispoCeJour.map(function(dispo, i){
+
+        var color = "#C0CFEC";
+        ///for (var j = 0; j < dispoCeJour.length;i++){
+            if(monRdv=== dispo){
+                color =  "#125CE0"
+            }
+        //}
 
         return( <Button 
             key={i}
             title= {getHour(dispo)}
             titleStyle={{fontSize: 14}}
-            buttonStyle= {{backgroundColor: colorButton, height:44, width: 96}}
+            buttonStyle= {{backgroundColor: color, height:44, width: 96}}
             containerStyle = {{borderRadius:30, marginLeft: 5, marginRight: 5}} 
             onPress ={()=> {setMonRdv(dispo)}}
             />
@@ -180,21 +187,24 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
         </Overlay>
 
         <Overlay style={{flex:1}}
-                height={350}
+                height={300}
                 width= {330}
                 isVisible={confirmation}
-                onBackdropPress={() => {setConfirmation(false)}}>
-                    <View style={{flex:0.8, alignItems:'center'}}>
-                        <Image source={require('../../assets/foncia.png')} style={{height: 75, width: 75}} containerStyle={{marginTop:20, marginBottom:30}}/>
-                        <Text style={{textAlign:'center', justifyContent:'center'}}>Vous venez de sélectionner un rendez-vous pour le {monRdv.getDate()+'/'+(monRdv.getMonth()+1)+'/'+monRdv.getFullYear()} à {getHour(monRdv)} avec l'agence Foncia du 11ème</Text>
-                    </View>
-                    <Button 
-                        title= 'Confirmer'
-                        buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
-                        containerStyle = {{borderRadius:30, alignSelf: 'center', justifyContent: 'flex-end'}} 
-                        onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv') }} // saveRDV(monRdv)
-                        />
-            </Overlay>
+                onBackdropPress={() => {setConfirmation(false)}}
+        >
+            <View style={{flex:1, alignItems:'center'}}>
+                <View style={{flex:0.8, alignItems:'center'}}>
+                    <Image source={require('../../assets/foncia.png')} style={{height: 75, width: 75}} containerStyle={{marginTop:20, marginBottom:30}}/>
+                    <Text style={{textAlign:'center', justifyContent:'center'}}>Vous venez de sélectionner un rendez-vous pour le {monRdv.getDate()+'/'+(monRdv.getMonth()+1)+'/'+monRdv.getFullYear()} à {getHour(monRdv)} avec l'agence Foncia Paris Est</Text>
+                </View>
+                <Button 
+                    title= 'Confirmer'
+                    buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
+                    containerStyle = {{borderRadius:30, justifyContent: 'flex-end'}} 
+                    onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv') }} // saveRDV(monRdv)
+                />
+            </View>
+        </Overlay>
 
 
         <ScrollView style={{marginTop: 25}}>
@@ -214,6 +224,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
                 <Text style={{marginBottom:5,marginTop:10,fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
                 <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
                 <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
+                <Text style={{marginTop:10, marginBottom:15,fontSize:15}}> Paris XII - SQUARE COURTELINE - 3 PIÈCES DE 73 M² - 2 CH - Dans un immeuble de standing, sécurisé par digicode et interphone. Nous vous proposons cet appartement de 3 pièces de 73 m² carrez, au 2ème ETAGE. Cet appartement se compose d'une entrée avec un très, d'une belle pièce de séjour, d'une cuisine (non équipée et non aménagée) et d'un WC indépendant, de deux chambres et une salle de bains. Chauffage et eau chaude individuelle électrique. Loyer HC: 1839,60; Provisions sur charges: 200euros, parking: 124,11euros soit un loyer CC de 2163,71euros/Mois. </Text>
                 <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
                 <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
                 <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
@@ -240,7 +251,13 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
                     color="#ffffff"
                     style= {{marginRight : 5}}/>
                 }
-                    onPress={()=> setIsVisible(true) }
+                    onPress={()=> {
+                        if(!validDossier){
+                            Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.")
+                        } else {
+                            setIsVisible(true)
+                        }
+                    }}
                     title="Prendre un rendez-vous"
                     buttonStyle= {{backgroundColor: "#125CE0"}}
                     containerStyle={{height: 35, marginBottom: 10}}
@@ -260,7 +277,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-    return { detailAnnonce: state.annonce, token: state.token }
+    return { detailAnnonce: state.annonce, token: state.token, validDossier: state.validDossier }
   }
 
 function mapDispatchToProps(dispatch) {

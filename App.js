@@ -29,7 +29,8 @@ import {Provider} from 'react-redux';
 import {createStore, combineReducers} from 'redux';
 import annonce from './reducers/AnnonceReducer';
 import RDV from './reducers/RDVReducer';
-const store = createStore(combineReducers({docType, docList,token,annonce,favlist,RDV}));
+import validDossier from './reducers/validDossierReducer';
+const store = createStore(combineReducers({docType, docList,token,annonce,favlist,RDV, validDossier}));
 
 
 
