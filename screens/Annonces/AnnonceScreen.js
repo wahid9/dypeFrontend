@@ -21,6 +21,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
     const [monRdv, setMonRdv] = useState (new Date);
     const [image, setImage] = useState(annonce.images[0]);
 
+
     LocaleConfig.locales['fr'] = {
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
         monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -84,6 +85,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction}) {
    }
    
     let newDispo=[]
+    // console.log('annonce.dispoVisite :', typeof annonce.dispoVisite[0]);
     for(let i=0; i<annonce.dispoVisite.length; i++){
         newDispo.push(new Date(annonce.dispoVisite[i]));
     }

@@ -84,30 +84,35 @@ var Btn;
             onChangeText = {(value)=>setNom(value)}
             value = {nom}
             inputContainerStyle = "password"
+            inputContainerStyle={{borderBottomWidth:0}}
             />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
             placeholder='Prénom'
             onChangeText = {(value)=>setPrenom(value)}
             value = {prenom}
+            inputContainerStyle={{borderBottomWidth:0}}
             />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
             placeholder='Email'
             onChangeText = {(value)=>setEmail(value)}
             value = {email}
+            inputContainerStyle={{borderBottomWidth:0}}
             />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
             placeholder='Mot de passe'
             onChangeText = {(value)=>setMdp(value) }
             value = {mdp}
+            inputContainerStyle={{borderBottomWidth:0}}
             />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
             placeholder='Confirmation mot de passe'
             onChangeText = {(value)=>setMdpConfirm(value)}
             value = {mdpConfirm}
+            inputContainerStyle={{borderBottomWidth:0}}
             />
             {Btn}
       <Text style={{color:"white",marginTop:50}}
