@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { StyleSheet,  View, ScrollView } from 'react-native';
+import { StyleSheet,  View, ScrollView, Alert } from 'react-native';
 import {Button, Image, Text, ListItem, Overlay, Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconAnt from 'react-native-vector-icons/AntDesign';
@@ -231,7 +231,13 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     color="#ffffff"
                     style= {{marginRight : 5}}/>
                 }
-                    onPress={()=> {setIsVisible(true); console.log('validDossier() :', validDossier)}}
+                    onPress={()=> {
+                        if(!validDossier){
+                            Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.")
+                        } else {
+                            setIsVisible(true)
+                        }
+                    }}
                     title="Prendre un rendez-vous"
                     buttonStyle= {{backgroundColor: "#125CE0"}}
                     containerStyle={{height: 35, marginBottom: 10}}
