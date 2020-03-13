@@ -7,6 +7,7 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import IconBurger from '@expo/vector-icons/Feather';
+import IconRefresh from '@expo/vector-icons/Feather'
 
 import * as DocumentPicker from 'expo-document-picker';
 
@@ -21,6 +22,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   const [submitVisible, setSubmitVisible] = useState(false);
   const [tempDoc, setTempDoc] = useState({});
   const [tempDocList, setTempDocList] = useState([]);
+  const [chargementVisible, setChargementVisible] = useState(false)
 
 
   // RECUPERE DANS LA BDD LES DOCUMENTS DEJA TELECHARGES PAR L'UTILISATEUR A L'INITIALISATION DU COMPONENT
@@ -44,7 +46,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     let documentFromPhone = await DocumentPicker.getDocumentAsync();
 
     // FONCTIONNE POUR TOUT MAIS DANS LE FUTUR REVOIR AU PROPRE LA GESTION TYPE DE FICHIER (JPEG - PDF, ETC...)
-
+    setChargementVisible(true)
     var data = new FormData();
     data.append('doc', {
       uri: documentFromPhone.uri,
@@ -57,7 +59,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     // data.append('typedefichier', docType)
 
               //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
-
+    
     data.append('token', token)
     var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromphone", {
       method: 'POST',
@@ -66,6 +68,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     var response = await rawResponse.json();
 
     addDocument(response.docUploaded);
+    setChargementVisible(false)
 
   }
 
@@ -81,7 +84,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     return newString;
   }
 
-// SUPPRESSION DE DOCUMENTS
+// SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
   const deleteDocument = async () => {
     let rawResponse = await fetch(`http://10.2.5.181:3000/deleteDocument/${token}/${tempDoc._id}`, {
       method: 'DELETE'
@@ -93,8 +96,8 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
     if(tempDoc.type[0]==='i' && tempDoc.type[1]==='d'){
       // FAIRE UN FINDINDEX ET SLICE
-      // setListIDdata(listIDdata.filter((e) => (e._id !== tempDoc._id) ));
-      newListID.filter((e) => (e._id !== tempDoc._id) );
+      setListIDdata(listIDdata.filter((e) => (e._id !== tempDoc._id) ));
+      // newListID.filter((e) => (e._id !== tempDoc._id) );
     } else if(tempDoc.type[0]==='j' && tempDoc.type[1]==='d'){
       setListJDdata(listJDdata.filter((e) => (e._id !== tempDoc._id) ));
     } else if(tempDoc.type[0]==='b' && tempDoc.type[1]==='s'){
@@ -109,55 +112,6 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
 
   // FILTRE DES DIFFERENTS TYPES DE DOCUMENTS DEPUIS DOCLIST DU STORE
-
-  var tempListID=[];
-  var tempListJD=[];
-  var tempListBS=[];
-  var tempListCT=[];
-  var tempListAI=[];
-
-  // AU CHANGEMENT D'ETAT DU STORE ON CHARGE 
-  // ON PASSE PAR DES TEMPLIST CAR ON A PAS LE TEMPS DE SET L'ETAT QUE LA BOUCLE EST DEJA PASSE AU I SUPERIEUR 
-  // useEffect(()=>{
-  //   for(let i=0; i<docList.length; i++){
-  //     if(docList[i].type[0]==='i' && docList[i].type[1]==='d'){
-  //       let index=tempListID.findIndex(doc => doc._id===docList[i]._id);
-  //       console.log('index :', index);
-  //       if(index===-1){
-  //         tempListID.push(docList[i]);
-  //       }
-  //     } else if(docList[i].type[0]==='j' && docList[i].type[1]==='d'){
-  //       let index=tempListJD.findIndex(doc => doc._id===docList[i]._id);
-  //       console.log('index :', index);
-  //       if(index===-1){
-  //         tempListJD.push(docList[i]);
-  //       }
-  //     } else if(docList[i].type[0]==='b' && docList[i].type[1]==='s'){
-  //       let index=tempListBS.findIndex(doc => doc._id===docList[i]._id);
-  //       console.log('index :', index);
-  //       if(index===-1){
-  //         tempListBS.push(docList[i]);
-  //       }
-  //     } else if(docList[i].type[0]==='c' && docList[i].type[1]==='t'){
-  //       let index=tempListCT.findIndex(doc => doc._id===docList[i]._id);
-  //       console.log('index :', index);
-  //       if(index===-1){
-  //         tempListCT.push(docList[i]);
-  //       }
-  //     } else if(docList[i].type[0]==='a' && docList[i].type[1]==='i'){
-  //       let index=tempListAI.findIndex(doc => doc._id===docList[i]._id);
-  //       console.log('index :', index);
-  //       if(index===-1){
-  //         tempListAI.push(docList[i]);
-  //       }
-  //     }
-  //   }
-  //   setListIDdata(tempListID);
-  //   setListJDdata(tempListJD);
-  //   setListBSdata(tempListBS);
-  //   setListCTdata(tempListCT);
-  //   setListAIdata(tempListAI);
-  // }, [docList]);
 
   let newListID=[];
   let newListJD=[];
@@ -195,7 +149,14 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
 
   // MAP POUR ELEMENTS ID
-  let listID = newListID.map(function(doc, i){
+  // if (newListID.length === 0) {
+  //   listID = <Text>Aucun document</Text>
+  // }
+  let listID= []
+  if (newListID.length === 0) {
+    var EmptyListID = <Text style={{marginLeft: 20, color:'#8395a7', fontStyle: 'italic'}}>Aucun document</Text>
+  }
+  listID = newListID.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <Text style={{marginLeft: 20, color:'#125ce0'}}> {formatDocumentName(doc.type)} </Text>
               <EvilIcons
@@ -212,7 +173,11 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
 
   // MAP POUR ELEMENTS JUSTIF IDENTITE
-  let listJD = newListJD.map(function(doc, i){
+  let listJD= []
+  if (newListJD.length === 0) {
+    var EmptyListJD = <Text style={{marginLeft: 20, color:'#8395a7', fontStyle: 'italic'}}>Aucun document</Text>
+  }
+  listJD = newListJD.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
               <EvilIcons
@@ -228,7 +193,11 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   });
 
   // MAP POUR ELEMENTS BULLETINS DE SALAIRE
-  let listBS = newListBS.map(function(doc, i){
+  let listBS= []
+  if (newListBS.length === 0) {
+    var EmptyListBS = <Text style={{marginLeft: 20, color:'#8395a7', fontStyle: 'italic'}}>Aucun document</Text>
+  }
+  listBS = newListBS.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
               <EvilIcons
@@ -244,7 +213,11 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   });
 
   // MAP POUR ELEMENTS CONTRAT DE TRAVAIL
-  let listCT = newListCT.map(function(doc, i){
+  let listCT= []
+  if (newListCT.length === 0) {
+    var EmptyListCT = <Text style={{marginLeft: 20, color:'#8395a7', fontStyle: 'italic'}}>Aucun document</Text>
+  }
+  listCT = newListCT.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
               <EvilIcons
@@ -260,7 +233,11 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   });
 
   // MAP POUR ELEMENTS AVIS IMPOSITION
-  let listAI = newListAI.map(function(doc, i){
+  let listAI= []
+  if (newListAI.length === 0) {
+    var EmptyListAI = <Text style={{marginLeft: 20, color:'#8395a7', fontStyle: 'italic'}}>Aucun document</Text>
+  }
+  listAI = newListAI.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
               <EvilIcons
@@ -303,6 +280,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
       </View>
 
       {listID}
+      {EmptyListID}
       
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
@@ -348,6 +326,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
       </View>
 
       {listJD}
+      {EmptyListJD}
 
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
@@ -394,6 +373,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
       </View>
 
       {listBS}
+      {EmptyListBS}
 
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
@@ -439,6 +419,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
       </View>
 
       {listCT}
+      {EmptyListCT}
 
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
@@ -485,6 +466,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
       </View>
 
       {listAI}
+      {EmptyListAI}
 
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 10, marginRight: 10}}>
         <Text>
@@ -550,6 +532,17 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
               Votre dossier a bien été soumis à notre équipe. Nous revenons vers vous dès que possible!
             </Text>
           </View>
+      </Overlay>
+      <Overlay 
+              overlayStyle = {{flexDirection : 'row'}}
+              height='auto'
+              width='auto'
+              isVisible={chargementVisible}>
+        {/* <IconRefresh 
+            name = 'refresh-cw'
+            size = {16}
+            style = {{marginTop: 3, marginRight: 6}}/> */}
+        <Text style={{textAlign:'center', fontSize:16}}>...Chargement</Text>
       </Overlay>
 
     </ScrollView>

@@ -12,7 +12,8 @@ function SnapScreen(props) {
   
   const [hasPermission, setHasPermission] = useState(null);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
-  
+  const [chargementVisible, setChargementVisible] = useState(false)
+
   var camera = useRef(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [photoUri, setPhotoUri] = useState ();
@@ -89,6 +90,8 @@ function SnapScreen(props) {
                 containerStyle={{alignItems: 'center'}}
                 titleStyle={{color: 'white', fontSize: 14}}
                 onPress={async()=>{
+                  setPreviewVisible(false);
+                  setChargementVisible(true)
                   var data = new FormData();
                     data.append('photo', {
                       uri: photoUri,
@@ -105,7 +108,7 @@ function SnapScreen(props) {
 
                     props.addDocument(response.docUploaded);
 
-                  setPreviewVisible(false);
+                  setChargementVisible(false)
                   props.navigation.navigate('Mes documents');
                 }}
               />
@@ -139,7 +142,18 @@ function SnapScreen(props) {
             type="solid"
         />
    
-    
+   <Overlay 
+              overlayStyle = {{flexDirection : 'row'}}
+              height='auto'
+              width='auto'
+              isVisible={chargementVisible}>
+        {/* <IconRefresh 
+            name = 'refresh-cw'
+            size = {16}
+            style = {{marginTop: 3, marginRight: 6}}/> */}
+        <Text style={{textAlign:'center', fontSize:16}}>...Chargement</Text>
+      </Overlay>
+
 </View>
   );
 }
