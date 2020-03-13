@@ -591,7 +591,8 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
             name = 'refresh-cw'
             size = {16}
             style = {{marginTop: 3, marginRight: 6}}/> */}
-        <Text style={{textAlign:'center', fontSize:16}}>...Chargement</Text>
+        <Text style={{textAlign:'center', fontSize:16}}> Chargement</Text>
+        <Image source={require('../../assets/Chargement2.gif')} style={{height:20,width:90, marginLeft:-20, marginRight:-20}}/>
       </Overlay>
 
     </ScrollView>
