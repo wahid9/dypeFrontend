@@ -18,6 +18,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   const [listAIdata, setListAIdata] = useState([]);
   const [visible, setVisible] = useState(false);
   const [submitVisible, setSubmitVisible] = useState(false);
+  const [submitFailureVisible, setSubmitFailureVisible] = useState(false);
   const [tempDoc, setTempDoc] = useState({});
   const [chargementVisible, setChargementVisible] = useState(false);
 
@@ -97,6 +98,24 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
       setListAIdata(listAIdata.filter((e) => (e._id !== tempDoc._id) ));
     }
     setVisible(false);
+  }
+
+  const handleSubmitDossier = async () => {
+    
+    if(newListID.length && newListJD.length && newListBS.length && newListCT.length && newListAI.length){
+      setSubmitVisible(true); 
+      let rawResponse = await fetch('http://192.168.1.82:3000/submitDossier', {
+        method: 'PUT',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `token=${token}`
+      });
+      // Enregistrement dans le store
+      onSubmitDossier()
+      
+    } else {
+      console.log('FAIL');
+      setSubmitFailureVisible(true);
+    }
   }
 
 
@@ -483,7 +502,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
         buttonStyle={{backgroundColor: '#fce229', width: 'auto', padding: 10}}
         containerStyle={{alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginTop: 30, marginBottom: 20}}
         titleStyle={{color: '#282828', fontSize: 14}}
-        onPress={()=>{setSubmitVisible(true); onSubmitDossier()}}
+        onPress={()=>handleSubmitDossier()}
       />
 
 
@@ -519,31 +538,36 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
             </Text>
           </View>
       </Overlay>
+
+      <Overlay isVisible={submitFailureVisible} width='80%' height='auto' onBackdropPress={()=>setSubmitFailureVisible(false)}>
+          <View style={{alignItems: 'center'}}>
+            <IconAntDesing
+              name='exclamationcircleo'
+              size={40}
+              style={{color: '#125ce0', marginBottom: 20}}
+            />
+            <Text>
+              Oups... Il semblerait que votre dossier ne soit pas complet. Merci de renseigner tous vos documents afin de pouvoir le soumettre à notre équipe.
+            </Text>
+          </View>
+      </Overlay>
+
       <Overlay 
-              overlayStyle = {{flexDirection : 'row'}}
-              height='auto'
-              width='auto'
-              isVisible={chargementVisible}>
-        {/* <IconRefresh 
-            name = 'refresh-cw'
-            size = {16}
-            style = {{marginTop: 3, marginRight: 6}}/> */}
-        <Text style={{textAlign:'center', fontSize:16}}> Chargement</Text>
-        <Image source={require('../../assets/Chargement2.gif')} style={{height:20,width:90, marginLeft:-20, marginRight:-20}}/>
+        overlayStyle = {{flexDirection : 'row'}}
+        height='auto'
+        width='auto'
+        isVisible={chargementVisible}
+      >
+        <View style={{width: 'auto', flexDirection : 'row'}}>
+          <Text style={{textAlign:'center', fontSize:16}}> Chargement</Text>
+          <Image source={require('../../assets/Chargement2.gif')} style={{height:20,width:90, marginLeft:-20, marginRight:-20}}/>
+        </View>
       </Overlay>
 
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#125ce0',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-});
 
 function mapStateToProps(state){
   return { docList: state.docList, token: state.token }

@@ -143,20 +143,20 @@ function SnapScreen(props) {
         />
    
    <Overlay 
-              overlayStyle = {{flexDirection : 'row'}}
-              height='auto'
-              width='auto'
-              isVisible={chargementVisible}>
-        {/* <IconRefresh 
-            name = 'refresh-cw'
-            size = {16}
-            style = {{marginTop: 3, marginRight: 6}}/> */}
+      overlayStyle = {{flexDirection : 'row'}}
+      height='auto'
+      width='auto'
+      isVisible={chargementVisible}
+    >
+      <View style={{width: 'auto', flexDirection : 'row'}}>
         <Text style={{textAlign:'center', fontSize:16}}> Chargement</Text>
         <Image source={require('../../assets/Chargement2.gif')} style={{height:20,width:90, marginLeft:-20, marginRight:-20}}/>
-      </Overlay>
+      </View>
+    </Overlay>
 
 </View>
-  );
+
+);
 }
 
 function mapStateToProps(state){

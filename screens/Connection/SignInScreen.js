@@ -5,14 +5,9 @@ import { set } from 'react-native-reanimated';
 import { connect } from 'react-redux';
 import { requestPermissionsAsync } from 'expo-camera';
 
-function Connection({navigation,onSubmitToken}) {
+function Connection({navigation, onSubmitToken, verifValidDossier}) {
   const [email, setEmail]= useState("");
   const [mdp, setMdp]= useState("");
-  
-
-let formatMdp=(mdp)=>{
-  let newMdp=mdp
-}
 
 var signIn = async ()=> {
   var data = await fetch('http://192.168.1.82:3000/signIn', {
@@ -21,7 +16,10 @@ var signIn = async ()=> {
     body: `email=${email}&mdp=${mdp}`
   });
   var response = await data.json();
-  onSubmitToken(response.monToken)  
+  
+  onSubmitToken(response.monToken);
+  verifValidDossier(response.user.validationDossier);
+
   if(response.success == false){
     Alert.alert("Email ou mot de passe incorrects", "Veuillez saisir le bon email et mot de passe")
   }else{
@@ -98,6 +96,9 @@ function mapDispatchToProps(dispatch){
   return{
     onSubmitToken : function(token){
       dispatch({type : 'tokenExist', token })
+    },
+    verifValidDossier : function(value){
+      dispatch({type: 'onSignIn', value})
     }
   }
 }

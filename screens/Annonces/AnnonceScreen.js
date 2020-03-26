@@ -96,9 +96,6 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
 
     useEffect(()=>{
 
-        // console.log('newDispo[0] :', newDispo[0]);
-        // console.log('calendarDay :', calendarDay);
-
         let tempDispoCeJour=[]
 
         for(let i=0; i<newDispo.length; i++){
@@ -108,8 +105,6 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
             }
         }
         setDispoCeJour(tempDispoCeJour);
-        // console.log('dispoCeJour :', dispoCeJour);
-
 
     },[calendarDay]);
     
@@ -251,17 +246,17 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     color="#ffffff"
                     style= {{marginRight : 5}}/>
                 }
-                    onPress={()=> {
+            onPress={()=> {
                         if(!validDossier){
                             Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.")
                         } else {
                             setIsVisible(true)
                         }
-                    }}
-                    title="Prendre un rendez-vous"
-                    buttonStyle= {{backgroundColor: "#125CE0"}}
-                    containerStyle={{height: 35, marginBottom: 10}}
-                />
+            }}
+            title="Prendre un rendez-vous"
+            buttonStyle= {{backgroundColor: "#125CE0"}}
+            containerStyle={{height: 35, marginBottom: 10}}
+        />
     </View>
     );
 }
