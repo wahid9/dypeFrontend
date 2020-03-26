@@ -54,24 +54,23 @@ var signIn = async ()=> {
     <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
      <Image
         source= {require("../../assets/dype.png")}
-        style={{height:115, width:222, marginTop:60}}
+        style={{height:115, width:222, marginTop:160, marginBottom: 80}}
     />
-
-      <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
-          inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-          placeholder='Email'
-          onChangeText = {(value)=> setEmail(value)}
-          value = {email}
-          inputContainerStyle={{borderBottomWidth:0}}
-          />
-      <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
-          inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-          placeholder='Mot de passe'
-          onChangeText = {(value)=> setMdp(value)}
-          value = {formatMdp(mdp)}
-          inputContainerStyle={{borderBottomWidth:0}}I
-          />
-
+    <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
+        inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
+        placeholder='Email'
+        onChangeText = {(value)=> setEmail(value)}
+        value = {email}
+        inputContainerStyle={{borderBottomWidth:0}}
+        />
+    <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
+        inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
+        placeholder='Mot de passe'
+        onChangeText = {(value)=> setMdp(value)}
+        value = {mdp}
+        inputContainerStyle={{borderBottomWidth:0}}
+        secureTextEntry={true}
+        />
         {Btn}
 
       <Text style={{color:"white",marginTop:50}}

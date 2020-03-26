@@ -18,6 +18,7 @@ function RDVScreen({navigation,data}) {
     const [calendarDay, setCalendarDay] = useState('');
     const [confirmation, setConfirmation] = useState(false);
     console.log("la date",data[0].date.getDate(),(data[0].date.getMonth()+1),data[0].date.getFullYear());
+    console.log("data",data)
 
     function getHour(date){
         let hour;
@@ -129,7 +130,7 @@ function RDVScreen({navigation,data}) {
                 <Card containerStyle={{height: 'auto'}}>
                 <View style={{flexDirection:'row'}}>
                     <Text style={{paddingRight:10, flex:3, fontSize:18, marginTop:5}}> Votre rendez-vous a été confirmé pour le {data[0].date.getDate()}/{(data[0].date.getMonth()+1)}/{data[0].date.getFullYear()} à { getHour(data[0].date) } </Text>
-                    <Image source={{ uri: data[0].image }} style={{height: 60, width: 90}}></Image>
+                    <Image source={{ uri: data[0].image}} style={{height: 60, width: 90}}></Image>
                 </View>
                 <View style={{flexDirection:'row', justifyContent:'space-around', paddingTop:20}}>
                     <TouchableOpacity onPress = {()=> setIsVisible(true)}>
