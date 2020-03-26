@@ -7,8 +7,6 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import IconBurger from '@expo/vector-icons/Feather';
-import IconRefresh from '@expo/vector-icons/Feather'
-
 import * as DocumentPicker from 'expo-document-picker';
 
 function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onClickDelete, navigation, token, onSubmitDossier}) {
@@ -21,8 +19,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   const [visible, setVisible] = useState(false);
   const [submitVisible, setSubmitVisible] = useState(false);
   const [tempDoc, setTempDoc] = useState({});
-  const [tempDocList, setTempDocList] = useState([]);
-  const [chargementVisible, setChargementVisible] = useState(false)
+  const [chargementVisible, setChargementVisible] = useState(false);
 
 
   // RECUPERE DANS LA BDD LES DOCUMENTS DEJA TELECHARGES PAR L'UTILISATEUR A L'INITIALISATION DU COMPONENT
@@ -30,7 +27,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     const fetchData = async() => {
           //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
       
-      var rawData = await fetch(`http://10.2.5.181:3000/getDocuments/${token}`);
+      var rawData = await fetch(`http://192.168.1.82:3000/getDocuments/${token}`);
       var data = await rawData.json();
       getDocumentsOnInit(data.documents);
 
@@ -39,29 +36,23 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }, []);
   
 
-  // TELECHARGEMENT DE DOCUMENTS DEPUIS LE TELEPHONE: §§§ RESTE A VOIR COMPATIBILITE AVEC LES IPHONES §§§
+  // TELECHARGEMENT DE DOCUMENTS DEPUIS LE TELEPHONE:
 
   const uploadFromPhone = async (docType) => {
 
     let documentFromPhone = await DocumentPicker.getDocumentAsync();
 
-    // FONCTIONNE POUR TOUT MAIS DANS LE FUTUR REVOIR AU PROPRE LA GESTION TYPE DE FICHIER (JPEG - PDF, ETC...)
     setChargementVisible(true)
     var data = new FormData();
     data.append('doc', {
       uri: documentFromPhone.uri,
       type: 'image/jpeg',
-      name: `${docType}+${documentFromPhone.name}`
+      name: documentFromPhone.name
     });
+    data.append('docType', docType);    
+    data.append('token', token);
 
-    //   POUR PASSER PLUS PROPRE LE TYPE DE FICHIER AU BACK -> A RECUPERER DANS LE REQ.BODY ET NON REQ.FILES
-
-    // data.append('typedefichier', docType)
-
-              //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
-    
-    data.append('token', token)
-    var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromphone", {
+    var rawResponse = await fetch("http://192.168.1.82:3000/uploadfromphone", {
       method: 'POST',
       body: data
     });
@@ -73,20 +64,20 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
 
 
-  // GERE LE PROBLEME DE FICHIER AVEC NOM TROP LONG
+  // TRONQUE LE NOM DU FICHIER SI TROP LONG POUR BON AFFICHAGE
   const formatDocumentName = (doc) => {
     if(doc.length>35){
-      var newString=doc.slice(3, 35);
+      var newString=doc.slice(0, 30);
       newString = newString+"...";
+      return newString;
     } else {
-      var newString=doc.slice(3);
+      return doc;
     }
-    return newString;
   }
 
 // SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
   const deleteDocument = async () => {
-    let rawResponse = await fetch(`http://10.2.5.181:3000/deleteDocument/${token}/${tempDoc._id}`, {
+    let rawResponse = await fetch(`http://192.168.1.82:3000/deleteDocument/${token}/${tempDoc._id}`, {
       method: 'DELETE'
     })
     let response = await rawResponse.json();
@@ -94,17 +85,15 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     // SUPPRESSION DANS LE STORE
     onClickDelete(tempDoc);
 
-    if(tempDoc.type[0]==='i' && tempDoc.type[1]==='d'){
-      // FAIRE UN FINDINDEX ET SLICE
+    if(tempDoc.type==='id'){
       setListIDdata(listIDdata.filter((e) => (e._id !== tempDoc._id) ));
-      // newListID.filter((e) => (e._id !== tempDoc._id) );
-    } else if(tempDoc.type[0]==='j' && tempDoc.type[1]==='d'){
+    } else if(tempDoc.type==='jd'){
       setListJDdata(listJDdata.filter((e) => (e._id !== tempDoc._id) ));
-    } else if(tempDoc.type[0]==='b' && tempDoc.type[1]==='s'){
+    } else if(tempDoc.type==='bs'){
       setListBSdata(listBSdata.filter((e) => (e._id !== tempDoc._id) ));
-    } else if(tempDoc.type[0]==='c' && tempDoc.type[1]==='t'){
+    } else if(tempDoc.type==='ct'){
       setListCTdata(listCTdata.filter((e) => (e._id !== tempDoc._id) ));
-    } else if(tempDoc.type[0]==='a' && tempDoc.type[1]==='i'){
+    } else if(tempDoc.type==='ai'){
       setListAIdata(listAIdata.filter((e) => (e._id !== tempDoc._id) ));
     }
     setVisible(false);
@@ -120,27 +109,27 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   let newListAI=[];
 
   for(let i=0; i<docList.length; i++){
-    if(docList[i].type[0]==='i' && docList[i].type[1]==='d'){
+    if(docList[i].type==='id'){
       let index=newListID.findIndex(doc => doc._id===docList[i]._id);
       if(index===-1){
         newListID.push(docList[i])
       }
-    } else if(docList[i].type[0]==='j' && docList[i].type[1]==='d'){
+    } else if(docList[i].type==='jd'){
       let index=newListJD.findIndex(doc => doc._id===docList[i]._id);
       if(index===-1){
         newListJD.push(docList[i])
       }
-    } else if(docList[i].type[0]==='b' && docList[i].type[1]==='s'){
+    } else if(docList[i].type==='bs'){
       let index=newListBS.findIndex(doc => doc._id===docList[i]._id);
       if(index===-1){
         newListBS.push(docList[i])
       }
-    } else if(docList[i].type[0]==='c' && docList[i].type[1]==='t'){
+    } else if(docList[i].type==='ct'){
       let index=newListCT.findIndex(doc => doc._id===docList[i]._id);
       if(index===-1){
         newListCT.push(docList[i])
       }
-    } else if(docList[i].type[0]==='a' && docList[i].type[1]==='i'){
+    } else if(docList[i].type==='ai'){
       let index=newListAI.findIndex(doc => doc._id===docList[i]._id);
       if(index===-1){
         newListAI.push(docList[i])
@@ -149,16 +138,13 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
 
   // MAP POUR ELEMENTS ID
-  // if (newListID.length === 0) {
-  //   listID = <Text>Aucun document</Text>
-  // }
   let listID= []
   if (newListID.length === 0) {
     var EmptyListID = <Text style={{marginLeft: 20, color:'#8395a7', fontStyle: 'italic'}}>Aucun document</Text>
   }
   listID = newListID.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}> {formatDocumentName(doc.type)} </Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}> {formatDocumentName(doc.filename)} </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -179,7 +165,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listJD = newListJD.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.filename)}</Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -199,7 +185,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listBS = newListBS.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.filename)}</Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -219,7 +205,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listCT = newListCT.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.filename)}</Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -239,7 +225,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listAI = newListAI.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.filename)}</Text>
               <EvilIcons
                 name='close'
                 size={30}

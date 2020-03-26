@@ -5,7 +5,7 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Overlay } from 'react-native-elements';
 import IconBurger from '@expo/vector-icons/Feather';
 import IconClock from '@expo/vector-icons/MaterialCommunityIcons';
-import IconCross from '@expo/vector-icons/Feather'
+import IconCross from '@expo/vector-icons/Feather';
 import {Calendar, CalendarList, Agenda, LocaleConfig} from 'react-native-calendars';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import {connect} from "react-redux";

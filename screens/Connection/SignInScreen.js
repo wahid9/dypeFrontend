@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text,ImageBackground,Image,KeyboardAvoidingView,Alert} from 'react-native';
+import { StyleSheet, Text,ImageBackground,Image,KeyboardAvoidingView,Alert, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import { set } from 'react-native-reanimated';
 import { connect } from 'react-redux';
@@ -10,8 +10,12 @@ function Connection({navigation,onSubmitToken}) {
   const [mdp, setMdp]= useState("");
   
 
+let formatMdp=(mdp)=>{
+  let newMdp=mdp
+}
+
 var signIn = async ()=> {
-  var data = await fetch('http://10.2.5.181:3000/signIn', {
+  var data = await fetch('http://192.168.1.82:3000/signIn', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `email=${email}&mdp=${mdp}`
@@ -52,21 +56,24 @@ var signIn = async ()=> {
         source= {require("../../assets/dype.png")}
         style={{height:115, width:222, marginTop:60}}
     />
-    <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
-        inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-        placeholder='Email'
-        onChangeText = {(value)=> setEmail(value)}
-        value = {email}
-        inputContainerStyle={{borderBottomWidth:0}}
-        />
-    <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
-        inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-        placeholder='Mot de passe'
-        onChangeText = {(value)=> setMdp(value)}
-        value = {mdp}
-        inputContainerStyle={{borderBottomWidth:0}}
-        />
+
+      <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
+          inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
+          placeholder='Email'
+          onChangeText = {(value)=> setEmail(value)}
+          value = {email}
+          inputContainerStyle={{borderBottomWidth:0}}
+          />
+      <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
+          inputStyle={{ backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
+          placeholder='Mot de passe'
+          onChangeText = {(value)=> setMdp(value)}
+          value = {formatMdp(mdp)}
+          inputContainerStyle={{borderBottomWidth:0}}I
+          />
+
         {Btn}
+
       <Text style={{color:"white",marginTop:50}}
       onPress = {()=> navigation.navigate("MdpOublie") }
       >Mot de passe oublié?</Text>
@@ -84,7 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'center'
   },
 });
 
