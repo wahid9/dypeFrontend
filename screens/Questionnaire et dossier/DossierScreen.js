@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { Text, View, ScrollView, Image, StyleSheet, Dimensions } from 'react-native';
 import { Button, Tooltip, Overlay } from 'react-native-elements';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
@@ -8,6 +8,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import IconBurger from '@expo/vector-icons/Feather';
 import * as DocumentPicker from 'expo-document-picker';
+
 
 function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onClickDelete, navigation, token, onSubmitDossier}) {
 
@@ -17,6 +18,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   const [listCTdata, setListCTdata] = useState([]);
   const [listAIdata, setListAIdata] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [photoUri, setPhotoUri] = useState ();
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewFailureVisible, setPreviewFailureVisible] = useState(false);
   const [submitVisible, setSubmitVisible] = useState(false);
   const [submitFailureVisible, setSubmitFailureVisible] = useState(false);
   const [tempDoc, setTempDoc] = useState({});
@@ -26,7 +30,6 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   // RECUPERE DANS LA BDD LES DOCUMENTS DEJA TELECHARGES PAR L'UTILISATEUR A L'INITIALISATION DU COMPONENT
   useEffect(() => {
     const fetchData = async() => {
-          //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
       
       var rawData = await fetch(`http://192.168.1.82:3000/getDocuments/${token}`);
       var data = await rawData.json();
@@ -76,7 +79,27 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     }
   }
 
-// SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
+
+  // APERCU DU FICHIER (OU PAS -> FONCTIONNE SEULEMENT AVEC JPG)
+  const handlePreview = (doc) => {
+
+    let typeDoc;
+    if(doc.url[doc.url.length-3]==='p' && doc.url[doc.url.length-2]==='d' && doc.url[doc.url.length-1]==='f'){
+      typeDoc='pdf'
+    } else if(doc.url[doc.url.length-3]==='j' && doc.url[doc.url.length-2]==='p' && doc.url[doc.url.length-1]==='g'){
+      typeDoc='jpg'
+    }
+
+    if(typeDoc==='jpg'){
+      setPhotoUri(doc.url);
+      setPreviewVisible(true);
+    } else {
+      setPreviewFailureVisible(true);
+    }
+
+  }
+
+  // SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
   const deleteDocument = async () => {
     let rawResponse = await fetch(`http://192.168.1.82:3000/deleteDocument/${token}/${tempDoc._id}`, {
       method: 'DELETE'
@@ -100,6 +123,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     setVisible(false);
   }
 
+  // FONCTION SOUMETTRE LE DOSSIER
   const handleSubmitDossier = async () => {
     
     if(newListID.length && newListJD.length && newListBS.length && newListCT.length && newListAI.length){
@@ -163,7 +187,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listID = newListID.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}> {formatDocumentName(doc.filename)} </Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}} onPress={()=>handlePreview(doc)}> 
+                  {formatDocumentName(doc.filename)} 
+              </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -184,7 +210,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listJD = newListJD.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.filename)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}} onPress={()=>handlePreview(doc)}>
+                {formatDocumentName(doc.filename)}
+              </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -204,7 +232,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listBS = newListBS.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.filename)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}} onPress={()=>handlePreview(doc)}>
+                {formatDocumentName(doc.filename)}
+              </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -224,7 +254,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listCT = newListCT.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.filename)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}} onPress={()=>handlePreview(doc)}>
+                {formatDocumentName(doc.filename)}
+              </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -244,7 +276,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listAI = newListAI.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.filename)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}} onPress={()=>handlePreview(doc)}>
+                {formatDocumentName(doc.filename)}
+              </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -563,6 +597,29 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
           <Image source={require('../../assets/Chargement2.gif')} style={{height:20,width:90, marginLeft:-20, marginRight:-20}}/>
         </View>
       </Overlay>
+
+      <Overlay isVisible={previewVisible} width='80%' height='80%' onBackdropPress={()=>setPreviewVisible(false)}>
+        <View>
+          <Image 
+            source={{uri: photoUri}}
+            style={{width: '100%', height: '100%', marginBottom: 0, paddingBottom: 0}}
+          />
+        </View>
+      </Overlay>
+
+      <Overlay isVisible={previewFailureVisible} width='80%' height='auto' onBackdropPress={()=>setPreviewFailureVisible(false)}>
+          <View style={{alignItems: 'center'}}>
+            <IconAntDesing
+              name='frowno'
+              size={40}
+              style={{color: '#125ce0', marginBottom: 20}}
+            />
+            <Text>
+              Aperçu indisponible
+            </Text>
+          </View>
+      </Overlay>
+
 
     </ScrollView>
   );

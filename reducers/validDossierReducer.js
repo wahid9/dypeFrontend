@@ -3,7 +3,6 @@ export default function(validDossier=false, action){
         validDossier=true;
         return validDossier
     } else if(action.type==='onSignIn') {
-        console.log('action :', action);
         if(action.value){
             validDossier=true
         } else {
