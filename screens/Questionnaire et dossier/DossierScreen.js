@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
-import { Text, View, ScrollView, Image, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, ScrollView, Image } from 'react-native';
 import { Button, Tooltip, Overlay } from 'react-native-elements';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
@@ -46,25 +46,26 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
     let documentFromPhone = await DocumentPicker.getDocumentAsync();
 
-    setChargementVisible(true)
-    var data = new FormData();
-    data.append('doc', {
-      uri: documentFromPhone.uri,
-      type: 'image/jpeg',
-      name: documentFromPhone.name
-    });
-    data.append('docType', docType);    
-    data.append('token', token);
+    if(documentFromPhone.type!=="cancel"){
+      setChargementVisible(true)
+      var data = new FormData();
+      data.append('doc', {
+        uri: documentFromPhone.uri,
+        type: 'image/jpeg',
+        name: documentFromPhone.name
+      });
+      data.append('docType', docType);    
+      data.append('token', token);
 
-    var rawResponse = await fetch("http://192.168.1.82:3000/uploadfromphone", {
-      method: 'POST',
-      body: data
-    });
-    var response = await rawResponse.json();
+      var rawResponse = await fetch("http://192.168.1.82:3000/uploadfromphone", {
+        method: 'POST',
+        body: data
+      });
+      var response = await rawResponse.json();
 
-    addDocument(response.docUploaded);
-    setChargementVisible(false)
-
+      addDocument(response.docUploaded);
+      setChargementVisible(false)
+    }
   }
 
 
@@ -615,7 +616,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
               style={{color: '#125ce0', marginBottom: 20}}
             />
             <Text>
-              Aperçu indisponible
+              Aperçu indisponible pour ce type de fichier
             </Text>
           </View>
       </Overlay>
