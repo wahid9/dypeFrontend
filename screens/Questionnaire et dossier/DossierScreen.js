@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { Text, View, ScrollView, Image } from 'react-native';
 import { Button, Tooltip, Overlay } from 'react-native-elements';
 import IconAntDesing from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import IconBurger from '@expo/vector-icons/Feather';
-import IconRefresh from '@expo/vector-icons/Feather'
-
 import * as DocumentPicker from 'expo-document-picker';
+
 
 function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onClickDelete, navigation, token, onSubmitDossier}) {
 
@@ -19,16 +18,18 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   const [listCTdata, setListCTdata] = useState([]);
   const [listAIdata, setListAIdata] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [photoUri, setPhotoUri] = useState ();
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewFailureVisible, setPreviewFailureVisible] = useState(false);
   const [submitVisible, setSubmitVisible] = useState(false);
+  const [submitFailureVisible, setSubmitFailureVisible] = useState(false);
   const [tempDoc, setTempDoc] = useState({});
-  const [tempDocList, setTempDocList] = useState([]);
-  const [chargementVisible, setChargementVisible] = useState(false)
+  const [chargementVisible, setChargementVisible] = useState(false);
 
 
   // RECUPERE DANS LA BDD LES DOCUMENTS DEJA TELECHARGES PAR L'UTILISATEUR A L'INITIALISATION DU COMPONENT
   useEffect(() => {
     const fetchData = async() => {
-          //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
       
       var rawData = await fetch(`http://192.168.1.24:3000/getDocuments/${token}`);
       var data = await rawData.json();
@@ -39,52 +40,67 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }, []);
   
 
-  // TELECHARGEMENT DE DOCUMENTS DEPUIS LE TELEPHONE: §§§ RESTE A VOIR COMPATIBILITE AVEC LES IPHONES §§§
+  // TELECHARGEMENT DE DOCUMENTS DEPUIS LE TELEPHONE:
 
   const uploadFromPhone = async (docType) => {
 
     let documentFromPhone = await DocumentPicker.getDocumentAsync();
 
-    // FONCTIONNE POUR TOUT MAIS DANS LE FUTUR REVOIR AU PROPRE LA GESTION TYPE DE FICHIER (JPEG - PDF, ETC...)
-    setChargementVisible(true)
-    var data = new FormData();
-    data.append('doc', {
-      uri: documentFromPhone.uri,
-      type: 'image/jpeg',
-      name: `${docType}+${documentFromPhone.name}`
-    });
+    if(documentFromPhone.type!=="cancel"){
+      setChargementVisible(true)
+      var data = new FormData();
+      data.append('doc', {
+        uri: documentFromPhone.uri,
+        type: 'image/jpeg',
+        name: documentFromPhone.name
+      });
+      data.append('docType', docType);    
+      data.append('token', token);
 
-    //   POUR PASSER PLUS PROPRE LE TYPE DE FICHIER AU BACK -> A RECUPERER DANS LE REQ.BODY ET NON REQ.FILES
+      var rawResponse = await fetch("http://192.168.1.24:3000/uploadfromphone", {
+        method: 'POST',
+        body: data
+      });
+      var response = await rawResponse.json();
 
-    // data.append('typedefichier', docType)
-
-              //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
-    
-    data.append('token', token)
-    var rawResponse = await fetch("http://192.168.1.24:3000/uploadfromphone", {
-      method: 'POST',
-      body: data
-    });
-    var response = await rawResponse.json();
-
-    addDocument(response.docUploaded);
-    setChargementVisible(false)
-
+      addDocument(response.docUploaded);
+      setChargementVisible(false)
+    }
   }
 
 
-  // GERE LE PROBLEME DE FICHIER AVEC NOM TROP LONG
+  // TRONQUE LE NOM DU FICHIER SI TROP LONG POUR BON AFFICHAGE
   const formatDocumentName = (doc) => {
     if(doc.length>35){
-      var newString=doc.slice(3, 35);
+      var newString=doc.slice(0, 30);
       newString = newString+"...";
+      return newString;
     } else {
-      var newString=doc.slice(3);
+      return doc;
     }
-    return newString;
   }
 
-// SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
+
+  // APERCU DU FICHIER (OU PAS -> FONCTIONNE SEULEMENT AVEC JPG)
+  const handlePreview = (doc) => {
+
+    let typeDoc;
+    if(doc.url[doc.url.length-3]==='p' && doc.url[doc.url.length-2]==='d' && doc.url[doc.url.length-1]==='f'){
+      typeDoc='pdf'
+    } else if(doc.url[doc.url.length-3]==='j' && doc.url[doc.url.length-2]==='p' && doc.url[doc.url.length-1]==='g'){
+      typeDoc='jpg'
+    }
+
+    if(typeDoc==='jpg'){
+      setPhotoUri(doc.url);
+      setPreviewVisible(true);
+    } else {
+      setPreviewFailureVisible(true);
+    }
+
+  }
+
+  // SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
   const deleteDocument = async () => {
     let rawResponse = await fetch(`http://192.168.1.24:3000/deleteDocument/${token}/${tempDoc._id}`, {
       method: 'DELETE'
@@ -94,20 +110,37 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     // SUPPRESSION DANS LE STORE
     onClickDelete(tempDoc);
 
-    if(tempDoc.type[0]==='i' && tempDoc.type[1]==='d'){
-      // FAIRE UN FINDINDEX ET SLICE
+    if(tempDoc.type==='id'){
       setListIDdata(listIDdata.filter((e) => (e._id !== tempDoc._id) ));
-      // newListID.filter((e) => (e._id !== tempDoc._id) );
-    } else if(tempDoc.type[0]==='j' && tempDoc.type[1]==='d'){
+    } else if(tempDoc.type==='jd'){
       setListJDdata(listJDdata.filter((e) => (e._id !== tempDoc._id) ));
-    } else if(tempDoc.type[0]==='b' && tempDoc.type[1]==='s'){
+    } else if(tempDoc.type==='bs'){
       setListBSdata(listBSdata.filter((e) => (e._id !== tempDoc._id) ));
-    } else if(tempDoc.type[0]==='c' && tempDoc.type[1]==='t'){
+    } else if(tempDoc.type==='ct'){
       setListCTdata(listCTdata.filter((e) => (e._id !== tempDoc._id) ));
-    } else if(tempDoc.type[0]==='a' && tempDoc.type[1]==='i'){
+    } else if(tempDoc.type==='ai'){
       setListAIdata(listAIdata.filter((e) => (e._id !== tempDoc._id) ));
     }
     setVisible(false);
+  }
+
+  // FONCTION SOUMETTRE LE DOSSIER
+  const handleSubmitDossier = async () => {
+    
+    if(newListID.length && newListJD.length && newListBS.length && newListCT.length && newListAI.length){
+      setSubmitVisible(true); 
+      let rawResponse = await fetch('http://192.168.1.82:3000/submitDossier', {
+        method: 'PUT',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `token=${token}`
+      });
+      // Enregistrement dans le store
+      onSubmitDossier()
+      
+    } else {
+      console.log('FAIL');
+      setSubmitFailureVisible(true);
+    }
   }
 
 
@@ -120,27 +153,27 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   let newListAI=[];
 
   for(let i=0; i<docList.length; i++){
-    if(docList[i].type[0]==='i' && docList[i].type[1]==='d'){
+    if(docList[i].type==='id'){
       let index=newListID.findIndex(doc => doc._id===docList[i]._id);
       if(index===-1){
         newListID.push(docList[i])
       }
-    } else if(docList[i].type[0]==='j' && docList[i].type[1]==='d'){
+    } else if(docList[i].type==='jd'){
       let index=newListJD.findIndex(doc => doc._id===docList[i]._id);
       if(index===-1){
         newListJD.push(docList[i])
       }
-    } else if(docList[i].type[0]==='b' && docList[i].type[1]==='s'){
+    } else if(docList[i].type==='bs'){
       let index=newListBS.findIndex(doc => doc._id===docList[i]._id);
       if(index===-1){
         newListBS.push(docList[i])
       }
-    } else if(docList[i].type[0]==='c' && docList[i].type[1]==='t'){
+    } else if(docList[i].type==='ct'){
       let index=newListCT.findIndex(doc => doc._id===docList[i]._id);
       if(index===-1){
         newListCT.push(docList[i])
       }
-    } else if(docList[i].type[0]==='a' && docList[i].type[1]==='i'){
+    } else if(docList[i].type==='ai'){
       let index=newListAI.findIndex(doc => doc._id===docList[i]._id);
       if(index===-1){
         newListAI.push(docList[i])
@@ -149,16 +182,15 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
 
   // MAP POUR ELEMENTS ID
-  // if (newListID.length === 0) {
-  //   listID = <Text>Aucun document</Text>
-  // }
   let listID= []
   if (newListID.length === 0) {
     var EmptyListID = <Text style={{marginLeft: 20, color:'#8395a7', fontStyle: 'italic'}}>Aucun document</Text>
   }
   listID = newListID.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}> {formatDocumentName(doc.type)} </Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}} onPress={()=>handlePreview(doc)}> 
+                  {formatDocumentName(doc.filename)} 
+              </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -179,7 +211,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listJD = newListJD.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}} onPress={()=>handlePreview(doc)}>
+                {formatDocumentName(doc.filename)}
+              </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -199,7 +233,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listBS = newListBS.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}} onPress={()=>handlePreview(doc)}>
+                {formatDocumentName(doc.filename)}
+              </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -219,7 +255,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listCT = newListCT.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}} onPress={()=>handlePreview(doc)}>
+                {formatDocumentName(doc.filename)}
+              </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -239,7 +277,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   }
   listAI = newListAI.map(function(doc, i){
     return <View key={i} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <Text style={{marginLeft: 20, color:'#125ce0'}}>{formatDocumentName(doc.type)}</Text>
+              <Text style={{marginLeft: 20, color:'#125ce0'}} onPress={()=>handlePreview(doc)}>
+                {formatDocumentName(doc.filename)}
+              </Text>
               <EvilIcons
                 name='close'
                 size={30}
@@ -497,7 +537,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
         buttonStyle={{backgroundColor: '#fce229', width: 'auto', padding: 10}}
         containerStyle={{alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginTop: 30, marginBottom: 20}}
         titleStyle={{color: '#282828', fontSize: 14}}
-        onPress={()=>{setSubmitVisible(true); onSubmitDossier()}}
+        onPress={()=>handleSubmitDossier()}
       />
 
 
@@ -533,30 +573,59 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
             </Text>
           </View>
       </Overlay>
-      <Overlay 
-              overlayStyle = {{flexDirection : 'row'}}
-              height='auto'
-              width='auto'
-              isVisible={chargementVisible}>
-        {/* <IconRefresh 
-            name = 'refresh-cw'
-            size = {16}
-            style = {{marginTop: 3, marginRight: 6}}/> */}
-        <Text style={{textAlign:'center', fontSize:16}}>...Chargement</Text>
+
+      <Overlay isVisible={submitFailureVisible} width='80%' height='auto' onBackdropPress={()=>setSubmitFailureVisible(false)}>
+          <View style={{alignItems: 'center'}}>
+            <IconAntDesing
+              name='exclamationcircleo'
+              size={40}
+              style={{color: '#125ce0', marginBottom: 20}}
+            />
+            <Text>
+              Oups... Il semblerait que votre dossier ne soit pas complet. Merci de renseigner tous vos documents afin de pouvoir le soumettre à notre équipe.
+            </Text>
+          </View>
       </Overlay>
+
+      <Overlay 
+        overlayStyle = {{flexDirection : 'row'}}
+        height='auto'
+        width='auto'
+        isVisible={chargementVisible}
+      >
+        <View style={{width: 'auto', flexDirection : 'row'}}>
+          <Text style={{textAlign:'center', fontSize:16}}> Chargement</Text>
+          <Image source={require('../../assets/Chargement2.gif')} style={{height:20,width:90, marginLeft:-20, marginRight:-20}}/>
+        </View>
+      </Overlay>
+
+      <Overlay isVisible={previewVisible} width='80%' height='80%' onBackdropPress={()=>setPreviewVisible(false)}>
+        <View>
+          <Image 
+            source={{uri: photoUri}}
+            style={{width: '100%', height: '100%', marginBottom: 0, paddingBottom: 0}}
+          />
+        </View>
+      </Overlay>
+
+      <Overlay isVisible={previewFailureVisible} width='80%' height='auto' onBackdropPress={()=>setPreviewFailureVisible(false)}>
+          <View style={{alignItems: 'center'}}>
+            <IconAntDesing
+              name='frowno'
+              size={40}
+              style={{color: '#125ce0', marginBottom: 20}}
+            />
+            <Text>
+              Aperçu indisponible pour ce type de fichier
+            </Text>
+          </View>
+      </Overlay>
+
 
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#125ce0',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-});
 
 function mapStateToProps(state){
   return { docList: state.docList, token: state.token }

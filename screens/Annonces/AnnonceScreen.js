@@ -21,7 +21,11 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     const [monRdv, setMonRdv] = useState (new Date);
     const [image, setImage] = useState(annonce.images[0].url);
 
-
+    // var images = annonce.images.map((data, i ) =>{
+    //      return(  <Image source = {{uri: data[i]}} style={{height:250, width:370,marginRight:3}}/>)
+    // })
+    // console.log('IMAGE', images)
+    
     LocaleConfig.locales['fr'] = {
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
         monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -91,9 +95,6 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
 
     useEffect(()=>{
 
-        console.log('newDispo[0] :', newDispo[0]);
-        console.log('calendarDay :', calendarDay);
-
         let tempDispoCeJour=[]
 
         for(let i=0; i<newDispo.length; i++){
@@ -103,18 +104,25 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
             }
         }
         setDispoCeJour(tempDispoCeJour);
-        console.log('dispoCeJour :', dispoCeJour);
-
 
     },[calendarDay]);
+    
 
 
     var listDispo=dispoCeJour.map(function(dispo, i){
+
+        var color = "#C0CFEC";
+        ///for (var j = 0; j < dispoCeJour.length;i++){
+            if(monRdv=== dispo){
+                color =  "#125CE0"
+            }
+        //}
+
         return( <Button 
             key={i}
             title= {getHour(dispo)}
             titleStyle={{fontSize: 14}}
-            buttonStyle= {{backgroundColor: colorButton, height:44, width: 96}}
+            buttonStyle= {{backgroundColor: color, height:44, width: 96}}
             containerStyle = {{borderRadius:30, marginLeft: 5, marginRight: 5}} 
             onPress ={()=> {setMonRdv(dispo)}}
             />
@@ -131,7 +139,6 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     //         body: `date=${rdv}&agence=FONCIA&token=${token}&annonce=${annonce._id}`
     //     })
     // }
-
     return (
     <View style={{flex: 1}}>
         <Overlay 
@@ -203,8 +210,17 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
         
             <Card image={{ uri: annonce.images[0].url }} imageStyle= {{height:250}} >
                 <Text style={{marginBottom:5, fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
+            {/* <Card>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                <Image source = {{uri: annonce.images[0]}} style={{height:250, width:370,marginRight:3}}/>
+                <Image source = {{uri: annonce.images[1]}} style={{height:250, width:370,marginRight:3}}/>
+                <Image source = {{uri: annonce.images[2]}} style={{height:250, width:370,marginRight:3}}/>
+                <Image source = {{uri: annonce.images[3]}} style={{height:250, width:370,marginRight:3}}/>
+                </ScrollView> */}
+                <Text style={{marginBottom:5,marginTop:10,fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
                 <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
                 <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
+                <Text style={{marginTop:10, marginBottom:15,fontSize:15}}> Paris XII - SQUARE COURTELINE - 3 PIÈCES DE 73 M² - 2 CH - Dans un immeuble de standing, sécurisé par digicode et interphone. Nous vous proposons cet appartement de 3 pièces de 73 m² carrez, au 2ème ETAGE. Cet appartement se compose d'une entrée avec un très, d'une belle pièce de séjour, d'une cuisine (non équipée et non aménagée) et d'un WC indépendant, de deux chambres et une salle de bains. Chauffage et eau chaude individuelle électrique. Loyer HC: 1839,60; Provisions sur charges: 200euros, parking: 124,11euros soit un loyer CC de 2163,71euros/Mois. </Text>
                 <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
                 <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
                 <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
@@ -236,6 +252,17 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     buttonStyle= {{backgroundColor: "#125CE0"}}
                     containerStyle={{height: 35, marginBottom: 10}}
                 />
+            {/* onPress={()=> {
+                        if(!validDossier){
+                            Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.")
+                        } else {
+                            setIsVisible(true)
+                        }
+            }}
+            title="Prendre un rendez-vous"
+            buttonStyle= {{backgroundColor: "#125CE0"}}
+            containerStyle={{height: 35, marginBottom: 10}}
+        /> */}
     </View>
     );
 }

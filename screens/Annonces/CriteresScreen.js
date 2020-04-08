@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Image, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, View, Image, ScrollView } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -20,48 +20,53 @@ function Critere({navigation, token}) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+
       <Image
         source={require('../../assets/DYPE_noir_blanc.png')}
         style={{width: 125, height: 65, marginTop: '15%', marginBottom: '0%'}}
         />
-        <Text h4 style={{color: '#fce229'}}>
-            Vos critères 
+
+      <View style={{width: '100%', alignItems: 'center'}}>
+        <Text h4 style={{color: '#fce229', marginBottom: 20}}>
+            Quels sont vos critères? 
         </Text>
-      <Input containerStyle = {{marginBottom: -40, width: '70%'}} 
-        inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
-        placeholder='Dans quelle ville ?'
-        inputContainerStyle={{borderBottomWidth: 0}}
-        onChangeText = {(value)=> setVille(value)}
-        value = {ville}
-        inputContainerStyle={{borderBottomWidth:0}}
-      />
-      <Input containerStyle = {{marginBottom: -40, width: '70%'}} 
-        inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
-        placeholder='Votre budget min'
-        inputContainerStyle={{borderBottomWidth: 0}}
-        onChangeText = {(value)=> setBudgetMin(value)}
-        value = {budgetMin}
-        inputContainerStyle={{borderBottomWidth:0}}
-      />
-      <Input containerStyle = {{marginBottom: -40, width: '70%'}} 
-        inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
-        placeholder='Votre budget max'
-        inputContainerStyle={{borderBottomWidth: 0}}
-        onChangeText = {(value)=> setBudgetMax(value)}
-        value = {budgetMax}
-        inputContainerStyle={{borderBottomWidth:0}}
-      />
+        <Input containerStyle = {{width: '70%', marginBottom: 10}} 
+          inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
+          placeholder='Dans quelle ville ?'
+          inputContainerStyle={{borderBottomWidth: 0}}
+          onChangeText = {(value)=> setVille(value)}
+          value = {ville}
+          inputContainerStyle={{borderBottomWidth:0}}
+        />
+        <Input containerStyle = {{width: '70%', marginBottom: 10}} 
+          inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
+          placeholder='Votre budget min'
+          inputContainerStyle={{borderBottomWidth: 0}}
+          onChangeText = {(value)=> setBudgetMin(value)}
+          value = {budgetMin}
+          inputContainerStyle={{borderBottomWidth:0}}
+        />
+        <Input containerStyle = {{width: '70%', marginBottom: 10}} 
+          inputStyle={{ backgroundColor:"white", borderRadius:5, padding:5, opacity:0.9 }}
+          placeholder='Votre budget max'
+          inputContainerStyle={{borderBottomWidth: 0}}
+          onChangeText = {(value)=> setBudgetMax(value)}
+          value = {budgetMax}
+          inputContainerStyle={{borderBottomWidth:0}}
+        />
+      </View>
+
       <Button
         title="Suivant"
         buttonStyle={{backgroundColor: '#fce229', width: 100}}
-        containerStyle={{flex: 0.2, alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginBottom:'5%'}}
+        containerStyle={{flex: 0.2, alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginBottom: 20}}
         titleStyle={{color: '#282828'}}
         onPress = {()=> select() }
       />
-      <KeyboardAvoidingView behavior = "padding" enabled>
-      </KeyboardAvoidingView>
-    </View>
+      {/* <KeyboardAvoidingView behavior = "padding" enabled>
+      </KeyboardAvoidingView> */}
+    </ScrollView>
   );
 }
 
