@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Image, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, View, Image, KeyboardAvoidingView,AsyncStorage } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -9,8 +9,11 @@ function Critere({navigation, token}) {
   const [budgetMin, setBudgetMin] = useState("");
   const [budgetMax, setBudgetMax] = useState("");
 
+
+  
+
   var select = async () => {
-    var data = await fetch("http://10.2.5.189:3000/recherche", {
+    var data = await fetch("http://192.168.0.21:3000/recherche", {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `ville=${ville}&budgetMin=${budgetMin}&budgetMax=${budgetMax}&token=${token}`
@@ -57,7 +60,10 @@ function Critere({navigation, token}) {
         buttonStyle={{backgroundColor: '#fce229', width: 100}}
         containerStyle={{flex: 0.2, alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginBottom:'5%'}}
         titleStyle={{color: '#282828'}}
-        onPress = {()=> select() }
+        onPress = {()=> {select();
+          AsyncStorage.setItem('ville', ville);
+          AsyncStorage.setItem('budgetMin', budgetMin);
+          AsyncStorage.setItem('bugetMax', budgetMax);} }
       />
       <KeyboardAvoidingView behavior = "padding" enabled>
       </KeyboardAvoidingView>
