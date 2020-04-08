@@ -11,7 +11,7 @@ function Connection({navigation,onSubmitToken}) {
   
 
 var signIn = async ()=> {
-  var data = await fetch('http://10.2.5.181:3000/signIn', {
+  var data = await fetch('http://192.168.1.24:3000/signIn', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `email=${email}&mdp=${mdp}`

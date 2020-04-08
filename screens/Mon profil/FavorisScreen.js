@@ -10,7 +10,7 @@ function FavorisScreen({navigation,favorisList,token,deleteOnClick,printAnnonce}
  
 
 const deleteFav = async (data) =>{
-  var rawResponse = await fetch(`http://10.2.5.189:3000/deleteFav/${data._id}/${token}`,{
+  var rawResponse = await fetch(`http://192.168.1.24:3000/deleteFav/${data._id}/${token}`,{
   method : 'DELETE'
   })
   deleteOnClick(data)
@@ -24,7 +24,7 @@ navigation.navigate('Annonces')
   const [isVisible, setIsVisible] = useState(false);
   var lesAnnonces = favorisList.map((data, i ) =>{
     return( <TouchableOpacity key={i} onPress = {()=>recupAnnonce(data)}>
-    <Card image={{ uri: data.images[0] }} imageStyle= {{height:250}}>
+    <Card image={{ uri: data.images[0].url }} imageStyle= {{height:250}}>
         <Text style={{marginBottom:5, fontSize: 22}}>{data.ville} ({data.codePostal})</Text>
         <Text style={{marginBottom:5, fontSize:18}}>{data.typeDeBien}</Text>
         <Text style={{marginBottom:5}}>{data.nbPiece} pièces/ {data.surface} m²</Text>
