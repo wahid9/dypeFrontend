@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, View, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
