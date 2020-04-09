@@ -19,8 +19,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     const [annonce, setAnnonce] = useState(detailAnnonce); // REFAIRE A L'OCCASE EN MAPPANT DIRECTEMENT SUR LE STORE
     const [dispoCeJour, setDispoCeJour] = useState([]);
     const [monRdv, setMonRdv] = useState (new Date);
-    const [image, setImage] = useState(annonce.images[0]);
-    // console.log("Mon tableau d'images",annonce)
+    const [image, setImage] = useState(annonce.images[0].url);
 
     // var images = annonce.images.map((data, i ) =>{
     //      return(  <Image source = {{uri: data[i]}} style={{height:250, width:370,marginRight:3}}/>)
@@ -209,13 +208,15 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                 <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30}}/>
             </View>
         
-            <Card>
+            <Card image={{ uri: annonce.images[0].url }} imageStyle= {{height:250}} >
+                <Text style={{marginBottom:5, fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
+            {/* <Card>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 <Image source = {{uri: annonce.images[0]}} style={{height:250, width:370,marginRight:3}}/>
                 <Image source = {{uri: annonce.images[1]}} style={{height:250, width:370,marginRight:3}}/>
                 <Image source = {{uri: annonce.images[2]}} style={{height:250, width:370,marginRight:3}}/>
                 <Image source = {{uri: annonce.images[3]}} style={{height:250, width:370,marginRight:3}}/>
-                </ScrollView>
+                </ScrollView> */}
                 <Text style={{marginBottom:5,marginTop:10,fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
                 <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
                 <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
@@ -246,7 +247,12 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     color="#ffffff"
                     style= {{marginRight : 5}}/>
                 }
-            onPress={()=> {
+                    onPress={()=> {!validDossier ? Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.") : setIsVisible(true)}}
+                    title="Prendre un rendez-vous"
+                    buttonStyle= {{backgroundColor: "#125CE0"}}
+                    containerStyle={{height: 35, marginBottom: 10}}
+                />
+            {/* onPress={()=> {
                         if(!validDossier){
                             Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.")
                         } else {
@@ -256,7 +262,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
             title="Prendre un rendez-vous"
             buttonStyle= {{backgroundColor: "#125CE0"}}
             containerStyle={{height: 35, marginBottom: 10}}
-        />
+        /> */}
     </View>
     );
 }

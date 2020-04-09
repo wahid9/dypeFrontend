@@ -47,8 +47,8 @@ export default function App() {
         <Stack.Screen name="SignUp" component={Inscription} />
         <Stack.Screen name="MdpOublie" component={ForgotPassword} />
         <Stack.Screen name="Criteres" component={Critere} />
-        {/* <Stack.Screen name="Questionnaire" component={Questionnaire1Screen} /> */}
         <Stack.Screen name="Drawer" component={MyDrawer} />
+        <Stack.Screen name="Annonces" component={AnnonceScreen} />
         <Stack.Screen name="Camera" component={CameraScreen} />
         <Stack.Screen name="Dossier" component={DossierScreen} />
       </Stack.Navigator>
@@ -58,29 +58,3 @@ export default function App() {
 
   );
 }
-
-
-
-// function MyStack() {
-//   return (
-
-// <StackNew.Navigator headerMode= "none">
-//   <StackNew.Screen name="MesMatchs" component={MyDrawer} />
-//   <StackNew.Screen name="Annonces" component={AnnonceScreen} />
-//   <StackNew.Screen name="RendezVous" component={RDVScreen} /> 
-// </StackNew.Navigator>
-//   );
-// }
-
-// const ThirdStack = createStackNavigator();
-
-// function MyStackRdv() {
-//   return (
-
-// <ThirdStack.Navigator headerMode= "none">
-//   {/* <ThirdStack.Screen name="MesMatchs" component={MesMatchScreens} />
-//   <ThirdStack.Screen name="Annonces" component={AnnonceScreen} /> */}
-//   <ThirdStack.Screen name="RendezVous" component={RDVScreen} />
-// </ThirdStack.Navigator>
-//   );
-// }
