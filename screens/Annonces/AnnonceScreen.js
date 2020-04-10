@@ -20,8 +20,13 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     const [dispoCeJour, setDispoCeJour] = useState([]);
     const [monRdv, setMonRdv] = useState (new Date);
     const [image, setImage] = useState(annonce.images[0]);
+    // console.log("Mon tableau d'images",annonce)
 
-
+    // var images = annonce.images.map((data, i ) =>{
+    //      return(  <Image source = {{uri: data[i]}} style={{height:250, width:370,marginRight:3}}/>)
+    // })
+    // console.log('IMAGE', images)
+    
     LocaleConfig.locales['fr'] = {
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
         monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -91,9 +96,6 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
 
     useEffect(()=>{
 
-        console.log('newDispo[0] :', newDispo[0]);
-        console.log('calendarDay :', calendarDay);
-
         let tempDispoCeJour=[]
 
         for(let i=0; i<newDispo.length; i++){
@@ -103,8 +105,6 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
             }
         }
         setDispoCeJour(tempDispoCeJour);
-        console.log('dispoCeJour :', dispoCeJour);
-
 
     },[calendarDay]);
     
@@ -140,7 +140,6 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     //         body: `date=${rdv}&agence=FONCIA&token=${token}&annonce=${annonce._id}`
     //     })
     // }
-
     return (
     <View style={{flex: 1}}>
         <Overlay 
@@ -210,8 +209,14 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                 <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30}}/>
             </View>
         
-            <Card image={{ uri: annonce.images[0] }} imageStyle= {{height:250}} >
-                <Text style={{marginBottom:5, fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
+            <Card>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                <Image source = {{uri: annonce.images[0]}} style={{height:250, width:370,marginRight:3}}/>
+                <Image source = {{uri: annonce.images[1]}} style={{height:250, width:370,marginRight:3}}/>
+                <Image source = {{uri: annonce.images[2]}} style={{height:250, width:370,marginRight:3}}/>
+                <Image source = {{uri: annonce.images[3]}} style={{height:250, width:370,marginRight:3}}/>
+                </ScrollView>
+                <Text style={{marginBottom:5,marginTop:10,fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
                 <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
                 <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
                 <Text style={{marginTop:10, marginBottom:15,fontSize:15}}> Paris XII - SQUARE COURTELINE - 3 PIÈCES DE 73 M² - 2 CH - Dans un immeuble de standing, sécurisé par digicode et interphone. Nous vous proposons cet appartement de 3 pièces de 73 m² carrez, au 2ème ETAGE. Cet appartement se compose d'une entrée avec un très, d'une belle pièce de séjour, d'une cuisine (non équipée et non aménagée) et d'un WC indépendant, de deux chambres et une salle de bains. Chauffage et eau chaude individuelle électrique. Loyer HC: 1839,60; Provisions sur charges: 200euros, parking: 124,11euros soit un loyer CC de 2163,71euros/Mois. </Text>
@@ -241,17 +246,17 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     color="#ffffff"
                     style= {{marginRight : 5}}/>
                 }
-                    onPress={()=> {
+            onPress={()=> {
                         if(!validDossier){
                             Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.")
                         } else {
                             setIsVisible(true)
                         }
-                    }}
-                    title="Prendre un rendez-vous"
-                    buttonStyle= {{backgroundColor: "#125CE0"}}
-                    containerStyle={{height: 35, marginBottom: 10}}
-                />
+            }}
+            title="Prendre un rendez-vous"
+            buttonStyle= {{backgroundColor: "#125CE0"}}
+            containerStyle={{height: 35, marginBottom: 10}}
+        />
     </View>
     );
 }

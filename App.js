@@ -1,5 +1,6 @@
 console.disableYellowBox = true;
-import React from 'react';
+import React,{useState} from 'react';
+import {AsyncStorage} from 'react-native';
 
 import {createAppContainer,} from 'react-navigation';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -33,8 +34,29 @@ import validDossier from './reducers/validDossierReducer';
 const store = createStore(combineReducers({docType, docList,token,annonce,favlist,RDV, validDossier}));
 
 
-
 const Stack = createStackNavigator();
+
+// const [email, setEmail]= useState("");
+// const [mdp, setMdp]= useState("");
+
+// AsyncStorage.getItem('email',(err,value)=>{
+//   setEmail(value);
+// })
+// AsyncStorage.getItem('mdp',(err,value)=>{
+//   setMdp(value);
+// })
+
+// var nom;
+// var composant;
+// if(email){
+// nom = 'MyDrawer'
+// composant = MyDrawer
+// }else{
+//   nom = 'Home'
+//   composant = HomePage
+// }
+
+
 
 export default function App() {
   return (
@@ -44,7 +66,7 @@ export default function App() {
 
     <Stack.Navigator
         headerMode= "none">
-        <Stack.Screen name="Home" component={HomePage} />
+        <Stack.Screen name='myDrawer' component={MyDrawer} />
         <Stack.Screen name="SignIn" component={Connection} />
         <Stack.Screen name="SignUp" component={Inscription} />
         <Stack.Screen name="MdpOublie" component={ForgotPassword} />

@@ -71,7 +71,7 @@ function SnapScreen(props) {
   return (
     <View style={{flex:1}}>
 
-          <Overlay isVisible={previewVisible} width= '80%' height='80%'>
+          <Overlay isVisible={previewVisible} width= '80%' height='70%'>
             <View>
               <Image 
                 source={{uri: photoUri}}
@@ -80,14 +80,14 @@ function SnapScreen(props) {
               <Button
                 title="Prendre à nouveau"
                 buttonStyle={{backgroundColor: '#125ce0', width: '90%', height: 40}}
-                containerStyle={{alignItems: 'center', marginTop: -35, marginBottom: 5}}
+                containerStyle={{ marginTop: -35, marginBottom: 5, marginLeft: 10, flexDirection:'row', justifyContent:'center'}}
                 titleStyle={{color: 'white', fontSize: 14}}
                 onPress={()=>setPreviewVisible(false)}
               />
               <Button
                 title="Valider cette photo"
                 buttonStyle={{backgroundColor: '#125ce0', width: '90%', height: 40}}
-                containerStyle={{alignItems: 'center'}}
+                containerStyle={{ flexDirection:'row', justifyContent:'center', marginLeft: 10}}
                 titleStyle={{color: 'white', fontSize: 14}}
                 onPress={async()=>{
                   setPreviewVisible(false);
@@ -96,11 +96,11 @@ function SnapScreen(props) {
                     data.append('photo', {
                       uri: photoUri,
                       type: 'image/jpeg',
-                      name: `${props.docType}+photo.jpg`
+                      name: 'photo.jpg'
                     });
                     data.append('token', props.token)
-                    console.log('DATA', data)
-                    var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromcamera", {
+                    data.append('docType', props.docType)
+                    var rawResponse = await fetch("http://192.168.1.82:3000/uploadfromcamera", {
                       method: 'POST',
                       body: data
                     });
@@ -143,19 +143,20 @@ function SnapScreen(props) {
         />
    
    <Overlay 
-              overlayStyle = {{flexDirection : 'row'}}
-              height='auto'
-              width='auto'
-              isVisible={chargementVisible}>
-        {/* <IconRefresh 
-            name = 'refresh-cw'
-            size = {16}
-            style = {{marginTop: 3, marginRight: 6}}/> */}
-        <Text style={{textAlign:'center', fontSize:16}}>...Chargement</Text>
-      </Overlay>
+      overlayStyle = {{flexDirection : 'row'}}
+      height='auto'
+      width='auto'
+      isVisible={chargementVisible}
+    >
+      <View style={{width: 'auto', flexDirection : 'row'}}>
+        <Text style={{textAlign:'center', fontSize:16}}> Chargement</Text>
+        <Image source={require('../../assets/Chargement2.gif')} style={{height:20,width:90, marginLeft:-20, marginRight:-20}}/>
+      </View>
+    </Overlay>
 
 </View>
-  );
+
+);
 }
 
 function mapStateToProps(state){
