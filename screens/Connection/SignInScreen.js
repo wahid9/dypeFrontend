@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text,ImageBackground,Image,KeyboardAvoidingView,Alert} from 'react-native';
+import { StyleSheet, Text,ImageBackground,Image,KeyboardAvoidingView,Alert, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import { set } from 'react-native-reanimated';
 import { connect } from 'react-redux';
 import { requestPermissionsAsync } from 'expo-camera';
 
-function Connection({navigation,onSubmitToken}) {
+function Connection({navigation, onSubmitToken, verifValidDossier}) {
   const [email, setEmail]= useState("");
   const [mdp, setMdp]= useState("");
-  
 
 var signIn = async ()=> {
   var data = await fetch('http://192.168.1.5:3000/signIn', {
@@ -17,7 +16,10 @@ var signIn = async ()=> {
     body: `email=${email}&mdp=${mdp}`
   });
   var response = await data.json();
-  onSubmitToken(response.monToken)  
+  
+  onSubmitToken(response.monToken);
+  verifValidDossier(response.user.validationDossier);
+
   if(response.success == false){
     Alert.alert("Email ou mot de passe incorrects", "Veuillez saisir le bon email et mot de passe")
   }else{
@@ -68,6 +70,7 @@ var signIn = async ()=> {
         secureTextEntry={true}
         />
         {Btn}
+
       <Text style={{color:"white",marginTop:50}}
       onPress = {()=> navigation.navigate("MdpOublie") }
       >Mot de passe oublié?</Text>
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'center'
   },
 });
 
@@ -93,6 +96,9 @@ function mapDispatchToProps(dispatch){
   return{
     onSubmitToken : function(token){
       dispatch({type : 'tokenExist', token })
+    },
+    verifValidDossier : function(value){
+      dispatch({type: 'onSignIn', value})
     }
   }
 }

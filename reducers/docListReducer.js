@@ -11,7 +11,6 @@ export default function(docList=[], action){
 
         var docListCopy=[...docList];
         docListCopy.push(action.document);
-        console.log('action.document :', action.document);
         return docListCopy;
 
     } else if(action.type==='deleteDocument'){

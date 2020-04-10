@@ -67,7 +67,7 @@ useEffect(() => {
         }
       }
       return( <TouchableOpacity key={i} onPress = {()=> RecupDataAnnonce(i)}>
-      <Card image={{ uri: data.images[0] }} imageStyle= {{height:250}}>
+      <Card image={{ uri: data.images[0].url }} imageStyle= {{height:250}}>
           <Text style={{marginBottom:5, fontSize: 22}}>{data.ville} ({data.codePostal})</Text>
           <Text style={{marginBottom:5, fontSize:18}}>{data.typeDeBien}</Text>
           <Text style={{marginBottom:5}}>{data.nbPiece} pièces/ {data.surface} m²</Text>
