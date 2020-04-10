@@ -10,7 +10,7 @@ function Critere({navigation, token}) {
   const [budgetMax, setBudgetMax] = useState("");
 
   var select = async () => {
-    var data = await fetch("http://10.2.5.232:3000/recherche", {
+    var data = await fetch("http://192.168.1.5:3000/recherche", {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `ville=${ville}&budgetMin=${budgetMin}&budgetMax=${budgetMax}&token=${token}`

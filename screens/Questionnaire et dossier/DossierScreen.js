@@ -30,7 +30,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     const fetchData = async() => {
           //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
       
-      var rawData = await fetch(`http://10.2.5.181:3000/getDocuments/${token}`);
+      var rawData = await fetch(`http://192.168.1.5:3000/getDocuments/${token}`);
       var data = await rawData.json();
       getDocumentsOnInit(data.documents);
 
@@ -61,7 +61,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
               //  §§ RENSEIGNER VOTRE ADRESSE IPv4 - COMMANDE IPCONFIG DANS POWERSHELL POUR WINDOWS §§
     
     data.append('token', token)
-    var rawResponse = await fetch("http://10.2.5.181:3000/uploadfromphone", {
+    var rawResponse = await fetch("http://192.168.1.5:3000/uploadfromphone", {
       method: 'POST',
       body: data
     });
@@ -86,7 +86,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
 // SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
   const deleteDocument = async () => {
-    let rawResponse = await fetch(`http://10.2.5.181:3000/deleteDocument/${token}/${tempDoc._id}`, {
+    let rawResponse = await fetch(`http://192.168.1.5:3000/deleteDocument/${token}/${tempDoc._id}`, {
       method: 'DELETE'
     })
     let response = await rawResponse.json();

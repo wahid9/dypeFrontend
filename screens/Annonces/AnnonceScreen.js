@@ -180,7 +180,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                 <Button
                     title= 'Valider'
                     buttonStyle= {{backgroundColor: "#fce229", height:35, width: 80}}
-                    containerStyle = {{borderRadius:30, flex: 0.9, alignSelf: 'flex-end', justifyContent: 'flex-end'}} 
+                    containerStyle = {{borderRadius:30,marginBottom:50, marginRight:10, flex: 0.9, alignSelf: 'flex-end', justifyContent: 'flex-end'}} 
                     onPress = {() => {setConfirmation(true); setCalendarVisible(false) }}
                 />
             </View>
