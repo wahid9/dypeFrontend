@@ -12,12 +12,15 @@ function Connection({navigation, onSubmitToken, verifValidDossier}) {
 
   
   useEffect(()=>{
-    AsyncStorage.getItem('email',(err,value)=>{
-      setEmail(value);
-    })
-    AsyncStorage.getItem('mdp',(err,value)=>{
-      setMdp(value);
-    })
+
+
+    // RECUPERATION DU STORAGE (VERIFICATION)
+    // AsyncStorage.getItem('email',(err,value)=>{
+    //   setEmail(value);
+    // })
+    // AsyncStorage.getItem('mdp',(err,value)=>{
+    //   setMdp(value);
+    // })
 
 
   },[])
@@ -31,9 +34,11 @@ var signIn = async ()=> {
     body: `email=${email}&mdp=${mdp}`
   });
 
+ 
   
   var response = await data.json();
-  
+  // RECUPERATION DU TOKEN POUR METTRE DANS LE TEL
+  AsyncStorage.setItem('token',response.monToken)
   onSubmitToken(response.monToken);
   verifValidDossier(response.user.validationDossier);
 
@@ -63,8 +68,10 @@ var signIn = async ()=> {
           title="Se connecter"
           string = "#79d279" 
           onPress={() => { signIn();
-            AsyncStorage.setItem('email',email);
-            AsyncStorage.setItem('mdp',mdp)}}
+            // ENREGISTREMENT DU MAIL ; MP DANS LE TEL
+            // AsyncStorage.setItem('email',email);
+            // AsyncStorage.setItem('mdp',mdp)
+          }}
       />
   }
   return (

@@ -21,6 +21,7 @@ import AnnonceScreen from './screens/Annonces/AnnonceScreen';
 import RDVScreen from './screens/Mon profil/RDVScreen';
 import Critere from './screens/Annonces/CriteresScreen';
 import MyDrawer from './screens/Navigation/DrawerScreen';
+import HomePage2 from './screens/Connection/HomeScreen 2';
 
 import docType from './reducers/docTypeReducer';
 import docList from './reducers/docListReducer';
@@ -36,29 +37,30 @@ const store = createStore(combineReducers({docType, docList,token,annonce,favlis
 
 const Stack = createStackNavigator();
 
-// const [email, setEmail]= useState("");
-// const [mdp, setMdp]= useState("");
 
-// AsyncStorage.getItem('email',(err,value)=>{
-//   setEmail(value);
-// })
-// AsyncStorage.getItem('mdp',(err,value)=>{
-//   setMdp(value);
-// })
 
-// var nom;
-// var composant;
-// if(email){
-// nom = 'MyDrawer'
-// composant = MyDrawer
-// }else{
-//   nom = 'Home'
-//   composant = HomePage
-// }
+
+
 
 
 
 export default function App() {
+  //  PERMET DE SWITCH ENTRE LES SCREEN 
+  // const [userToken, setUserToken]= useState("");
+  // AsyncStorage.getItem('token',(err,value)=>{
+  //   setUserToken(value);
+  // })
+  
+  // var nom;
+  // var composant;
+  // if(userToken){
+  // nom = 'MyDrawer'
+  // composant = MyDrawer
+  // }else{
+  //   nom = 'Home'
+  //   composant = HomePage
+  // }
+
   return (
 
 <Provider store={store}>
@@ -66,15 +68,18 @@ export default function App() {
 
     <Stack.Navigator
         headerMode= "none">
-        <Stack.Screen name='myDrawer' component={MyDrawer} />
+        <Stack.Screen name= 'Home' component={HomePage} />
+        {/* <Stack.Screen name={nom} component={composant} /> */}
         <Stack.Screen name="SignIn" component={Connection} />
         <Stack.Screen name="SignUp" component={Inscription} />
         <Stack.Screen name="MdpOublie" component={ForgotPassword} />
         <Stack.Screen name="Criteres" component={Critere} />
-        {/* <Stack.Screen name="Questionnaire" component={Questionnaire1Screen} /> */}
         <Stack.Screen name="Drawer" component={MyDrawer} />
+        <Stack.Screen name="Annonces" component={AnnonceScreen} />
         <Stack.Screen name="Camera" component={CameraScreen} />
         <Stack.Screen name="Dossier" component={DossierScreen} />
+        {/* <Stack.Screen name="Home2" component={HomePage2} /> */}
+
       </Stack.Navigator>
   </NavigationContainer>
 </Provider>
@@ -82,29 +87,3 @@ export default function App() {
 
   );
 }
-
-
-
-// function MyStack() {
-//   return (
-
-// <StackNew.Navigator headerMode= "none">
-//   <StackNew.Screen name="MesMatchs" component={MyDrawer} />
-//   <StackNew.Screen name="Annonces" component={AnnonceScreen} />
-//   <StackNew.Screen name="RendezVous" component={RDVScreen} /> 
-// </StackNew.Navigator>
-//   );
-// }
-
-// const ThirdStack = createStackNavigator();
-
-// function MyStackRdv() {
-//   return (
-
-// <ThirdStack.Navigator headerMode= "none">
-//   {/* <ThirdStack.Screen name="MesMatchs" component={MesMatchScreens} />
-//   <ThirdStack.Screen name="Annonces" component={AnnonceScreen} /> */}
-//   <ThirdStack.Screen name="RendezVous" component={RDVScreen} />
-// </ThirdStack.Navigator>
-//   );
-// }

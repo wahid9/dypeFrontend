@@ -68,7 +68,7 @@ function Critere({navigation, token}) {
         onPress = {()=> {select();
           AsyncStorage.setItem('ville', ville);
           AsyncStorage.setItem('budgetMin', budgetMin);
-          AsyncStorage.setItem('bugetMax', budgetMax);} }
+          AsyncStorage.setItem('budgetMax', budgetMax);} }
       />
       <KeyboardAvoidingView behavior = "padding" enabled>
       </KeyboardAvoidingView>
