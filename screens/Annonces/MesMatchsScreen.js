@@ -6,10 +6,11 @@ import IconBurger from '@expo/vector-icons/Feather';
 import { connect } from 'react-redux';
 import { add } from 'react-native-reanimated';
  
-function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavStore,theFavList}) {
+function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavStore,theFavList,onSubmitToken}) {
   
   
   const [annonce, setAnnonce] = useState([]);
+  const [token,setToken] = useState();
 
   // var sendFavoris = (i)=>{
   //   setTabLiked([...tabLiked,annonce[i]])
@@ -33,6 +34,15 @@ var RecupDataAnnonce = (i) => {
 }
 
 useEffect(() => {
+  // RECUP DU TOKEN DANS LE TEL POUR LE METTRE DANS LE STORE REDUX
+  // AsyncStorage.getItem('token',(err,value)=>{
+  //   setToken(value);
+  // })
+  // if(token){
+  //   onSubmitToken(token)
+  // }
+
+
   var recupBdd = async() =>{
     var sendToken  = await fetch('http://192.168.1.82:3000/saveToStore',{
       method: 'POST',
@@ -41,14 +51,14 @@ useEffect(() => {
     })
   var annonceBdd = await sendToken.json();
   majFavStore(annonceBdd)
-
   }
-  recupBdd();
-  fetchData();
-    
   
-  }, []);
+  fetchData();
+  recupBdd();
+}, []);
 
+  console.log("crit",token)
+  
   var  fetchData= async ()=> {
     var rawResponse =  await fetch("http://192.168.1.82:3000/mesMatchs",{
       method: 'POST',
@@ -57,7 +67,33 @@ useEffect(() => {
     })
     var response = await rawResponse.json();
     setAnnonce(response.annonces)
+    console.log("ici")
   }
+  // APPEL EN BDD SI LE USER EST DEJA CO OU PAS 
+  // if(!token){
+  //   var  fetchData= async ()=> {
+  //     var rawResponse =  await fetch("http://192.168.0.21:3000/mesMatchs",{
+  //       method: 'POST',
+  //       headers: {'Content-Type':'application/x-www-form-urlencoded'},
+  //       body: `token=${theToken}`
+  //     })
+  //     var response = await rawResponse.json();
+  //     setAnnonce(response.annonces)
+  //     console.log("ici")
+  //   }
+  // }else{
+  //   var  fetchData= async ()=> {
+  //     var rawResponse =  await fetch("http://192.168.0.21:3000/mesMatchs",{
+  //       method: 'POST',
+  //       headers: {'Content-Type':'application/x-www-form-urlencoded'},
+  //       body: `token=${token}`
+  //     })
+  //     var response = await rawResponse.json();
+  //     setAnnonce(response.annonces)
+  //     console.log("la")
+  //   }
+  // }
+  
     var lesAnnonces = annonce.map((data, i ) =>{
 
       var pictocolor ='black';
@@ -121,6 +157,9 @@ function mapDispatchToProps(dispatch) {
     },
     majFavStore: function(annonceLikedBdd) { 
       dispatch({type:'annonceAddfromBdd',annonceLikedBdd}) 
+    },
+    onSubmitToken : function(token){
+      dispatch({type : 'tokenExist', token })
     },
   }
 }

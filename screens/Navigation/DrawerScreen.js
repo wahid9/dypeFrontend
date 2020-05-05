@@ -1,4 +1,5 @@
 import React from 'react';
+import {AsyncStorage} from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
 import MesMatchScreens from "../Annonces/MesMatchsScreen";
@@ -85,7 +86,11 @@ function CustomDrawerContent(props) {
 
       </ScrollView>
       <TouchableOpacity style= {{marginBottom: 15}}
-                        onPress={() => props.navigation.navigate('Home')}>
+                        onPress={() =>{ 
+                        // PERMET DE SUPP LE STORAGE ET DE NAVIGUER VERS LA HOME
+                        // props.navigation.navigate('Home2');
+                        // AsyncStorage.clear()
+                        }}>
         <View style={{flexDirection: 'row'}}>
           <IconLogout name='log-out' 
                     size={18}
