@@ -34,10 +34,6 @@ import RDV from './reducers/RDVReducer';
 import validDossier from './reducers/validDossierReducer';
 const store = createStore(combineReducers({docType, docList,token,annonce,favlist,RDV, validDossier}));
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6385a76b5cb69c498efbdee3396414801b4db710
 const Stack = createStackNavigator();
 
 

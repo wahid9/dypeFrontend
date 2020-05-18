@@ -91,16 +91,17 @@ function SnapScreen(props) {
                 titleStyle={{color: 'white', fontSize: 14}}
                 onPress={async()=>{
                   setPreviewVisible(false);
-                  setChargementVisible(true)
+                  setChargementVisible(true);
                   var data = new FormData();
                     data.append('photo', {
                       uri: photoUri,
                       type: 'image/jpeg',
                       name: 'photo.jpg'
                     });
-                    data.append('token', props.token)
-                    console.log('DATA', data)
-                    var rawResponse = await fetch("http://192.168.1.24:3000/uploadfromcamera", {
+                    data.append('docType', props.docType);    
+                    data.append('token', props.token);
+                    console.log('DATA', data);
+                    var rawResponse = await fetch("http://192.168.1.82:3000/uploadfromcamera", {
                       method: 'POST',
                       body: data
                     });
