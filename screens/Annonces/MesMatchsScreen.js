@@ -18,7 +18,7 @@ function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavSt
   // }
   
    var addLike = async (data)=>{
-    var envoiAnnonce = await fetch('http://192.168.0.21:3000/addLike',{
+    var envoiAnnonce = await fetch('http://192.168.43.201:3000/addLike',{
        method: 'POST',
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}&idAnnonceLiked=${data._id}`
@@ -44,7 +44,7 @@ useEffect(() => {
 
 
   var recupBdd = async() =>{
-    var sendToken  = await fetch('http://192.168.0.21:3000/saveToStore',{
+    var sendToken  = await fetch('http://192.168.43.201:3000/saveToStore',{
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
      body:`token=${theToken}`
@@ -60,7 +60,7 @@ useEffect(() => {
   console.log("crit",token)
   
   var  fetchData= async ()=> {
-    var rawResponse =  await fetch("http://192.168.0.21:3000/mesMatchs",{
+    var rawResponse =  await fetch("http://192.168.43.201:3000/mesMatchs",{
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}`

@@ -13,7 +13,7 @@ function Critere({navigation, token}) {
   
 
   var select = async () => {
-    var data = await fetch("http://192.168.0.21:3000/recherche", {
+    var data = await fetch("http://192.168.43.201:3000/recherche", {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `ville=${ville}&budgetMin=${budgetMin}&budgetMax=${budgetMax}&token=${token}`
