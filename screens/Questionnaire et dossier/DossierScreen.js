@@ -31,11 +31,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   useEffect(() => {
     const fetchData = async() => {
       
-<<<<<<< HEAD
       var rawData = await fetch(`http://192.168.43.201:3000/getDocuments/${token}`);
-=======
-      var rawData = await fetch(`http://192.168.1.82:3000/getDocuments/${token}`);
->>>>>>> 722ee9abb18983454861877723ad3740d33c0430
       var data = await rawData.json();
       getDocumentsOnInit(data.documents);
 
@@ -61,11 +57,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
       data.append('docType', docType);    
       data.append('token', token);
 
-<<<<<<< HEAD
       var rawResponse = await fetch("http://192.168.43.201:3000/uploadfromphone", {
-=======
-      var rawResponse = await fetch("http://192.168.1.82:3000/uploadfromphone", {
->>>>>>> 722ee9abb18983454861877723ad3740d33c0430
         method: 'POST',
         body: data
       });
@@ -110,11 +102,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
   // SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
   const deleteDocument = async () => {
-<<<<<<< HEAD
     let rawResponse = await fetch(`http://192.168.43.201:3000/deleteDocument/${token}/${tempDoc._id}`, {
-=======
-    let rawResponse = await fetch(`http://192.168.1.82:3000/deleteDocument/${token}/${tempDoc._id}`, {
->>>>>>> 722ee9abb18983454861877723ad3740d33c0430
       method: 'DELETE'
     })
     let response = await rawResponse.json();

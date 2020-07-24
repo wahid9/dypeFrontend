@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import {Card, Text,Icon,Button} from 'react-native-elements';
-import { StyleSheet, View,Image,ScrollView,TouchableOpacity,AsyncStorage, ClippingRectangle} from 'react-native';
+import { Platform,StyleSheet, View,Image,ScrollView,TouchableOpacity,AsyncStorage, ClippingRectangle} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
 import { connect } from 'react-redux';
@@ -18,11 +18,7 @@ function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavSt
   // }
   
    var addLike = async (data)=>{
-<<<<<<< HEAD
     var envoiAnnonce = await fetch('http://192.168.43.201:3000/addLike',{
-=======
-    var envoiAnnonce = await fetch('http://192.168.1.82:3000/addLike',{
->>>>>>> 722ee9abb18983454861877723ad3740d33c0430
        method: 'POST',
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}&idAnnonceLiked=${data._id}`
@@ -48,11 +44,7 @@ useEffect(() => {
 
 
   var recupBdd = async() =>{
-<<<<<<< HEAD
     var sendToken  = await fetch('http://192.168.43.201:3000/saveToStore',{
-=======
-    var sendToken  = await fetch('http://192.168.1.82:3000/saveToStore',{
->>>>>>> 722ee9abb18983454861877723ad3740d33c0430
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
      body:`token=${theToken}`
@@ -68,11 +60,7 @@ useEffect(() => {
   console.log("crit",token)
   
   var  fetchData= async ()=> {
-<<<<<<< HEAD
     var rawResponse =  await fetch("http://192.168.43.201:3000/mesMatchs",{
-=======
-    var rawResponse =  await fetch("http://192.168.1.82:3000/mesMatchs",{
->>>>>>> 722ee9abb18983454861877723ad3740d33c0430
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}`
@@ -105,7 +93,7 @@ useEffect(() => {
   //     console.log("la")
   //   }
   // }
-  
+
     var lesAnnonces = annonce.map((data, i ) =>{
 
       var pictocolor ='black';
@@ -114,36 +102,110 @@ useEffect(() => {
             pictocolor = 'red'   
         }
       }
-      return( <TouchableOpacity key={i} onPress = {()=> RecupDataAnnonce(i)}>
-      <Card image={{ uri: data.images[0].url }} imageStyle= {{height:250}}>
-          <Text style={{marginBottom:5, fontSize: 22}}>{data.ville} ({data.codePostal})</Text>
-          <Text style={{marginBottom:5, fontSize:18}}>{data.typeDeBien}</Text>
-          <Text style={{marginBottom:5}}>{data.nbPiece} pièces/ {data.surface} m²</Text>
-          <Text h4 style={{marginBottom:5}}>{data.prix}€/mois</Text> 
-          <Image source={{ uri: data.image }}/>
-          <IconFontAwesome onPress = {()=>{addLike(data)}} style={{alignSelf: 'flex-end', marginRight:5}}
-              name="heart"
-              size={25}
-              color= {pictocolor}
-          />
-      </Card>
-      </TouchableOpacity>
+      return( /* <View>
+        <Card   image={{ uri: data.images[0].url}} imageStyle= {{height:200}} containerStyle={{borderBottomRightRadius:30, marginRight:'5%',marginLeft:'5%',marginBottom:'5%',elevation:10,borderWidth:0,marginTop:'30%'}}>
+            <View style={{flexDirection:'row'}}>
+              <View>
+                <Text style={{marginBottom:5, fontSize:22}}>{data.typeDeBien} à louer</Text>
+                <Text style={{marginBottom:5, fontSize: 20}}>{data.ville} ({data.codePostal})</Text>
+              </View>
+              <Text style={{marginLeft:'30%',marginTop:'1%',color:'#AEAEAE'}}>{data.nbPiece} pièces/ {data.surface} m²</Text>
+            </View>
+                <View style={{flexDirection:'row',height:70,justifyContent:'space-between'}}>
+                  <View>
+                  <Text h4 style={{marginTop:'30%'}}>{data.prix}€/mois</Text> 
+                  </View>
+                  <View style={{width:'65%',justifyContent:'flex-end',marginLeft:'55%'}}>
+                  <IconFontAwesome onPress = {()=>{addLike(data)}} style={{}}
+                  name="heart"
+                  size={25}
+                  color= {pictocolor}
+                />
+                  </View>
+                <Image source={{ uri: data.image }}/>
+                
+            </View>
+            
+          </Card>
+        </View> */
+        <TouchableOpacity activeOpacity={0.9}  key={i} onPress = {()=> RecupDataAnnonce(i)}>
+      <View style={{backgroundColor:'#125ce0',width:369,marginLeft:20,borderTopLeftRadius:10,marginTop:10}}>
+      <Image source={{uri: data.images[0].url}}  style={{height:300, width:369,borderTopLeftRadius:100,marginBottom:-15}}/>
+      </View>
+      <Card containerStyle={styles.Shadow}>
+            <View style={{flexDirection:'row'}}>
+              <View>
+                <Text style={{marginBottom:5, fontSize:22}}>{data.typeDeBien} </Text>
+                <Text style={{marginBottom:5, fontSize: 20}}>{data.ville} ({data.codePostal})</Text>
+              </View>
+              <Text style={styles.nbPiece}>{data.nbPiece} pièces/ {data.surface} m²</Text>
+            </View>
+                <View style={{flexDirection:'row',height:70,justifyContent:'space-between',alignItems:'flex-end'}}>
+                  <View>
+                  <Text h4 style={{marginTop:35}}>{data.prix}€/mois</Text> 
+                  </View>
+                  <View style={styles.pictoCoeur}>
+                  <IconFontAwesome onPress = {()=>{addLike(data)}}
+                  name="heart"
+                  size={22}
+                  color= {pictocolor}
+                  
+                />
+                  </View>     
+            </View> 
+          </Card>
+        </TouchableOpacity>
   )}
   )
   
   return (
-    <ScrollView style={{marginTop: 25}}>
-      
-      <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => navigation.openDrawer()} />
-      <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
-      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30,}}/>
+    
+    <View style={{backgroundColor:'white'}}>
+      <View  style={{marginTop:'12%'}}>
+      <View style={{flexDirection:'row',justifyContent:'space-around',marginBottom:'5%'}}>
+      <IconBurger name= {"menu"} style={{marginTop:'4%',marginLeft:'-5%'}} color={'#125ce0'} size={35} onPress={() => navigation.openDrawer()} />
+      <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127}}/>
+      <IconFontAwesome style={{marginTop:'4%',marginRight:'-5%'}}
+              name='user'
+              size={30}
+              color= '#125ce0'
+            />
       </View>
-        <Text h4 style={{textAlign: 'center'}}>Mes matchs</Text>
+      </View>
+      <ScrollView style={{marginBottom:'16%'}}>
+
+      {/* <TouchableOpacity>
+      <View style={{backgroundColor:'#125ce0',width:369,marginLeft:20,borderTopLeftRadius:10}}>
+      <Image source={require('../../assets/livingRoom.jpg')}  style={{height:300, width:369,borderTopLeftRadius:100,marginBottom:-15}}/>
+      </View>
+      <Card containerStyle={{width:369,borderBottomRightRadius:30,marginLeft:20,elevation:10,borderWidth:0}}>
+            <View style={{flexDirection:'row'}}>
+              <View>
+                <Text style={{marginBottom:5, fontSize:22}}> à louer</Text>
+                <Text style={{marginBottom:5, fontSize: 20}}> ()</Text>
+              </View>
+              <Text style={{marginLeft:'30%',marginTop:'1%',color:'#AEAEAE'}}> pièces/  m²</Text>
+            </View>
+                <View style={{flexDirection:'row',height:70,justifyContent:'space-between'}}>
+                  <View>
+                  <Text h4 style={{marginTop:35}}>€/mois</Text> 
+                  </View>
+                  <View style={{width:80, marginTop:30,alignItems:'flex-end',justifyContent:'flex-end'}}>
+                  <IconFontAwesome onPress = {()=>console.log('heelo')}
+                  name="heart"
+                  size={28}
+                  color= 'red'
+                />
+                  </View>     
+            </View> 
+          </Card>
+        </TouchableOpacity> */}
         {lesAnnonces}
     </ScrollView>
+    </View>
+    
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -152,7 +214,63 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  Shadow:{
+    ...Platform.select({
+      ios:{
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          width:369,
+        borderBottomRightRadius:30,
+        marginLeft:20,
+        elevation:10,
+        borderWidth:0,
+         marginBottom:30,
+      },
+      android:{
+        elevation:5,
+        width:369,
+        borderBottomRightRadius:30,
+        marginLeft:20,
+        elevation:10,
+        borderWidth:0,
+         marginBottom:30,
+      }
+    })
+  },
+  pictoCoeur:{
+    ...Platform.select({
+      ios:{backgroundColor:'white',
+      borderRadius:24,
+      width:35,
+      height:35,
+      justifyContent:'center',
+      alignItems:'center',
+      paddingTop:3,
+      shadowColor: "#000",
+        shadowOffset: {
+	        width: 0,
+	        height: 2,
+  },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+    },
+      android:{backgroundColor:'white',elevation:5,borderRadius:24,width:35,height:35,justifyContent:'center',alignItems:'center',paddingTop:3}
+    })
+
+  },
+  nbPiece:{
+    ...Platform.select({
+      ios:{marginLeft:110,marginTop:5,color:'#AEAEAE'},
+      android:{marginLeft:150,marginTop:5,color:'#AEAEAE'},
+    })
+  }
 });
+
 
 function mapStateToProps(state){
   console.log(state.favlist)
