@@ -3,6 +3,7 @@ import {Card, Text,Icon,Button} from 'react-native-elements';
 import { Platform,StyleSheet, View,Image,ScrollView,TouchableOpacity,AsyncStorage, ClippingRectangle} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
+import {LinearGradient} from 'expo-linear-gradient'
 import { connect } from 'react-redux';
 import { add } from 'react-native-reanimated';
  

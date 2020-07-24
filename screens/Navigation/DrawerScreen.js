@@ -88,7 +88,7 @@ function CustomDrawerContent(props) {
       <TouchableOpacity style= {{marginBottom: 15}}
                         onPress={() =>{ 
                         // PERMET DE SUPP LE STORAGE ET DE NAVIGUER VERS LA HOME
-                        // props.navigation.navigate('Home2');
+                        props.navigation.navigate('Home');
                         // AsyncStorage.clear()
                         }}>
         <View style={{flexDirection: 'row'}}>
