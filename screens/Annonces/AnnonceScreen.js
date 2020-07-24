@@ -43,20 +43,24 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     }
 
     function getHour(date){
+        console.log('brrebrebrebr', date);
         let hour;
         if(date.getMinutes()!=0){
-            hour=date.getHours()-1+":"+date.getMinutes()
+        console.log('brrebrebrebr', date.toISOString());
+            hour=date.getUTCHours()+":"+date.getMinutes()
         } else {
-            hour=date.getHours()-1+":"+date.getMinutes()+"0"
+            hour=date.getUTCHours()+":"+date.getMinutes()+"0"
         }
         return hour;
     }
+
 
     var handleSubmit = (day) => {
         setCalendarDay(day); 
         setIsVisible(false); 
         setCalendarVisible(true); 
     }
+    console.log('calendar', monRdv);
 
    var parking;
    var interphone;
@@ -88,42 +92,69 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     digicode = <Text style={{marginBottom:2, fontSize:17}}>digicode</Text>
    }
    
-    let newDispo=[]
-    for(let i=0; i<annonce.dispoVisite.length; i++){
-        newDispo.push(new Date(annonce.dispoVisite[i]));
-    }
+    // let newDispo=[]
+    // for(let i=0; i<annonce.dispoVisite.length; i++){
+    //     newDispo.push(new Date(annonce.dispoVisite[i]));
+    // }
+    // console.log('((((((((((', newDispo);
+    
+    // useEffect(()=>{
+    //     console.log(new Date());
+
+    //     let tempDispoCeJour=[]
+
+    //     for(let i=0; i<newDispo.length; i++){
+    //         if(newDispo[i].getFullYear()==calendarDay.year && newDispo[i].getDate()==calendarDay.day && newDispo[i].getMonth()+1==calendarDay.month){
+    //             let index=tempDispoCeJour.findIndex(dispo => dispo === newDispo[i]);
+    //             tempDispoCeJour.push(newDispo[i]);
+    //         }
+    //     }
+    //     setDispoCeJour(tempDispoCeJour);
+
+    // },[calendarDay]);
+    
+    var dispoAgence = []
 
     useEffect(()=>{
+        // console.log('::::::::=======', new Date());
 
-        let tempDispoCeJour=[]
-
-        for(let i=0; i<newDispo.length; i++){
-            if(newDispo[i].getFullYear()==calendarDay.year && newDispo[i].getDate()==calendarDay.day && newDispo[i].getMonth()+1==calendarDay.month){
-                let index=tempDispoCeJour.findIndex(dispo => dispo === newDispo[i]);
-                tempDispoCeJour.push(newDispo[i]);
+        var loadData = async () =>{
+            var rawData = await fetch(`http://172.20.10.3:3000/recupDispo/${annonce._id}`);
+            var data = await rawData.json();
+            for (let i=0; i< data.dispoStart.length; i++){
+                dispoAgence.push(new Date(data.dispoStart[i]))
             }
+            console.log('eeeee', dispoAgence);
+            var dispoSlot = []
+            for(let i=0; i< dispoAgence.length; i++){
+                if( dispoAgence[i].getDate()==calendarDay.day && dispoAgence[i].getMonth()+1==calendarDay.month && dispoAgence[i].getFullYear()==calendarDay.year){
+                    dispoSlot.push(dispoAgence[i])
+                }
+            }
+            console.log('fffffffffffffff', dispoSlot);
+            setDispoCeJour(dispoSlot)
         }
-        setDispoCeJour(tempDispoCeJour);
-
-    },[calendarDay]);
-    
+        loadData()
+    },[calendarDay])
+    console.log('iiiiiiiiiiiiiiii', dispoCeJour);
 
 
     var listDispo=dispoCeJour.map(function(dispo, i){
 
+        console.log('dddddddddiiiiiiiiiiiiiii', dispo);
         var color = "#C0CFEC";
-        ///for (var j = 0; j < dispoCeJour.length;i++){
+     
             if(monRdv=== dispo){
                 color =  "#125CE0"
             }
-        //}
+    
 
         return( <Button 
             key={i}
             title= {getHour(dispo)}
             titleStyle={{fontSize: 14}}
-            buttonStyle= {{backgroundColor: color, height:44, width: 96}}
-            containerStyle = {{borderRadius:30, marginLeft: 5, marginRight: 5}} 
+            buttonStyle= {{backgroundColor: color, height:'auto', width: 90}}
+            containerStyle = {{borderRadius:30, marginLeft: 5, marginRight: 5, marginTop: 10}} 
             onPress ={()=> {setMonRdv(dispo)}}
             />
         )
@@ -131,24 +162,31 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
 
     // §§ ENREGISTRE LE RDV DANS LA BDD - OK COTE FRONT MAIS PAS ENCORE COTE BACK §§
 
-    // const saveRDV = async (rdv) => {
-    //     console.log('rdv :', rdv);
-    //     await fetch('http://10.2.5.181:3000/saveRdv', {
-    //         method: 'POST',
-    //         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    //         body: `date=${rdv}&agence=FONCIA&token=${token}&annonce=${annonce._id}`
-    //     })
-    // }
+    const saveRDV = async (rdv) => {
+        console.log('rdv :', rdv);
+        await fetch('http://172.20.10.3:3000/saveRdv', {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `date=${JSON.stringify(rdv)}&token=${token}&annonce=${annonce._id}`
+        })
+    }
+
+    var taille = 250
+    if(dispoCeJour.length > 12){
+        taille = 400
+    }
+
     return (
     <View style={{flex: 1}}>
         <Overlay 
-            height={350}
+            height={400}
             width= {330}
             isVisible={isVisible}
             onBackdropPress={() => {setIsVisible(false)}}>
             <Calendar
             current = {Date}
             minDate = {Date}
+            renderEmptyDate={() => {return (<View />);}}
             onDayPress={(day) => handleSubmit(day)}/>
         </Overlay>
         <Overlay 
@@ -168,9 +206,11 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     bottomDivider 
                 />  
                 <Text style={{textAlign: 'center', fontSize: 16, marginTop: 15}}>Choisissez un rdv parmi les disponibilités suivantes:</Text>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, height: 200}}>
-                {listDispo}
-                </View>
+                {/* <ScrollView> */}
+                    <View style={{flexDirection:'row', justifyContent: 'space-around', flexWrap:'wrap', marginTop: 10, height: taille}}>
+                    {listDispo}
+                    </View>
+                {/* </ScrollView> */}
                 <Button
                     title= 'Valider'
                     buttonStyle= {{backgroundColor: "#fce229", height:35, width: 80}}
@@ -195,7 +235,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     title= 'Confirmer'
                     buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
                     containerStyle = {{borderRadius:30, justifyContent: 'flex-end'}} 
-                    onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv') }} // saveRDV(monRdv)
+                    onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv'); saveRDV(monRdv) }}
                 />
             </View>
         </Overlay>
@@ -209,7 +249,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
             </View>
         
             <Card image={{ uri: annonce.images[0].url }} imageStyle= {{height:250}} >
-                <Text style={{marginBottom:5, fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
+                {/* <Text style={{marginBottom:5, fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text> */}
             {/* <Card>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 <Image source = {{uri: annonce.images[0]}} style={{height:250, width:370,marginRight:3}}/>

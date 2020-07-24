@@ -4,7 +4,7 @@ import {Button} from 'react-native-elements';
 
 function HomePage({navigation}){
     return(
-      <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
+      <ImageBackground source={require('../../assets/picture.1.jpg')}  style={styles.container}>
         <Image
         source= {require("../../assets/dype.png")}
         style={{height:115, width:222, marginTop:-70}}

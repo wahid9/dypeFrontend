@@ -3,6 +3,7 @@ import {Card, Text,Icon,Button} from 'react-native-elements';
 import { StyleSheet, View,Image,ScrollView,TouchableOpacity,AsyncStorage, ClippingRectangle} from 'react-native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import IconBurger from '@expo/vector-icons/Feather';
+import {LinearGradient} from 'expo-linear-gradient'
 import { connect } from 'react-redux';
 import { add } from 'react-native-reanimated';
  
@@ -18,7 +19,7 @@ function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavSt
   // }
   
    var addLike = async (data)=>{
-    var envoiAnnonce = await fetch('http://192.168.1.82:3000/addLike',{
+    var envoiAnnonce = await fetch('http://172.20.10.3:3000/addLike',{
        method: 'POST',
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}&idAnnonceLiked=${data._id}`
@@ -44,7 +45,7 @@ useEffect(() => {
 
 
   var recupBdd = async() =>{
-    var sendToken  = await fetch('http://192.168.1.82:3000/saveToStore',{
+    var sendToken  = await fetch('http://172.20.10.3:3000/saveToStore',{
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
      body:`token=${theToken}`
@@ -60,7 +61,7 @@ useEffect(() => {
   console.log("crit",token)
   
   var  fetchData= async ()=> {
-    var rawResponse =  await fetch("http://192.168.1.82:3000/mesMatchs",{
+    var rawResponse =  await fetch("http://172.20.10.3:3000/mesMatchs",{
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}`
@@ -102,18 +103,23 @@ useEffect(() => {
             pictocolor = 'red'   
         }
       }
+
+      var gradient = <LinearGradient colors={['#123ce0', 'white', 'white']}/>
       return( <TouchableOpacity key={i} onPress = {()=> RecupDataAnnonce(i)}>
-      <Card image={{ uri: data.images[0].url }} imageStyle= {{height:250}}>
+      <Card image={{ uri: data.images[0].url }} imageStyle= {{height:250}} imageProps={{borderTopLeftRadius:60}} containerStyle={styles.cardContainer}>
+      {/* <LinearGradient colors={['#123ce0', 'white', 'white']}> */}
+        <Image></Image>
           <Text style={{marginBottom:5, fontSize: 22}}>{data.ville} ({data.codePostal})</Text>
           <Text style={{marginBottom:5, fontSize:18}}>{data.typeDeBien}</Text>
           <Text style={{marginBottom:5}}>{data.nbPiece} pièces/ {data.surface} m²</Text>
           <Text h4 style={{marginBottom:5}}>{data.prix}€/mois</Text> 
-          <Image source={{ uri: data.image }}/>
+          {/* <Image source={{ uri: data.image }}/> */}
           <IconFontAwesome onPress = {()=>{addLike(data)}} style={{alignSelf: 'flex-end', marginRight:5}}
               name="heart"
               size={25}
               color= {pictocolor}
           />
+      {/* </LinearGradient> */}
       </Card>
       </TouchableOpacity>
   )}
@@ -140,6 +146,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  cardContainer:{
+    borderBottomRightRadius:30,
+    // backgroundColor:'#123ce0'
+  }
 });
 
 function mapStateToProps(state){

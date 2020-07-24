@@ -34,10 +34,7 @@ import RDV from './reducers/RDVReducer';
 import validDossier from './reducers/validDossierReducer';
 const store = createStore(combineReducers({docType, docList,token,annonce,favlist,RDV, validDossier}));
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 6385a76b5cb69c498efbdee3396414801b4db710
 const Stack = createStackNavigator();
 
 
@@ -81,6 +78,7 @@ export default function App() {
         <Stack.Screen name="Annonces" component={AnnonceScreen} />
         <Stack.Screen name="Camera" component={CameraScreen} />
         <Stack.Screen name="Dossier" component={DossierScreen} />
+        <Stack.Screen name="Mes rdv" component={RDVScreen} />
         {/* <Stack.Screen name="Home2" component={HomePage2} /> */}
 
       </Stack.Navigator>

@@ -1,4 +1,5 @@
 export default function (favList=[],action){
+    console.log('fffaaaaaavvvvvvv',action);
     if(action.type === 'annonceLiked'){
         var favListCopy=[...favList];
         favListCopy.push(action.annonceLiked);
