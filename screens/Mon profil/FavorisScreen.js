@@ -10,7 +10,7 @@ function FavorisScreen({navigation,favorisList,token,deleteOnClick,printAnnonce}
  
 
 const deleteFav = async (data) =>{
-  var rawResponse = await fetch(`http://192.168.1.5:3000/deleteFav/${data._id}/${token}`,{
+  var rawResponse = await fetch(`http://172.20.10.4:3000/deleteFav/${data._id}/${token}`,{
   method : 'DELETE'
   })
   deleteOnClick(data)

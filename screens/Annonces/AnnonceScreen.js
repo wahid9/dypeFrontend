@@ -52,6 +52,22 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
         return hour;
     }
 
+    useEffect(()=>{
+        console.log('::::::::=======', annonce);
+
+    var loadData = async () =>{
+        var rawData = await fetch(`http://172.20.10.4:3000/recupDispo`,{
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `annonce=${JSON.stringify(annonce)}`
+        }
+        );
+        // var data = await rawData.json();
+        // console.log('ddddddddaaaaaaaaaaaaaaattttttttttttaaaaaaaaaaa', data);
+    }
+    loadData()
+},[])
+
     var handleSubmit = (day) => {
         setCalendarDay(day); 
         setIsVisible(false); 
@@ -209,7 +225,6 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
             </View>
         
             <Card image={{ uri: annonce.images[0].url }} imageStyle= {{height:250}} >
-                <Text style={{marginBottom:5, fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
             {/* <Card>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 <Image source = {{uri: annonce.images[0]}} style={{height:250, width:370,marginRight:3}}/>

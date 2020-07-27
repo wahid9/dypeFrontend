@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { StyleSheet, View,Image,ScrollView, Alert, TouchableOpacity} from 'react-native';
 import {Card, Badge, Text, Button, ListItem} from 'react-native-elements';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -12,14 +12,15 @@ import {connect} from "react-redux";
 
 function RDVScreen({navigation,data}) {
 
+    console.log("data===", data);
+
     const [isCancelled, setIsCancelled] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [calendarVisible, setCalendarVisible] = useState(false);
     const [calendarDay, setCalendarDay] = useState('');
     const [confirmation, setConfirmation] = useState(false);
-    console.log("la date",data[0].date.getDate(),(data[0].date.getMonth()+1),data[0].date.getFullYear());
-    console.log("data",data)
-
+    // console.log("c'est les donnes chakal", donne)
+    // console.log("la date",data[0].date.getDate(),(data[0].date.getMonth()+1),data[0].date.getFullYear());
     function getHour(date){
         let hour;
         if(date.getMinutes()!=0){
@@ -29,7 +30,37 @@ function RDVScreen({navigation,data}) {
         }
         return hour;
     }
+    var rdv;
 
+        if(data == []){
+            console.log("CC");
+    //         rdv = <Card containerStyle={{height: 'auto'}}>
+    //     <View style={{flexDirection:'row'}}>
+    //         <Text style={{paddingRight:10, flex:3, fontSize:18, marginTop:5}}> Votre rendez-vous a été confirmé pour le {data[0].date.getDate()}/{(data[0].date.getMonth()+1)}/{data[0].date.getFullYear()} à { getHour(data[0].date) } </Text>
+    //         <Image source={{ uri: data[0].image}} style={{height: 60, width: 90}}></Image>
+    //     </View>
+    //     <View style={{flexDirection:'row', justifyContent:'space-around', paddingTop:20}}>
+    //         <TouchableOpacity onPress = {()=> setIsVisible(true)}>
+    //         <View style={{flexDirection:'row'}}>
+    //             <IconClock name={'restore-clock'} size={25} style={{marginTop:-4}}/>
+    //             <Text style={{marginLeft:5}}>déplacer le rdv</Text>
+    //          </View>
+    //         </TouchableOpacity>
+    //         <TouchableOpacity 
+    //                 // onPress = {()=> setIsCancelled(true)}
+    //             onPress={()=> Alert.alert("Votre rendez-vous est bien annulé")}>
+    //             <View style={{flexDirection:'row'}}>
+    //                 <IconCross name={'x-circle'} size={20}></IconCross>
+    //                 <Text style={{marginLeft:5}}>annuler le rdv</Text>
+    //             </View>
+    //         </TouchableOpacity>
+    //     </View>
+    // </Card> 
+    }else{
+        console.log("Salut");
+            // rdv = <Text>TA PAS DE RDV BG </Text>
+        }
+        
     LocaleConfig.locales['fr'] = {
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
         monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -126,8 +157,8 @@ function RDVScreen({navigation,data}) {
             </View>
             <View>
                 <Text h4 style={{textAlign: 'center'}}>Mes rendez-vous</Text>
-                
-                <Card containerStyle={{height: 'auto'}}>
+                {rdv}
+                {/* <Card containerStyle={{height: 'auto'}}>
                 <View style={{flexDirection:'row'}}>
                     <Text style={{paddingRight:10, flex:3, fontSize:18, marginTop:5}}> Votre rendez-vous a été confirmé pour le {data[0].date.getDate()}/{(data[0].date.getMonth()+1)}/{data[0].date.getFullYear()} à { getHour(data[0].date) } </Text>
                     <Image source={{ uri: data[0].image}} style={{height: 60, width: 90}}></Image>
@@ -148,8 +179,8 @@ function RDVScreen({navigation,data}) {
                         </View>
                     </TouchableOpacity>
                 </View>
-           
-            </Card>
+            </Card> */}
+        
         </View>
         </ScrollView>
     </View>

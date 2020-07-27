@@ -10,13 +10,12 @@ function Connection({navigation, onSubmitToken, verifValidDossier}) {
   const [mdp, setMdp]= useState("");
 
 var signIn = async ()=> {
-  var data = await fetch('http://192.168.1.5:3000/signIn', {
+  var data = await fetch('http://172.20.10.4:3000/signIn', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `email=${email}&mdp=${mdp}`
   });
-  var response = await data.json();
-  
+  var response = await data.json(); 
   onSubmitToken(response.monToken);
   verifValidDossier(response.user.validationDossier);
 

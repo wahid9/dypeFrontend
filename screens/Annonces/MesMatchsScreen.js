@@ -17,7 +17,7 @@ function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavSt
   // }
   
    var addLike = async (data)=>{
-    var envoiAnnonce = await fetch('http://192.168.1.5:3000/addLike',{
+    var envoiAnnonce = await fetch('http://172.20.10.4:3000/addLike',{
        method: 'POST',
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}&idAnnonceLiked=${data._id}`
@@ -26,7 +26,6 @@ function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavSt
   }
   
 
-  
 var RecupDataAnnonce = (i) => {
   reduxFunction(annonce[i]);
   navigation.navigate('Annonces')
@@ -34,7 +33,7 @@ var RecupDataAnnonce = (i) => {
 
 useEffect(() => {
   var recupBdd = async() =>{
-    var sendToken  = await fetch('http://192.168.1.5:3000/saveToStore',{
+    var sendToken  = await fetch('http://172.20.10.4:3000/saveToStore',{
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
      body:`token=${theToken}`
@@ -50,12 +49,13 @@ useEffect(() => {
   }, []);
 
   var  fetchData= async ()=> {
-    var rawResponse =  await fetch("http://192.168.1.5:3000/mesMatchs",{
+    var rawResponse =  await fetch("http://172.20.10.4:3000/mesMatchs",{
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `token=${theToken}`
     })
     var response = await rawResponse.json();
+    console.log("response du back pour les matchs =>",response);
     setAnnonce(response.annonces)
   }
     var lesAnnonces = annonce.map((data, i ) =>{
