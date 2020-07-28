@@ -98,10 +98,10 @@ function SnapScreen(props) {
                       type: 'image/jpeg',
                       name: 'photo.jpg'
                     });
-                    // data.append('docType', props.docType);
+                    data.append('docType', props.docType);
                     data.append('token', props.token)
                     console.log('DATA', data)
-                    var rawResponse = await fetch("https://enigmatic-dusk-10192.herokuapp.com/uploadfromcamera", {
+                    var rawResponse = await fetch("http://172.20.10.3:3000/uploadfromcamera", {
                       method: 'POST',
                       body: data
                     });

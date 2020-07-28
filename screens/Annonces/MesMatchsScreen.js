@@ -107,8 +107,11 @@ useEffect(() => {
       var gradient = <LinearGradient colors={['#123ce0', 'white', 'white']}/>
       return( <TouchableOpacity key={i} onPress = {()=> RecupDataAnnonce(i)}>
       <Card image={{ uri: data.images[0].url }} imageStyle= {{height:250}} imageProps={{borderTopLeftRadius:60}} containerStyle={styles.cardContainer}>
-      {/* <LinearGradient colors={['#123ce0', 'white', 'white']}> */}
-        <Image></Image>
+          {/* <LinearGradient colors={['#123ce0', 'white', 'white']}> */}
+        {/* <Image 
+          source= {{uri: data.images[0].url}}
+          height={250}
+          /> */}
           <Text style={{marginBottom:5, fontSize: 22}}>{data.ville} ({data.codePostal})</Text>
           <Text style={{marginBottom:5, fontSize:18}}>{data.typeDeBien}</Text>
           <Text style={{marginBottom:5}}>{data.nbPiece} pièces/ {data.surface} m²</Text>
@@ -118,7 +121,7 @@ useEffect(() => {
               name="heart"
               size={25}
               color= {pictocolor}
-          />
+              />
       {/* </LinearGradient> */}
       </Card>
       </TouchableOpacity>

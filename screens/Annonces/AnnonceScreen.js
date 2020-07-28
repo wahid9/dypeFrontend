@@ -287,7 +287,9 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     color="#ffffff"
                     style= {{marginRight : 5}}/>
                 }
-                    onPress={()=> {!validDossier ? Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.") : setIsVisible(true)}}
+                    onPress={()=> {
+                        // !validDossier ? Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.") : 
+                        setIsVisible(true)}}
                     title="Prendre un rendez-vous"
                     buttonStyle= {{backgroundColor: "#125CE0"}}
                     containerStyle={{height: 35, marginBottom: 10}}
