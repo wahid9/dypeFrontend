@@ -14,11 +14,7 @@ function Inscription({navigation,onSubmitToken}) {
     if(mdp != mdpConfirm){
       Alert.alert("Mots de passe différents"," Veuillez saisir le meme mot de passe")
     } else {
-<<<<<<< HEAD
     var data = await fetch('http://192.168.43.201:3000/SingUp', {
-=======
-    var data = await fetch('http://172.20.10.3:3000/SingUp', {
->>>>>>> 1161c9f51f587028da848255bcf854fdf0813f16
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `nom=${nom}&prenom=${prenom}&email=${email}&mdp=${mdp}&mdpConfirm=${mdpConfirm}`
@@ -83,7 +79,7 @@ var Btn;
         style={{height:115, width:222, marginTop:70}}
     />
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
-            inputStyle={{marginTop:80 ,backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
+            inputStyle={{marginTop:30,backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
             placeholder='Nom'
             onChangeText = {(value)=>setNom(value)}
             value = {nom}

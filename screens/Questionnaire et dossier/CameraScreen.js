@@ -98,6 +98,7 @@ function SnapScreen(props) {
                       type: 'image/jpeg',
                       name: 'photo.jpg'
                     });
+                    data.append('docType',props.docType)
                     data.append('token', props.token)
                     console.log('DATA', data)
                     var rawResponse = await fetch("http://192.168.43.201:3000/uploadfromcamera", {

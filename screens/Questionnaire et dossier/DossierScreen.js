@@ -31,15 +31,12 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   useEffect(() => {
     const fetchData = async() => {
       
-<<<<<<< HEAD
       var rawData = await fetch(`http://192.168.43.201:3000/getDocuments/${token}`);
-=======
-      var rawData = await fetch(`https://enigmatic-dusk-10192.herokuapp.com/getDocuments/${token}`);
->>>>>>> 1161c9f51f587028da848255bcf854fdf0813f16
       var data = await rawData.json();
       getDocumentsOnInit(data.documents);
 
     }
+    
     fetchData();
   }, []);
   
@@ -61,11 +58,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
       data.append('docType', docType);    
       data.append('token', token);
 
-<<<<<<< HEAD
       var rawResponse = await fetch("http://192.168.43.201:3000/uploadfromphone", {
-=======
-      var rawResponse = await fetch("https://enigmatic-dusk-10192.herokuapp.com/uploadfromphone", {
->>>>>>> 1161c9f51f587028da848255bcf854fdf0813f16
         method: 'POST',
         body: data
       });
@@ -110,11 +103,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
   // SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
   const deleteDocument = async () => {
-<<<<<<< HEAD
     let rawResponse = await fetch(`http://192.168.43.201:3000/deleteDocument/${token}/${tempDoc._id}`, {
-=======
-    let rawResponse = await fetch(`https://enigmatic-dusk-10192.herokuapp.com/deleteDocument/${token}/${tempDoc._id}`, {
->>>>>>> 1161c9f51f587028da848255bcf854fdf0813f16
       method: 'DELETE'
     })
     let response = await rawResponse.json();
@@ -141,11 +130,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     
     if(newListID.length && newListJD.length && newListBS.length && newListCT.length && newListAI.length){
       setSubmitVisible(true); 
-<<<<<<< HEAD
       let rawResponse = await fetch('http://192.168.43.201:3000/submitDossier', {
-=======
-      let rawResponse = await fetch('https://enigmatic-dusk-10192.herokuapp.com/submitDossier', {
->>>>>>> 1161c9f51f587028da848255bcf854fdf0813f16
         method: 'PUT',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: `token=${token}`
