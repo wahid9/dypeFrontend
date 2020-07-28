@@ -10,7 +10,11 @@ function FavorisScreen({navigation,favorisList,token,deleteOnClick,printAnnonce}
  
 
 const deleteFav = async (data) =>{
+<<<<<<< HEAD
+  var rawResponse = await fetch(`http://192.168.43.201:3000/deleteFav/${data._id}/${token}`,{
+=======
   var rawResponse = await fetch(`https://enigmatic-dusk-10192.herokuapp.com/deleteFav/${data._id}/${token}`,{
+>>>>>>> 1161c9f51f587028da848255bcf854fdf0813f16
   method : 'DELETE'
   })
   deleteOnClick(data)

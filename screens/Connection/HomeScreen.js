@@ -7,22 +7,22 @@ function HomePage({navigation}){
       <ImageBackground source={require('../../assets/picture.1.jpg')}  style={styles.container}>
         <Image
         source= {require("../../assets/dype.png")}
-        style={{height:115, width:222, marginTop:-70}}
+        style={{height:150, width:290}}
         />
         <Button
-            buttonStyle= {{backgroundColor: "#D3455B",marginBottom:30, marginTop:200, borderRadius:5}}
+            buttonStyle= {{backgroundColor: "#D3455B",marginBottom:30, marginTop:100, borderRadius:5,width:300,height:50}}
             title="Se connecter avec Google"
             string = "#79d279"
             onPress={() => { navigation.navigate('Drawer')}}
           />
            <Button
-            buttonStyle= {{backgroundColor: "#125CE0", marginBottom:30,borderRadius:5, paddingLeft:50,paddingRight:50}}
+            buttonStyle= {{backgroundColor: "#125CE0", marginBottom:30,borderRadius:5, paddingLeft:50,paddingRight:50,width:300,height:50}}
             title="Se connecter"
             string = "#79d279"
             onPress={() => { navigation.navigate('SignIn')}}
           /> 
           <Button
-          buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
+          buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65,width:300,height:50}}
           title="S'inscrire"
           string = "#79d279" 
           onPress={() => { navigation.navigate('SignUp')}}
