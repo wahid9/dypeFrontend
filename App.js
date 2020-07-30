@@ -35,10 +35,6 @@ import validDossier from './reducers/validDossierReducer';
 const store = createStore(combineReducers({docType, docList,token,annonce,favlist,RDV, validDossier}));
 
 const Stack = createStackNavigator();
-<<<<<<< HEAD
-
-=======
->>>>>>> b7244797c523796ed43f5618d56f44bf4c390b08
 
 
 

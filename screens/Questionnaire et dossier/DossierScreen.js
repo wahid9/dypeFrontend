@@ -25,22 +25,19 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   const [submitFailureVisible, setSubmitFailureVisible] = useState(false);
   const [tempDoc, setTempDoc] = useState({});
   const [chargementVisible, setChargementVisible] = useState(false);
+  const [statutDocUSer,setStatutDocUSer] = useState()
+  const [docUserStatutVisible,setDocUserStatutVisible] = useState(false)
+  const [parcoursOk,setParcoursOk] = useState(false)
 
 
   // RECUPERE DANS LA BDD LES DOCUMENTS DEJA TELECHARGES PAR L'UTILISATEUR A L'INITIALISATION DU COMPONENT
   useEffect(() => {
     const fetchData = async() => {
       
-<<<<<<< HEAD
       var rawData = await fetch(`http://192.168.43.201:3000/getDocuments/${token}`);
-=======
-
-      var rawData = await fetch(`http://172.20.10.3:3000/getDocuments/${token}`);
-
->>>>>>> b7244797c523796ed43f5618d56f44bf4c390b08
       var data = await rawData.json();
       getDocumentsOnInit(data.documents);
-
+      setStatutDocUSer(data.statut)
     }
     
     fetchData();
@@ -64,13 +61,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
       data.append('docType', docType);    
       data.append('token', token);
 
-<<<<<<< HEAD
       var rawResponse = await fetch("http://192.168.43.201:3000/uploadfromphone", {
-=======
-
-      var rawResponse = await fetch("http://172.20.10.3:3000/uploadfromphone", {
-
->>>>>>> b7244797c523796ed43f5618d56f44bf4c390b08
         method: 'POST',
         body: data
       });
@@ -115,13 +106,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
   // SUPPRESSION DE DOCUMENTS  §§ A REVOIR - SUPPRIME DANS LA BDD MAIS PAS RESTE VISUELLEMENT A L'ECRAN
   const deleteDocument = async () => {
-<<<<<<< HEAD
     let rawResponse = await fetch(`http://192.168.43.201:3000/deleteDocument/${token}/${tempDoc._id}`, {
-=======
-
-    let rawResponse = await fetch(`http://172.20.10.3:3000/deleteDocument/${token}/${tempDoc._id}`, {
-
->>>>>>> b7244797c523796ed43f5618d56f44bf4c390b08
       method: 'DELETE'
     })
     let response = await rawResponse.json();
@@ -145,27 +130,34 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
   // FONCTION SOUMETTRE LE DOSSIER
   const handleSubmitDossier = async () => {
+    console.log(parcoursOk)
+    if (statutDocUSer === 'Dype traitement'){
+
+      setDocUserStatutVisible(true)
+      console.log(statutDocUSer,'<------------------')
+     }
+      else{
+       setParcoursOk(true)
+     }
     
-    if(newListID.length && newListJD.length && newListBS.length && newListCT.length && newListAI.length){
-      setSubmitVisible(true); 
-<<<<<<< HEAD
-      let rawResponse = await fetch('http://192.168.43.201:3000/submitDossier', {
-=======
+     if(parcoursOk === true){
+      if(newListID.length && newListJD.length && newListBS.length && newListCT.length && newListAI.length){
+        setSubmitVisible(true); 
+        let rawResponse = await fetch('http://192.168.43.201:3000/submitDossier', {
+          method: 'PUT',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: `token=${token}`
+        });
+        // Enregistrement dans le store
+        onSubmitDossier() 
+      }
+      else {
+        console.log('FAIL');
+        setSubmitFailureVisible(true);
+      }
 
-      let rawResponse = await fetch('http://172.20.10.3:3000/submitDossier', {
-
->>>>>>> b7244797c523796ed43f5618d56f44bf4c390b08
-        method: 'PUT',
-        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: `token=${token}`
-      });
-      // Enregistrement dans le store
-      onSubmitDossier()
-      
-    } else {
-      console.log('FAIL');
-      setSubmitFailureVisible(true);
-    }
+     }
+    
   }
 
 
@@ -642,6 +634,19 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
             />
             <Text>
               Aperçu indisponible pour ce type de fichier
+            </Text>
+          </View>
+      </Overlay>
+
+      <Overlay isVisible={docUserStatutVisible} width='80%' height='auto' onBackdropPress={()=>setDocUserStatutVisible(false)}>
+          <View style={{alignItems: 'center'}}>
+            <IconAntDesing
+              name='exclamationcircleo'
+              size={40}
+              style={{color: '#125ce0', marginBottom: 20}}
+            />
+            <Text>
+              Votre dossier est actuellement par l'agence, vous allez recevoir une notification pour avertir du changement de statut de votre dossier
             </Text>
           </View>
       </Overlay>

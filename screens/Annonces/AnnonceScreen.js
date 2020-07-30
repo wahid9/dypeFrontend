@@ -171,6 +171,18 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
         })
     }
 
+    // ENREGISTRE AU CLICK DE CONFIRMER LE DOSSIER DU LOCATAIRE DANS LE SCHEMA DE L'AGENCE
+    const envoiDossier = async ()=>{
+        console.log('info--------------------', token,detailAnnonce)
+        await fetch ('http://192.168.43.201:3000/saveCopyDossierLoc',{
+           method : 'POST',
+           headers: {'Content-Type':'application/x-www-form-urlencoded'},
+           body: `token=${token}&agenceId=${detailAnnonce.agence}`
+        })
+
+    }
+
+
     var taille = 250
     if(dispoCeJour.length > 12){
         taille = 400
@@ -235,7 +247,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     title= 'Confirmer'
                     buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
                     containerStyle = {{borderRadius:30, justifyContent: 'flex-end'}} 
-                    onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv'); saveRDV(monRdv) }}
+                    onPress = {() => { envoiDossier();console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv'); saveRDV(monRdv) }}
                 />
             </View>
         </Overlay>

@@ -80,13 +80,8 @@ var Btn;
         source= {require("../../assets/dype.png")}
         style={{height:115, width:222, marginTop:40}}
     />
-<<<<<<< HEAD
     <Input containerStyle = {{marginBottom: 25, width: '70%'}} 
             inputStyle={{marginTop:30,backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
-=======
-    <Input containerStyle = {{marginBottom: 10, width: '70%'}} 
-            inputStyle={{marginTop:40 ,backgroundColor:"white",borderRadius:5,paddingTop:2, opacity:0.7}}
->>>>>>> b7244797c523796ed43f5618d56f44bf4c390b08
             placeholder='Nom'
             onChangeText = {(value)=>setNom(value)}
             value = {nom}

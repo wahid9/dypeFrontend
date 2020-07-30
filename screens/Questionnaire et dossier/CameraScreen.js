@@ -101,7 +101,7 @@ function SnapScreen(props) {
                     data.append('docType',props.docType)
                     data.append('token', props.token)
                     console.log('DATA', data)
-                    var rawResponse = await fetch("http://172.20.10.3:3000/uploadfromcamera", {
+                    var rawResponse = await fetch("http://192.168.43.201:3000/uploadfromcamera", {
                       method: 'POST',
                       body: data
                     });
