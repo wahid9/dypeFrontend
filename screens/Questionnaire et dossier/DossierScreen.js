@@ -25,6 +25,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   const [submitFailureVisible, setSubmitFailureVisible] = useState(false);
   const [tempDoc, setTempDoc] = useState({});
   const [chargementVisible, setChargementVisible] = useState(false);
+  const [statutDocUSer,setStatutDocUSer] = useState()
+  const [docUserStatutVisible,setDocUserStatutVisible] = useState(false)
+  const [parcoursOk,setParcoursOk] = useState(false)
 
 
   // RECUPERE DANS LA BDD LES DOCUMENTS DEJA TELECHARGES PAR L'UTILISATEUR A L'INITIALISATION DU COMPONENT
@@ -33,8 +36,9 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
       var rawData = await fetch(`http://172.20.10.4:3000/getDocuments/${token}`);
       var data = await rawData.json();
       getDocumentsOnInit(data.documents);
-
+      setStatutDocUSer(data.statut)
     }
+    
     fetchData();
   }, []);
   
@@ -125,7 +129,18 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
 
   // FONCTION SOUMETTRE LE DOSSIER
   const handleSubmitDossier = async () => {
+    console.log(parcoursOk)
+    if (statutDocUSer === 'Dype traitement'){
+
+      setDocUserStatutVisible(true)
+      console.log(statutDocUSer,'<------------------')
+     }
+      else{
+       setParcoursOk(true)
+     }
     
+     if(parcoursOk === true){
+
     if(newListID.length && newListJD.length && newListBS.length && newListCT.length && newListAI.length){
       setSubmitVisible(true); 
       let rawResponse = await fetch('http://172.20.10.4:3000/submitDossier', {
@@ -620,6 +635,19 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
           </View>
       </Overlay>
 
+      <Overlay isVisible={docUserStatutVisible} width='80%' height='auto' onBackdropPress={()=>setDocUserStatutVisible(false)}>
+          <View style={{alignItems: 'center'}}>
+            <IconAntDesing
+              name='exclamationcircleo'
+              size={40}
+              style={{color: '#125ce0', marginBottom: 20}}
+            />
+            <Text>
+              Votre dossier est actuellement par l'agence, vous allez recevoir une notification pour avertir du changement de statut de votre dossier
+            </Text>
+          </View>
+      </Overlay>
+
 
     </ScrollView>
   );
@@ -650,8 +678,6 @@ function mapDispatchToProps(dispatch){
     }
   }
 }
+}
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Dossier)
+export default connect(mapStateToProps,mapDispatchToProps)(Dossier)

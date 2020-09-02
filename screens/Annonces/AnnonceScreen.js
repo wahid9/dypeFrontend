@@ -288,6 +288,18 @@ if(appartBis == false){
         })
     }
 
+    // ENREGISTRE AU CLICK DE CONFIRMER LE DOSSIER DU LOCATAIRE DANS LE SCHEMA DE L'AGENCE
+    const envoiDossier = async ()=>{
+        console.log('info--------------------', token,detailAnnonce)
+        await fetch ('http://192.168.43.201:3000/saveCopyDossierLoc',{
+           method : 'POST',
+           headers: {'Content-Type':'application/x-www-form-urlencoded'},
+           body: `token=${token}&agenceId=${detailAnnonce.agence}`
+        })
+
+    }
+
+
     var taille = 250
     if(dispoCeJour.length > 12){
         taille = 400
@@ -352,7 +364,7 @@ if(appartBis == false){
                     title= 'Confirmer'
                     buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
                     containerStyle = {{borderRadius:30, justifyContent: 'flex-end'}} 
-                    onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv'); saveRDV(monRdv) }}
+                    onPress = {() => { envoiDossier();console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv'); saveRDV(monRdv) }}
                 />
             </View>
         </Overlay>
@@ -466,7 +478,9 @@ if(appartBis == false){
                     color="#ffffff"
                     style= {{marginRight : 5}}/>
                 }
-                    onPress={()=> {!validDossier ? Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.") : setIsVisible(true)}}
+                    onPress={()=> {
+                        // !validDossier ? Alert.alert("Votre dossier est incomplet. Merci de renseigner vos documents afin de prendre un RDV.") : 
+                        setIsVisible(true)}}
                     title="Prendre un rendez-vous"
                     buttonStyle= {{backgroundColor: "#125CE0"}}
                     containerStyle={{height: 35, marginBottom: 10}}

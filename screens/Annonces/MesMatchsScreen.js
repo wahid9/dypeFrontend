@@ -140,16 +140,18 @@ var recupUser = async ()=>{
           </Card>
         </View> */
         <TouchableOpacity activeOpacity={0.9}  key={i} onPress = {()=> RecupDataAnnonce(i)}>
-      <View style={{backgroundColor:'#125ce0',width:369,marginLeft:20,borderTopLeftRadius:10,marginTop:10}}>
-      <Image source={{uri: data.images[0].url}}  style={{height:300, width:369,borderTopLeftRadius:100,marginBottom:-15}}/>
+      <View style={{backgroundColor:'#125ce0',marginLeft:20,marginRight:20,borderTopLeftRadius:10,marginTop:10}}>
+      <Image source={{uri: data.images[0].url}}  style={{height:300, width:'100%',borderTopLeftRadius:100,marginBottom:-15}}/>
       </View>
       <Card containerStyle={styles.Shadow}>
-            <View style={{flexDirection:'row'}}>
+            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
               <View>
                 <Text style={{marginBottom:5, fontSize:22}}>{data.typeDeBien} </Text>
                 <Text style={{marginBottom:5, fontSize: 20}}>{data.ville} ({data.codePostal})</Text>
               </View>
-              <Text style={styles.nbPiece}>{data.nbPiece} pièces/ {data.surface} m²</Text>
+              <View>
+                <Text style={styles.nbPiece}>{data.nbPiece} pièces/ {data.surface} m²</Text>
+              </View>
             </View>
                 <View style={{flexDirection:'row',height:70,justifyContent:'space-between',alignItems:'flex-end'}}>
                   <View>
@@ -229,13 +231,15 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios:{
           shadowColor: "#000",
+          marginRight:20,
+          marginLeft:20,
           shadowOffset: {
             width: 0,
             height: 2,
           },
           shadowOpacity: 0.25,
           shadowRadius: 3.84,
-          width:369,
+          
         borderBottomRightRadius:30,
         marginLeft:20,
         elevation:10,
@@ -244,7 +248,8 @@ const styles = StyleSheet.create({
       },
       android:{
         elevation:5,
-        width:369,
+        marginRight:20,
+        marginLeft:20,
         borderBottomRightRadius:30,
         marginLeft:20,
         elevation:10,
@@ -276,8 +281,8 @@ const styles = StyleSheet.create({
   },
   nbPiece:{
     ...Platform.select({
-      ios:{marginLeft:110,marginTop:5,color:'#AEAEAE'},
-      android:{marginLeft:150,marginTop:5,color:'#AEAEAE'},
+      ios:{marginTop:5,color:'#AEAEAE'},
+      android:{marginTop:5,color:'#AEAEAE'},
     })
   }
 });
