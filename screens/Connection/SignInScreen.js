@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { StyleSheet, Text,ImageBackground,Image,KeyboardAvoidingView,Alert, View} from 'react-native';
+import React, {useState, useEffect,} from 'react';
+import { StyleSheet, Text,ImageBackground,Image,KeyboardAvoidingView,Alert, AsyncStorage} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import { set } from 'react-native-reanimated';
 import { connect } from 'react-redux';
@@ -8,7 +8,22 @@ import { requestPermissionsAsync } from 'expo-camera';
 function Connection({navigation, onSubmitToken, verifValidDossier}) {
   const [email, setEmail]= useState("");
   const [mdp, setMdp]= useState("");
+  
 
+  
+  useEffect(()=>{
+
+
+    // RECUPERATION DU STORAGE (VERIFICATION)
+    // AsyncStorage.getItem('email',(err,value)=>{
+    //   setEmail(value);
+    // })
+    // AsyncStorage.getItem('mdp',(err,value)=>{
+    //   setMdp(value);
+    // })
+  },[])
+  console.log('async',email,mdp)
+ 
 var signIn = async ()=> {
   var data = await fetch('http://172.20.10.4:3000/signIn', {
     method: 'POST',
@@ -22,34 +37,38 @@ var signIn = async ()=> {
   if(response.success == false){
     Alert.alert("Email ou mot de passe incorrects", "Veuillez saisir le bon email et mot de passe")
   }else{
-    navigation.navigate('Criteres');
+    navigation.navigate('Criteres')
   }
 }
   var Btn;
   if(email == ''){
     Btn = <Button
-    buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
+    buttonStyle= {{backgroundColor: "#AFC4ED",borderRadius:5,paddingLeft:65,paddingRight:65}}
     title="Se connecter"
     string = "#79d279" 
     onPress = {()=> Alert.alert("Remplissez vos champs de saisie","Veuillez saisir votre email et mot de passe")}/>
   }else if(mdp== ''){
     Btn = <Button
-    buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
+    buttonStyle= {{backgroundColor: "#D95A31",borderRadius:5,paddingLeft:65,paddingRight:65}}
     title="Se connecter"
     string = "#79d279" 
     onPress = {()=> Alert.alert("Remplissez vos champs de saisie", "Veuillez saisir votre email et mot de passe")}
     />
-  }else{
+  } else{
   Btn =  <Button
           buttonStyle= {{backgroundColor: "#125CE0",borderRadius:5,paddingLeft:65,paddingRight:65}}
           title="Se connecter"
           string = "#79d279" 
-          onPress={() => { signIn() }}
+          onPress={() => { signIn();
+            // ENREGISTREMENT DU MAIL ; MP DANS LE TEL
+            // AsyncStorage.setItem('email',email);
+            // AsyncStorage.setItem('mdp',mdp)
+          }}
       />
   }
   return (
-    <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
-     <Image
+    <ImageBackground source={require('../../assets/picture.jpg')} style = {styles.container}>
+       <Image
         source= {require("../../assets/dype.png")}
         style={{height:115, width:222, marginTop:160, marginBottom: 80}}
     />
@@ -78,7 +97,8 @@ var signIn = async ()=> {
       >Pas de compte? S'inscrire</Text>
       <KeyboardAvoidingView behavior = "padding" enabled>
       </KeyboardAvoidingView>
-    </ImageBackground>
+      </ImageBackground>
+    
   );
 }
 

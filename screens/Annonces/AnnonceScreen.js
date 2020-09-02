@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { StyleSheet,  View, ScrollView, Alert } from 'react-native';
+import { StyleSheet,  View, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import {Button, Image, Text, ListItem, Overlay, Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconAnt from 'react-native-vector-icons/AntDesign';
@@ -7,9 +7,17 @@ import {Calendar, CalendarList, Agenda, LocaleConfig} from 'react-native-calenda
 import IconBurger from '@expo/vector-icons/Feather';
 import { DrawerActions } from '@react-navigation/native';
 import {connect} from "react-redux";
+import Carousel from 'react-native-carousel-view';
+import { set } from 'react-native-reanimated';
+import { fn } from 'moment';
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 
 function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDossier}) {
 
+    const [test,setTest]= useState(false);
+    const [desc, setDesc]= useState(false);
+    const [appart,setAppart]= useState(false);
+    const [appartBis, setAppartBis]= useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [calendarVisible, setCalendarVisible] = useState(false);
     const [calendarDay, setCalendarDay] = useState('');
@@ -17,6 +25,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     const [colorButton, setColorButton] = useState("#125CE0");
     
     const [annonce, setAnnonce] = useState(detailAnnonce); // REFAIRE A L'OCCASE EN MAPPANT DIRECTEMENT SUR LE STORE
+    console.log("mes annonces ==>",annonce);
     const [dispoCeJour, setDispoCeJour] = useState([]);
     const [monRdv, setMonRdv] = useState (new Date);
     const [image, setImage] = useState(annonce.images[0].url);
@@ -43,11 +52,13 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     }
 
     function getHour(date){
+        console.log('brrebrebrebr', date);
         let hour;
         if(date.getMinutes()!=0){
-            hour=date.getHours()-1+":"+date.getMinutes()
+        console.log('brrebrebrebr', date.toISOString());
+            hour=date.getUTCHours()+":"+date.getMinutes()
         } else {
-            hour=date.getHours()-1+":"+date.getMinutes()+"0"
+            hour=date.getUTCHours()+":"+date.getMinutes()+"0"
         }
         return hour;
     }
@@ -73,6 +84,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
         setIsVisible(false); 
         setCalendarVisible(true); 
     }
+    console.log('calendar', monRdv);
 
    var parking;
    var interphone;
@@ -104,42 +116,162 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
     digicode = <Text style={{marginBottom:2, fontSize:17}}>digicode</Text>
    }
    
-    let newDispo=[]
-    for(let i=0; i<annonce.dispoVisite.length; i++){
-        newDispo.push(new Date(annonce.dispoVisite[i]));
-    }
+   const fn= ()=>{
+       setDesc(!desc);
+       setAppart(false);
+       setAppartBis(false);
+   }
+   const fn2 =()=>{
+       setAppart(!appart);
+       setDesc(false);
+       setAppartBis(false);
+   }
+   const fn3= ()=>{
+       setAppartBis(!appartBis);
+       setDesc(false);
+       setAppart(false);
+   }
+   var saha;
+   var sahaB;
+   var sahaC;
+   if(desc == false){
+    saha = StyleSheet.create({
+        Card1:{
+            backgroundColor:"#ECECEC",
+            opacity:0.7,
+            borderRadius:20,
+            borderColor:"white",
+            width:"80%",
+        },
+    });
+}else{
+    // saha = StyleSheet.create({
+    //     ich:{
+    //         backgroundColor:"#fce229",
+    //         borderRadius:20,
+    //         borderColor:"white",
+    //         width:"100%",
+    //     }
+    // });
+
+    saha = StyleSheet.create({
+        Card1:{
+            backgroundColor:"#fce229",
+            borderRadius:20,
+            borderColor:"white",
+            width:"100%",
+        }
+    });
+}
+
+if(appart == false){
+    sahaB = StyleSheet.create({
+        ich:{
+            backgroundColor:"#ECECEC",
+            borderRadius:20,
+            borderColor:"white",
+            opacity:0.7,
+            width:"80%",
+            marginLeft:-70,
+        }
+    });
+}else{
+    sahaB = StyleSheet.create({
+        ich:{
+            backgroundColor:"#fce229",
+            borderRadius:20,
+            borderColor:"white",
+            width:"90%",
+            marginLeft:-30,
+        }
+    });
+}
+
+if(appartBis == false){
+        sahaC = StyleSheet.create({
+            ich:{
+                backgroundColor:"#ECECEC",
+                opacity:0.7,
+                borderRadius:20,
+                borderColor:"white",
+                width:"80%",
+
+            }
+        });
+    }else{
+        sahaC = StyleSheet.create({
+            ich:{
+                backgroundColor:"#fce229",
+                borderRadius:20,
+                borderColor:"white",
+                width:"100%",
+                marginLeft:100
+            }
+        });
+}
+    // let newDispo=[]
+    // for(let i=0; i<annonce.dispoVisite.length; i++){
+    //     newDispo.push(new Date(annonce.dispoVisite[i]));
+    // }
+    // console.log('((((((((((', newDispo);
+    
+    // useEffect(()=>{
+    //     console.log(new Date());
+
+    //     let tempDispoCeJour=[]
+
+    //     for(let i=0; i<newDispo.length; i++){
+    //         if(newDispo[i].getFullYear()==calendarDay.year && newDispo[i].getDate()==calendarDay.day && newDispo[i].getMonth()+1==calendarDay.month){
+    //             let index=tempDispoCeJour.findIndex(dispo => dispo === newDispo[i]);
+    //             tempDispoCeJour.push(newDispo[i]);
+    //         }
+    //     }
+    //     setDispoCeJour(tempDispoCeJour);
+
+    // },[calendarDay]);
+    
+    var dispoAgence = []
 
     useEffect(()=>{
+        // console.log('::::::::=======', new Date());
 
-        let tempDispoCeJour=[]
-
-        for(let i=0; i<newDispo.length; i++){
-            if(newDispo[i].getFullYear()==calendarDay.year && newDispo[i].getDate()==calendarDay.day && newDispo[i].getMonth()+1==calendarDay.month){
-                let index=tempDispoCeJour.findIndex(dispo => dispo === newDispo[i]);
-                tempDispoCeJour.push(newDispo[i]);
+        var loadData = async () =>{
+            var rawData = await fetch(`http://172.20.10.4:3000/recupDispo/${annonce._id}`);
+            var data = await rawData.json();
+            for (let i=0; i< data.dispoStart.length; i++){
+                dispoAgence.push(new Date(data.dispoStart[i]))
             }
+            console.log('eeeee', dispoAgence);
+            var dispoSlot = []
+            for(let i=0; i< dispoAgence.length; i++){
+                if( dispoAgence[i].getDate()==calendarDay.day && dispoAgence[i].getMonth()+1==calendarDay.month && dispoAgence[i].getFullYear()==calendarDay.year){
+                    dispoSlot.push(dispoAgence[i])
+                }
+            }
+            console.log('fffffffffffffff', dispoSlot);
+            setDispoCeJour(dispoSlot)
         }
-        setDispoCeJour(tempDispoCeJour);
-
-    },[calendarDay]);
-    
+        loadData()
+    },[calendarDay])
+    console.log('iiiiiiiiiiiiiiii', dispoCeJour);
 
 
     var listDispo=dispoCeJour.map(function(dispo, i){
 
+        console.log('dddddddddiiiiiiiiiiiiiii', dispo);
         var color = "#C0CFEC";
-        ///for (var j = 0; j < dispoCeJour.length;i++){
+     
             if(monRdv=== dispo){
                 color =  "#125CE0"
             }
-        //}
+    
 
         return( <Button 
             key={i}
             title= {getHour(dispo)}
             titleStyle={{fontSize: 14}}
-            buttonStyle= {{backgroundColor: color, height:44, width: 96}}
-            containerStyle = {{borderRadius:30, marginLeft: 5, marginRight: 5}} 
+            buttonStyle= {{backgroundColor: color, height:'auto', width: 90}}
+            containerStyle = {{borderRadius:30, marginLeft: 5, marginRight: 5, marginTop: 10}} 
             onPress ={()=> {setMonRdv(dispo)}}
             />
         )
@@ -147,24 +279,31 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
 
     // §§ ENREGISTRE LE RDV DANS LA BDD - OK COTE FRONT MAIS PAS ENCORE COTE BACK §§
 
-    // const saveRDV = async (rdv) => {
-    //     console.log('rdv :', rdv);
-    //     await fetch('http://10.2.5.181:3000/saveRdv', {
-    //         method: 'POST',
-    //         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    //         body: `date=${rdv}&agence=FONCIA&token=${token}&annonce=${annonce._id}`
-    //     })
-    // }
+    const saveRDV = async (rdv) => {
+        console.log('rdv :', rdv);
+        await fetch('http://172.20.10.4:3000/saveRdv', {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `date=${JSON.stringify(rdv)}&token=${token}&annonce=${annonce._id}`
+        })
+    }
+
+    var taille = 250
+    if(dispoCeJour.length > 12){
+        taille = 400
+    }
     return (
-    <View style={{flex: 1}}>
+
+    <View style={{flex: 1,backgroundColor:"white"}} >
         <Overlay 
-            height={350}
+            height= {400}
             width= {330}
             isVisible={isVisible}
             onBackdropPress={() => {setIsVisible(false)}}>
             <Calendar
             current = {Date}
             minDate = {Date}
+            renderEmptyDate={() => {return (<View />);}}
             onDayPress={(day) => handleSubmit(day)}/>
         </Overlay>
         <Overlay 
@@ -184,9 +323,11 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     bottomDivider 
                 />  
                 <Text style={{textAlign: 'center', fontSize: 16, marginTop: 15}}>Choisissez un rdv parmi les disponibilités suivantes:</Text>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, height: 200}}>
-                {listDispo}
-                </View>
+                {/* <ScrollView> */}
+                    <View style={{flexDirection:'row', justifyContent: 'space-around', flexWrap:'wrap', marginTop: 10, height: taille}}>
+                    {listDispo}
+                    </View>
+                {/* </ScrollView> */}
                 <Button
                     title= 'Valider'
                     buttonStyle= {{backgroundColor: "#fce229", height:35, width: 80}}
@@ -211,7 +352,7 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
                     title= 'Confirmer'
                     buttonStyle= {{backgroundColor: "#fce229", height:40, width: 150}}
                     containerStyle = {{borderRadius:30, justifyContent: 'flex-end'}} 
-                    onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv') }} // saveRDV(monRdv)
+                    onPress = {() => { console.log('monRdv :', monRdv); setConfirmation(false); reduxFunction(image,monRdv); navigation.navigate('Mes rdv'); saveRDV(monRdv) }}
                 />
             </View>
         </Overlay>
@@ -219,38 +360,101 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
 
         <ScrollView style={{marginTop: 25}}>
                 
-            <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => { navigation.openDrawer()}} />
+            {/* <IconBurger name= {"menu"} style={{marginLeft: 20, marginTop: 20}} color={'#125ce0'} size={35} onPress={() => { navigation.openDrawer()}} />
             <View style={{flexDirection:'row',alignItems:'center',alignSelf:'center'}}>
                 <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127, marginBottom:30}}/>
-            </View>
+            </View> */}
         
-            <Card image={{ uri: annonce.images[0].url }} imageStyle= {{height:250}} >
-            {/* <Card>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                <Image source = {{uri: annonce.images[0]}} style={{height:250, width:370,marginRight:3}}/>
-                <Image source = {{uri: annonce.images[1]}} style={{height:250, width:370,marginRight:3}}/>
-                <Image source = {{uri: annonce.images[2]}} style={{height:250, width:370,marginRight:3}}/>
-                <Image source = {{uri: annonce.images[3]}} style={{height:250, width:370,marginRight:3}}/>
-                </ScrollView> */}
+            {/* <Card image={{ uri: annonce.images[0].url }} imageStyle= {{height:250}} > */}
+            <View>
+            <Carousel
+                height={400}
+                delay={2000}
+                indicatorOffset={20}
+                indicatorAtBottom={true}
+                indicatorSize={20}
+                indicatorColor="#125ce0"
+                >
+                    {annonce.images.map((photo) =>{
+                    return(
+                        <View>
+                            <IconFontAwesome style={{color:"black", position: "absolute",zIndex:1, marginTop:10,marginLeft:10}} name="heart" size={22}/>
+                            <Image source = {{uri: photo.url}} style={{marginRight:3, height:"100%",width:"100%"}}/>
+                        </View>
+                        //  <Image source = {{uri: photo.url}} style={{height:"50%", width:370,marginRight:3}} />
+                    )
+                    })
+                }
+          </Carousel>
+          </View>
+            <Card containerStyle={{borderRadius:"20%", borderColor:"white",marginTop:-10, width:"95%", marginLeft:"auto",marginRight:"auto",height:"100%"}}>
                 <Text style={{marginBottom:5,marginTop:10,fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
-                <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
-                <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
-                <Text style={{marginTop:10, marginBottom:15,fontSize:15}}> Paris XII - SQUARE COURTELINE - 3 PIÈCES DE 73 M² - 2 CH - Dans un immeuble de standing, sécurisé par digicode et interphone. Nous vous proposons cet appartement de 3 pièces de 73 m² carrez, au 2ème ETAGE. Cet appartement se compose d'une entrée avec un très, d'une belle pièce de séjour, d'une cuisine (non équipée et non aménagée) et d'un WC indépendant, de deux chambres et une salle de bains. Chauffage et eau chaude individuelle électrique. Loyer HC: 1839,60; Provisions sur charges: 200euros, parking: 124,11euros soit un loyer CC de 2163,71euros/Mois. </Text>
-                <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
-                <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
-                <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
-                <View style={{height:2, width:360, backgroundColor:"#D1CCCC",marginTop:10}}></View>
-                <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
-                <Text style={{marginBottom:2, fontSize:17}}>{annonce.toilette} Toilette </Text>
-                <Text style={{marginBottom:2, fontSize:17}}>Chauffage {annonce.chauffage}</Text>
-                {parking}
-                {interphone}
-                {terrasse}
-                {cave}
-                {balcon}
-                {ascenseur}
-                {digicode}
-                <View style={{height:2, width:360,marginTop:10}}></View>
+                <ScrollView horizontal={true} >
+
+                <TouchableOpacity activeOpacity={0.9} onPress = {()=> fn()} style={{width:300}}>
+                <Card containerStyle={saha.Card1}>
+                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
+                    <Text style={{marginTop:10, marginBottom:15,fontSize:15}}> Paris XII - SQUARE COURTELINE - 3 PIÈCES DE 73 M² - 2 CH - Dans un immeuble de standing, sécurisé par digicode et interphone. Nous vous proposons cet appartement de 3 pièces de 73 m² carrez, au 2ème ETAGE. Cet appartement se compose d'une entrée avec un très, d'une belle pièce de séjour, d'une cuisine (non équipée et non aménagée) et d'un WC indépendant, de deux chambres et une salle de bains. Chauffage et eau chaude individuelle électrique. Loyer HC: 1839,60; Provisions sur charges: 200euros, parking: 124,11euros soit un loyer CC de 2163,71euros/Mois. </Text>
+                </Card>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.9} onPress = {()=> fn2()} style={{width:300}}>
+                <Card containerStyle={sahaB.ich}>
+                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
+                    <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
+                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
+                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
+                </Card>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.9} onPress = {()=> fn3()} style={{width:300,marginLeft:-200}}>
+                <Card containerStyle={sahaC.ich}>
+                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
+                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.toilette} Toilette </Text>
+                    <Text style={{marginBottom:2, fontSize:17}}>Chauffage {annonce.chauffage}</Text>
+                    {parking}
+                    {interphone}
+                    {terrasse}
+                    {cave}
+                    {balcon}
+                    {ascenseur}
+                    {digicode}
+                </Card>
+                </TouchableOpacity>
+                </ScrollView>
+
+                {/* <ScrollView horizontal={true} style={{backgroundColor:"green"}}>
+                <Card containerStyle={saha.ich}>
+                <TouchableOpacity activeOpacity={0.9} onPress = {()=> setDesc(!desc)} style={{backgroundColor:"black"}}>
+                
+                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
+                    <Text style={{marginTop:10, marginBottom:15,fontSize:15}}> Paris XII - SQUARE COURTELINE - 3 PIÈCES DE 73 M² - 2 CH - Dans un immeuble de standing, sécurisé par digicode et interphone. Nous vous proposons cet appartement de 3 pièces de 73 m² carrez, au 2ème ETAGE. Cet appartement se compose d'une entrée avec un très, d'une belle pièce de séjour, d'une cuisine (non équipée et non aménagée) et d'un WC indépendant, de deux chambres et une salle de bains. Chauffage et eau chaude individuelle électrique. Loyer HC: 1839,60; Provisions sur charges: 200euros, parking: 124,11euros soit un loyer CC de 2163,71euros/Mois. </Text>
+                </TouchableOpacity>
+                </Card>
+                <Card containerStyle={sahaB.ich}>
+                <TouchableOpacity activeOpacity={0.9} onPress = {()=> setAppart(!appart)} style={{backgroundColor:"red"}}>
+                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
+                    <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
+                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
+                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
+                </TouchableOpacity>
+                </Card>
+
+                <Card containerStyle={sahaC.ich}>
+                <TouchableOpacity activeOpacity={0.9} onPress = {()=> setAppartBis(!appartBis)} style={{backgroundColor:"yellow"}}>
+                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
+                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.toilette} Toilette </Text>
+                    <Text style={{marginBottom:2, fontSize:17}}>Chauffage {annonce.chauffage}</Text>
+                    {parking}
+                    {interphone}
+                    {terrasse}
+                    {cave}
+                    {balcon}
+                    {ascenseur}
+                    {digicode}
+                </TouchableOpacity>
+                </Card>
+                </ScrollView> */}
+
+                {/* </View> */}
             </Card>
         </ScrollView>
 

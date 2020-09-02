@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, View, Image, KeyboardAvoidingView,AsyncStorage,ScrollView } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -8,6 +8,9 @@ function Critere({navigation, token}) {
   const [ville, setVille] = useState("");
   const [budgetMin, setBudgetMin] = useState("");
   const [budgetMax, setBudgetMax] = useState("");
+
+
+  
 
   var select = async () => {
     var data = await fetch("http://172.20.10.4:3000/recherche", {
@@ -62,10 +65,13 @@ function Critere({navigation, token}) {
         buttonStyle={{backgroundColor: '#fce229', width: 100}}
         containerStyle={{flex: 0.2, alignSelf: 'flex-end', justifyContent: 'flex-end', marginRight: '5%', marginBottom: 20}}
         titleStyle={{color: '#282828'}}
-        onPress = {()=> select() }
+        onPress = {()=> {select();
+          AsyncStorage.setItem('ville', ville);
+          AsyncStorage.setItem('budgetMin', budgetMin);
+          AsyncStorage.setItem('budgetMax', budgetMax);} }
       />
-      {/* <KeyboardAvoidingView behavior = "padding" enabled>
-      </KeyboardAvoidingView> */}
+      <KeyboardAvoidingView behavior = "padding" enabled>
+      </KeyboardAvoidingView>
     </ScrollView>
   );
 }

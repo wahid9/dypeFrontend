@@ -91,7 +91,7 @@ function SnapScreen(props) {
                 titleStyle={{color: 'white', fontSize: 14}}
                 onPress={async()=>{
                   setPreviewVisible(false);
-                  setChargementVisible(true)
+                  setChargementVisible(true);
                   var data = new FormData();
                     data.append('photo', {
                       uri: photoUri,

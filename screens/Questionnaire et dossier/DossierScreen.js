@@ -30,7 +30,6 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
   // RECUPERE DANS LA BDD LES DOCUMENTS DEJA TELECHARGES PAR L'UTILISATEUR A L'INITIALISATION DU COMPONENT
   useEffect(() => {
     const fetchData = async() => {
-      
       var rawData = await fetch(`http://172.20.10.4:3000/getDocuments/${token}`);
       var data = await rawData.json();
       getDocumentsOnInit(data.documents);
@@ -129,7 +128,7 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
     
     if(newListID.length && newListJD.length && newListBS.length && newListCT.length && newListAI.length){
       setSubmitVisible(true); 
-      let rawResponse = await fetch('http://192.168.1.5:3000/submitDossier', {
+      let rawResponse = await fetch('http://172.20.10.4:3000/submitDossier', {
         method: 'PUT',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
         body: `token=${token}`

@@ -1,4 +1,5 @@
 export default function(annonce =[],action){
+    console.log(action);
     if(action.type == "seeAnnonce"){
         var newAnnonce = action.annonce;
         console.log('annonce',newAnnonce)

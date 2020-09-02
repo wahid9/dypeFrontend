@@ -13,7 +13,7 @@ function Inscription({navigation,onSubmitToken}) {
   var Register = async ()=> {
     if(mdp != mdpConfirm){
       Alert.alert("Mots de passe différents"," Veuillez saisir le meme mot de passe")
-    } else {
+  } else {
     var data = await fetch('http://172.20.10.4:3000/SingUp', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
