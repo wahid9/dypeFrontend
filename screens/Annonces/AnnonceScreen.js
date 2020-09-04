@@ -11,6 +11,7 @@ import Carousel from 'react-native-carousel-view';
 import { set } from 'react-native-reanimated';
 import { fn } from 'moment';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
+import { AntDesign } from '@expo/vector-icons';
 
 function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDossier}) {
 
@@ -131,84 +132,159 @@ function AnnonceScreen({navigation, detailAnnonce, token,reduxFunction, validDos
        setDesc(false);
        setAppart(false);
    }
+
    var saha;
    var sahaB;
    var sahaC;
-   if(desc == false){
-    saha = StyleSheet.create({
-        Card1:{
-            backgroundColor:"#ECECEC",
-            opacity:0.7,
-            borderRadius:20,
-            borderColor:"white",
-            width:"80%",
-        },
-    });
-}else{
-    // saha = StyleSheet.create({
-    //     ich:{
-    //         backgroundColor:"#fce229",
-    //         borderRadius:20,
-    //         borderColor:"white",
-    //         width:"100%",
-    //     }
-    // });
 
+if(desc == true){
     saha = StyleSheet.create({
         Card1:{
             backgroundColor:"#fce229",
-            borderRadius:20,
-            borderColor:"white",
-            width:"100%",
-        }
-    });
-}
-
-if(appart == false){
-    sahaB = StyleSheet.create({
-        ich:{
-            backgroundColor:"#ECECEC",
-            borderRadius:20,
-            borderColor:"white",
             opacity:0.7,
-            width:"80%",
-            marginLeft:-70,
-        }
-    });
-}else{
-    sahaB = StyleSheet.create({
-        ich:{
-            backgroundColor:"#fce229",
             borderRadius:20,
             borderColor:"white",
-            width:"90%",
-            marginLeft:-30,
+            width:350,
+            marginLeft:"5%",
+            height:"75%",
+            marginRight:"0.5%"
         }
     });
-}
 
-if(appartBis == false){
-        sahaC = StyleSheet.create({
+    sahaB = StyleSheet.create({
+            ich:{
+                backgroundColor:"#ECECEC",
+                borderRadius:20,
+                borderColor:"white",
+                opacity:0.7,
+                width:200,
+                height:"75%",
+                // marginLeft:-25
+        }
+    });
+    
+    sahaC = StyleSheet.create({
             ich:{
                 backgroundColor:"#ECECEC",
                 opacity:0.7,
                 borderRadius:20,
                 borderColor:"white",
-                width:"80%",
+                width:200,
+                height:"75%"
+        }
+    });
 
-            }
-        });
-    }else{
-        sahaC = StyleSheet.create({
+}else if(appart == true){
+    saha = StyleSheet.create({
+        Card1:{
+            backgroundColor:"#ECECEC",
+            opacity:0.7,
+            borderRadius:20,
+            borderColor:"white",
+            width:200,
+            height:"75%",
+            marginLeft:-100
+        }
+    });
+
+    sahaB = StyleSheet.create({
             ich:{
+                marginLeft:"-10%",
                 backgroundColor:"#fce229",
                 borderRadius:20,
                 borderColor:"white",
-                width:"100%",
-                marginLeft:100
-            }
-        });
+                opacity:0.7,
+                width:300,
+                height:"75%",
+        }
+    });
+    
+    sahaC = StyleSheet.create({
+            ich:{
+                backgroundColor:"#ECECEC",
+                opacity:0.7,
+                borderRadius:20,
+                borderColor:"white",
+                width:200,
+                height:"75%"
+        }
+    })
+
+}else if(appartBis == true){
+    saha = StyleSheet.create({
+        Card1:{
+            backgroundColor:"#ECECEC",
+            opacity:0.7,
+            borderRadius:20,
+            borderColor:"white",
+            width:200,
+            height:"75%",
+            marginLeft:-100,
+        }
+    });
+
+    sahaB = StyleSheet.create({
+            ich:{
+                marginLeft:-150,
+                backgroundColor:"#ECECEC",
+                borderRadius:20,
+                borderColor:"white",
+                opacity:0.7,
+                width:200,
+                height:"75%",
+        }
+    });
+    
+    sahaC = StyleSheet.create({
+            ich:{
+                marginLeft:-70,
+                backgroundColor:"#fce229",
+                opacity:0.7,
+                borderRadius:20,
+                borderColor:"white",
+                width:300,
+                height:"75%"
+        }
+    })
+}else{
+    saha = StyleSheet.create({
+        Card1:{
+            backgroundColor:"#ECECEC",
+            opacity:0.7,
+            borderRadius:20,
+            borderColor:"white",
+            width:200,
+            marginRight:"-15%",
+            height:"75%"
+        }
+    });
+
+    sahaB = StyleSheet.create({
+            ich:{
+                backgroundColor:"#ECECEC",
+                borderRadius:20,
+                borderColor:"white",
+                opacity:0.7,
+                width:200,
+                marginRight:"-10%",
+                height:"75%"
+        }
+    });
+    
+    sahaC = StyleSheet.create({
+            ich:{
+                backgroundColor:"#ECECEC",
+                opacity:0.7,
+                borderRadius:20,
+                borderColor:"white",
+                width:200,
+                height:"75%"
+        }
+    });
 }
+
+
+
     // let newDispo=[]
     // for(let i=0; i<annonce.dispoVisite.length; i++){
     //     newDispo.push(new Date(annonce.dispoVisite[i]));
@@ -379,94 +455,68 @@ if(appartBis == false){
         
             {/* <Card image={{ uri: annonce.images[0].url }} imageStyle= {{height:250}} > */}
             <View>
-            <Carousel
-                height={400}
-                delay={2000}
-                indicatorOffset={20}
-                indicatorAtBottom={true}
-                indicatorSize={20}
-                indicatorColor="#125ce0"
-                >
-                    {annonce.images.map((photo) =>{
-                    return(
-                        <View>
-                            <IconFontAwesome style={{color:"black", position: "absolute",zIndex:1, marginTop:10,marginLeft:10}} name="heart" size={22}/>
-                            <Image source = {{uri: photo.url}} style={{marginRight:3, height:"100%",width:"100%"}}/>
-                        </View>
-                        //  <Image source = {{uri: photo.url}} style={{height:"50%", width:370,marginRight:3}} />
-                    )
-                    })
-                }
-          </Carousel>
-          </View>
-            <Card containerStyle={{borderRadius:"20%", borderColor:"white",marginTop:-10, width:"95%", marginLeft:"auto",marginRight:"auto",height:"100%"}}>
-                <Text style={{marginBottom:5,marginTop:10,fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
-                <ScrollView horizontal={true} >
+                <AntDesign style={{color:"white", position: "absolute",zIndex:1, marginTop:40,marginLeft:10}} name="left" size={40} color="black"
+                    onPress={()=> navigation.navigate('MesMatchs')}
+                />
+                <Carousel
+                    height={400}
+                    delay={2000}
+                    indicatorOffset={20}
+                    indicatorAtBottom={true}
+                    indicatorSize={20}
+                    indicatorColor="#125ce0"
+                    >
+                        {annonce.images.map((photo) =>{
+                        return(
+                            <View>
+                                <Image source = {{uri: photo.url}} style={{marginRight:3, height:"100%",width:"100%"}}/>
+                            </View>
+                            //  <Image source = {{uri: photo.url}} style={{height:"50%", width:370,marginRight:3}} />
+                                )
+                            })
+                        }
+                </Carousel>
+            </View>               
+                <Card containerStyle={{borderRadius:"20%", borderColor:"white",marginTop:-10, width:"100%", marginLeft:"auto",marginRight:"auto",height:"100%"}}>
+                    <Text style={{marginBottom:5,marginTop:10,fontSize:22}} >{annonce.typeDeBien} à louer, {annonce.ville} {annonce.codePostal}, {annonce.nbPiece} pièces / {annonce.surface} m² {annonce.prix} €/mois</Text>
 
-                <TouchableOpacity activeOpacity={0.9} onPress = {()=> fn()} style={{width:300}}>
-                <Card containerStyle={saha.Card1}>
-                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
-                    <Text style={{marginTop:10, marginBottom:15,fontSize:15}}> Paris XII - SQUARE COURTELINE - 3 PIÈCES DE 73 M² - 2 CH - Dans un immeuble de standing, sécurisé par digicode et interphone. Nous vous proposons cet appartement de 3 pièces de 73 m² carrez, au 2ème ETAGE. Cet appartement se compose d'une entrée avec un très, d'une belle pièce de séjour, d'une cuisine (non équipée et non aménagée) et d'un WC indépendant, de deux chambres et une salle de bains. Chauffage et eau chaude individuelle électrique. Loyer HC: 1839,60; Provisions sur charges: 200euros, parking: 124,11euros soit un loyer CC de 2163,71euros/Mois. </Text>
-                </Card>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.9} onPress = {()=> fn2()} style={{width:300}}>
-                <Card containerStyle={sahaB.ich}>
-                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
-                    <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
-                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
-                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
-                </Card>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.9} onPress = {()=> fn3()} style={{width:300,marginLeft:-200}}>
-                <Card containerStyle={sahaC.ich}>
-                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
-                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.toilette} Toilette </Text>
-                    <Text style={{marginBottom:2, fontSize:17}}>Chauffage {annonce.chauffage}</Text>
-                    {parking}
-                    {interphone}
-                    {terrasse}
-                    {cave}
-                    {balcon}
-                    {ascenseur}
-                    {digicode}
-                </Card>
-                </TouchableOpacity>
-                </ScrollView>
 
-                {/* <ScrollView horizontal={true} style={{backgroundColor:"green"}}>
-                <Card containerStyle={saha.ich}>
-                <TouchableOpacity activeOpacity={0.9} onPress = {()=> setDesc(!desc)} style={{backgroundColor:"black"}}>
-                
-                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
-                    <Text style={{marginTop:10, marginBottom:15,fontSize:15}}> Paris XII - SQUARE COURTELINE - 3 PIÈCES DE 73 M² - 2 CH - Dans un immeuble de standing, sécurisé par digicode et interphone. Nous vous proposons cet appartement de 3 pièces de 73 m² carrez, au 2ème ETAGE. Cet appartement se compose d'une entrée avec un très, d'une belle pièce de séjour, d'une cuisine (non équipée et non aménagée) et d'un WC indépendant, de deux chambres et une salle de bains. Chauffage et eau chaude individuelle électrique. Loyer HC: 1839,60; Provisions sur charges: 200euros, parking: 124,11euros soit un loyer CC de 2163,71euros/Mois. </Text>
-                </TouchableOpacity>
-                </Card>
-                <Card containerStyle={sahaB.ich}>
-                <TouchableOpacity activeOpacity={0.9} onPress = {()=> setAppart(!appart)} style={{backgroundColor:"red"}}>
-                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
-                    <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
-                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
-                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
-                </TouchableOpacity>
-                </Card>
 
-                <Card containerStyle={sahaC.ich}>
-                <TouchableOpacity activeOpacity={0.9} onPress = {()=> setAppartBis(!appartBis)} style={{backgroundColor:"yellow"}}>
-                    <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
-                    <Text style={{marginBottom:2, fontSize:17}}>{annonce.toilette} Toilette </Text>
-                    <Text style={{marginBottom:2, fontSize:17}}>Chauffage {annonce.chauffage}</Text>
-                    {parking}
-                    {interphone}
-                    {terrasse}
-                    {cave}
-                    {balcon}
-                    {ascenseur}
-                    {digicode}
-                </TouchableOpacity>
-                </Card>
-                </ScrollView> */}
 
-                {/* </View> */}
+
+                    <View style={{ marginLeft:"-8%", marginRight:"-78%", display:"flex", flexDirection:"row"}}>
+                        <TouchableOpacity activeOpacity={0.9} onPress = {()=> fn()}>
+                        <Card containerStyle={saha.Card1}>
+                            <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>Description :</Text>
+                            <Text style={{marginTop:10, marginBottom:15,fontSize:15}}> Paris XII - SQUARE COURTELINE - 3 PIÈCES DE 73 M² - 2 CH - Dans un immeuble de standing, sécurisé par digicode et interphone. Nous vous proposons cet appartement de 3 pièces de 73 m² carrez, au 2ème ETAGE. Cet appartement se compose d'une entrée avec un très, d'une belle pièce de séjour, d'une cuisine (non équipée et non aménagée) et d'un WC indépendant, de deux chambres et une salle de bains. Chauffage et eau chaude individuelle électrique. Loyer HC: 1839,60; Provisions sur charges: 200euros, parking: 124,11euros soit un loyer CC de 2163,71euros/Mois. </Text>
+                        </Card>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity activeOpacity={1} onPress = {()=> fn2()} >
+                        <Card containerStyle={sahaB.ich}>
+                        <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
+                        <Text style={{marginBottom:2, fontSize:17}}>Surface de {annonce.surface} m²</Text>
+                        <Text style={{marginBottom:2, fontSize:17}}>{annonce.nbPiece} Pièces</Text>
+                        <Text style={{marginBottom:2, fontSize:17}}>{annonce.chambre} Chambre(s)</Text>
+                    </Card>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity activeOpacity={1} onPress = {()=> fn3()}>
+                    <Card containerStyle={sahaC.ich}>
+                        <Text style={{marginTop:10, marginBottom:15,fontSize:20}}>L'appartement :</Text>
+                        <Text style={{marginBottom:2, fontSize:17}}>{annonce.toilette} Toilette </Text>
+                        <Text style={{marginBottom:2, fontSize:17}}>Chauffage {annonce.chauffage}</Text>
+                        {parking}
+                        {interphone}
+                        {terrasse}
+                        {cave}
+                        {balcon}
+                        {ascenseur}
+                        {digicode}
+                    </Card>
+                </TouchableOpacity>
+                </View>
+               
             </Card>
         </ScrollView>
 

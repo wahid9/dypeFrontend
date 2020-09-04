@@ -140,21 +140,23 @@ function Dossier({onCameraClick, getDocumentsOnInit, addDocument, docList, onCli
      }
     
      if(parcoursOk === true){
+      if(newListID.length && newListJD.length && newListBS.length && newListCT.length && newListAI.length){
+        setSubmitVisible(true); 
+        let rawResponse = await fetch('http://192.168.43.201:3000/submitDossier', {
+          method: 'PUT',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: `token=${token}`
+        });
+        // Enregistrement dans le store
+        onSubmitDossier() 
+      }
+      else {
+        console.log('FAIL');
+        setSubmitFailureVisible(true);
+      }
 
-    if(newListID.length && newListJD.length && newListBS.length && newListCT.length && newListAI.length){
-      setSubmitVisible(true); 
-      let rawResponse = await fetch('http://172.20.10.4:3000/submitDossier', {
-        method: 'PUT',
-        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: `token=${token}`
-      });
-      // Enregistrement dans le store
-      onSubmitDossier()
-      
-    } else {
-      console.log('FAIL');
-      setSubmitFailureVisible(true);
-    }
+     }
+    
   }
 
 
@@ -677,7 +679,6 @@ function mapDispatchToProps(dispatch){
       dispatch({type: 'submitDossier'})
     }
   }
-}
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Dossier)

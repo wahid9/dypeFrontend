@@ -74,6 +74,7 @@ export default function App() {
         <Stack.Screen name="Dossier" component={DossierScreen} />
         <Stack.Screen name="Mes rdv" component={RDVScreen} />
         <Stack.Screen name= "Notification" component={Notification} />
+        <Stack.Screen name= "MesMatchs" component = {MesMatchScreens} />
         {/* <Stack.Screen name="Home2" component={HomePage2} /> */}
 
       </Stack.Navigator>
