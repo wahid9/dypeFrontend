@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "359458596228",
+    "firebase_url": "https://dype-44cb7.firebaseio.com",
+    "project_id": "dype-44cb7",
+    "storage_bucket": "dype-44cb7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359458596228:android:9cc7ad962d1edce2a6a9d1",
+        "android_client_info": {
+          "package_name": "com.dype.dypeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359458596228-cjrv2089p5ohj3483fcra3u8lv0gstoh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByUFINfmG0RnZWIROMb2fTf8vG2YJ1ve8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359458596228-cjrv2089p5ohj3483fcra3u8lv0gstoh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

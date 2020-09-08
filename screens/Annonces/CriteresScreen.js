@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Image, KeyboardAvoidingView,AsyncStorage,ScrollView } from 'react-native';
 import { Input, Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 
 function Critere({navigation, token}) {
 
@@ -10,6 +12,38 @@ function Critere({navigation, token}) {
   const [budgetMax, setBudgetMax] = useState("");
 
 
+  useEffect(()=>{
+
+      let notifToken;
+      const registerForPushNotificationsAsync = async () =>{
+        const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+          console.log('je suis dans le if1')
+          const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+          finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+          console.log('je suis dans le if2')
+          alert('Failed to get push token for push notification!');
+          return;
+        }
+        notifToken = (await Notifications.getExpoPushTokenAsync()).data;
+        console.log(notifToken);
+        sendTokenNotif()
+      }
+
+      var sendTokenNotif = async() =>{ 
+        console.log('notifffff',notifToken)
+        await fetch('http://172.20.10.3:3000/saveTokenNotif',{
+          method: 'POST',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body:`notifToken=${notifToken}&token=${token}`
+        })
+      }
+
+      registerForPushNotificationsAsync()
+    },[])
   
 
   var select = async () => {

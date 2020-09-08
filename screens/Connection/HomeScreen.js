@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, ImageBackground, Image} from 'react-native';
 import {Button} from 'react-native-elements';
+import * as Notifications from 'expo-notifications';
+
 
 function HomePage({navigation}){
+
+
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true
+      }),
+    });
+
+
     return(
       <ImageBackground source={require('../../assets/picture.jpg')}  style={styles.container}>
         <Image
