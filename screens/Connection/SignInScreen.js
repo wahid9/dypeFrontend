@@ -21,24 +21,16 @@ function Connection({navigation, onSubmitToken, verifValidDossier}) {
     // AsyncStorage.getItem('mdp',(err,value)=>{
     //   setMdp(value);
     // })
-
-
   },[])
   console.log('async',email,mdp)
  
-  
 var signIn = async ()=> {
   var data = await fetch('http://172.20.10.3:3000/signIn', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `email=${email}&mdp=${mdp}`
   });
-
- 
-  
-  var response = await data.json();
-  // RECUPERATION DU TOKEN POUR METTRE DANS LE TEL
-  AsyncStorage.setItem('token',response.monToken)
+  var response = await data.json(); 
   onSubmitToken(response.monToken);
   verifValidDossier(response.user.validationDossier);
 

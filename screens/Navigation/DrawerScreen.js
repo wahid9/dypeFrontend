@@ -3,6 +3,7 @@ import {AsyncStorage} from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
 import MesMatchScreens from "../Annonces/MesMatchsScreen";
+import Notification from "../Annonces/NotificationScreen";
 import FavorisScreen from '../Mon profil/FavorisScreen';
 import Dossier from '../Questionnaire et dossier/DossierScreen';
 import RDVScreen from '../Mon profil/RDVScreen';
@@ -127,9 +128,9 @@ const StackNew = createStackNavigator();
 function MyStack() {
   return (
 
-<StackNew.Navigator initialRouteName= "MesMatchs"
-                    headerMode= "none">
+<StackNew.Navigator initialRouteName= "MesMatchs" headerMode= "none">
   <StackNew.Screen name="MesMatchs" component={MesMatchScreens} />
+  <StackNew.Screen name="Notification" component={Notification} />
   <StackNew.Screen name="Annonces" component={AnnonceScreen} />
   
 </StackNew.Navigator>
@@ -141,9 +142,9 @@ const StackFav = createStackNavigator();
 function FavStack() {
   return (
 
-<StackFav.Navigator initialRouteName= "MesFavoris"
-                    headerMode= "none">
+<StackFav.Navigator initialRouteName= "MesFavoris" headerMode= "none">
   <StackFav.Screen name="MesFavoris" component={FavorisScreen} />
+  {/* <StackNew.Screen name="Notification" component={Notification}/> */}
   <StackFav.Screen name="Annonces" component={AnnonceScreen} />
   
 </StackFav.Navigator>

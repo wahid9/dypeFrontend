@@ -7,7 +7,7 @@ import {LinearGradient} from 'expo-linear-gradient'
 import { connect } from 'react-redux';
 import { add } from 'react-native-reanimated';
  
-function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavStore,theFavList,onSubmitToken}) {
+function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavStore,theFavList,onSubmitToken,SendUser}) {
   
   
   const [annonce, setAnnonce] = useState([]);
@@ -28,7 +28,6 @@ function MesMatchScreens({navigation,theToken,reduxFunction,addFavStore,majFavSt
   }
   
 
-  
 var RecupDataAnnonce = (i) => {
   reduxFunction(annonce[i]);
   navigation.navigate('Annonces')
@@ -56,9 +55,19 @@ useEffect(() => {
   
   fetchData();
   recupBdd();
+  recupUser();
 }, []);
 
-  console.log("crit",token)
+var recupUser = async ()=>{
+  var back = await fetch("http://172.20.10.3:3000/notification",{
+      method:'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body:`tokenUser=${theToken}` 
+  })
+  var reponse = await back.json();
+  // console.log("la reponse du back pour le user BG MON GARS  ==>", reponse);
+  SendUser(reponse);
+}
   
   var  fetchData= async ()=> {
     var rawResponse =  await fetch("http://172.20.10.3:3000/mesMatchs",{
@@ -67,8 +76,9 @@ useEffect(() => {
       body: `token=${theToken}`
     })
     var response = await rawResponse.json();
+    // console.log("response du back pour les matchs =>",response);
     setAnnonce(response.annonces)
-    console.log("ici")
+    // console.log("ici")
   }
   // APPEL EN BDD SI LE USER EST DEJA CO OU PAS 
   // if(!token){
@@ -163,12 +173,12 @@ useEffect(() => {
   
   return (
     
-    <View style={{backgroundColor:'white'}}>
+    <View style={{backgroundColor:'white', flex:1}}>
       <View  style={{marginTop:'12%'}}>
       <View style={{flexDirection:'row',justifyContent:'space-around',marginBottom:'5%'}}>
       <IconBurger name= {"menu"} style={{marginTop:'4%',marginLeft:'-5%'}} color={'#125ce0'} size={35} onPress={() => navigation.openDrawer()} />
       <Image source={require('../../assets/Dypebleu.png')}  style={{height:66, width:127}}/>
-      <IconFontAwesome style={{marginTop:'4%',marginRight:'-5%'}}
+      <IconFontAwesome style={{marginTop:'4%',marginRight:'-5%'}} onPress={()=> navigation.navigate('Notification')}
               name='user'
               size={30}
               color= '#125ce0'
@@ -279,7 +289,7 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state){
-  console.log(state.favlist)
+  // console.log(state.favlist)
   return { theToken: state.token, theFavList : state.favlist }
 }
 
@@ -296,6 +306,10 @@ function mapDispatchToProps(dispatch) {
     },
     onSubmitToken : function(token){
       dispatch({type : 'tokenExist', token })
+    },
+
+    SendUser: function(user){
+      dispatch({type : 'SendUser', user })
     },
   }
 }
